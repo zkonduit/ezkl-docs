@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.735832736907">
+
+    <!-- See retype.com -->
+    <meta name="generator" content="Retype 2.4.0">
+
+    <!-- Primary Meta Tags -->
+    <title>Command Line Interface</title>
+    <meta name="title" content="Command Line Interface">
+    <meta name="description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them into a..." />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://docs.ezkl.xyz/command_line_interface/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://docs.ezkl.xyz/command_line_interface/">
+    <meta property="og:title" content="Command Line Interface">
+    <meta property="og:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them into a...">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://docs.ezkl.xyz/command_line_interface/">
+    <meta property="twitter:title" content="Command Line Interface">
+    <meta property="twitter:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them into a...">
+
+    <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
+
+    <link href="../resources/css/retype.css?v=2.4.0.735832736907" rel="stylesheet" />
+
+    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.735832736907" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.735832736907" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=2.4.0.735832736907" defer></script>
+</head>
+<body>
+    <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
+        <div class="absolute bottom-0 left-0 bg-gray-100 dark:bg-dark-800" style="top: 5rem; right: 50%"></div>
+    
+        <header id="docs-site-header" class="sticky top-0 z-30 flex w-full h-16 bg-white border-b border-gray-200 md:h-20 dark:bg-dark-850 dark:border-dark-650">
+            <div class="container relative flex items-center justify-between grow pr-6 md:justify-start">
+                <!-- Mobile menu button skeleton -->
+                <button v-cloak class="skeleton docs-mobile-menu-button flex items-center justify-center shrink-0 overflow-hidden dark:text-white focus:outline-none rounded-full w-10 h-10 ml-3.5 md:hidden"><svg xmlns="http://www.w3.org/2000/svg" class="mb-px shrink-0" width="24" height="24" viewBox="0 0 24 24" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor"><path d="M2 4h20v2H2zM2 11h20v2H2zM2 18h20v2H2z"></path></g></svg></button>
+                <div v-cloak id="docs-sidebar-toggle"></div>
+        
+                <!-- Logo -->
+                <div class="flex items-center justify-between h-full py-2 md:w-75">
+                    <div class="flex items-center px-2 md:px-6">
+                        <a id="docs-site-logo" href="../" class="flex items-center leading-snug text-2xl">
+                            <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">EZKL</span>
+                        </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
+                    </div>
+        
+                    <span class="hidden h-8 border-r md:inline-block dark:border-dark-650"></span>
+                </div>
+        
+                <div class="flex justify-between md:grow">
+                    <!-- Top Nav -->
+                    <nav class="hidden md:flex">
+                        <ul class="flex flex-col mb-4 md:pl-16 md:mb-0 md:flex-row md:items-center">
+                            <li class="mr-6">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://retype.com/guides/getting-started/">Getting Started</a>
+                            </li>
+        
+                        </ul>
+                    </nav>
+        
+                    <!-- Header Right Skeleton -->
+                    <div v-cloak class="flex justify-end grow skeleton">
+        
+                        <!-- Search input mock -->
+                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
+                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                            </div>
+        
+                            <input class="w-full h-10 transition-colors duration-200 ease-in bg-gray-200 border border-transparent rounded md:text-sm hover:bg-white hover:border-gray-300 focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-dark-600 dark:border-dark-600 placeholder-gray-400 dark:placeholder-dark-400"
+                            style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search" />
+                        </div>
+        
+                        <!-- Mobile search button mock -->
+                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                        </div>
+        
+                        <!-- Dark mode switch placehokder -->
+                        <div class="w-10 h-10 lg:ml-2"></div>
+        
+                        <!-- History button mock -->
+                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
+                        </div>
+                    </div>
+        
+                    <div v-cloak class="flex justify-end grow">
+                        <div id="docs-mobile-search-button"></div>
+                        <doc-search-desktop></doc-search-desktop>
+        
+                        <doc-theme-switch class="lg:ml-2"></doc-theme-switch>
+                        <doc-history></doc-history>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <div class="container relative flex bg-white">
+            <!-- Sidebar Skeleton -->
+            <div v-cloak class="fixed flex flex-col shrink-0 duration-300 ease-in-out bg-gray-100 border-gray-200 sidebar top-20 w-75 border-r h-screen md:sticky transition-transform skeleton dark:bg-dark-800 dark:border-dark-650">
+            
+                <!-- Render this div, if config.showSidebarFilter is `true` -->
+                <div class="flex items-center h-16 px-6">
+                    <input class="w-full h-8 px-3 py-2 transition-colors duration-200 ease-linear bg-white border border-gray-200 rounded shadow-none text-sm focus:outline-none focus:border-gray-600 dark:bg-dark-600 dark:border-dark-600" type="text" placeholder="Filter" />
+                </div>
+            
+                <div class="pl-6 mb-4 mt-1">
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                </div>
+            
+                <div class="shrink-0 mt-auto bg-transparent dark:border-dark-650">
+                    <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                        <span class="text-xs whitespace-nowrap">Powered by</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Sidebar component -->
+            <doc-sidebar v-cloak>
+                <template #sidebar-footer>
+                    <div class="shrink-0 mt-auto border-t md:bg-transparent md:border-none dark:border-dark-650">
+            
+                        <div class="py-3 px-6 md:hidden border-b dark:border-dark-650">
+                            <nav>
+                                <ul class="flex flex-wrap justify-center items-center">
+                                    <li class="mr-6">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://retype.com/guides/getting-started/">Getting Started</a>
+                                    </li>
+            
+                                </ul>
+                            </nav>
+                        </div>
+            
+                        <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                            <span class="text-xs whitespace-nowrap">Powered by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                        </a>
+                    </div>
+                </template>
+            </doc-sidebar>
+    
+            <div class="grow min-w-0 dark:bg-dark-850">
+                <!-- Render "toolbar" template here on api pages --><!-- Render page content -->
+                <div class="flex">
+                    <div class="grow min-w-0 px-6 md:px-16">
+                        <main class="relative pt-6 pb-16">
+                            <div class="docs-markdown" id="docs-content">
+                                <!-- Rendered if sidebar right is enabled -->
+                                <div id="docs-sidebar-right-toggle"></div>
+                
+                                <!-- Page content  -->
+<doc-anchor-target id="command-line-interface" class="break-words">
+    <h1>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#command-line-interface">#</doc-anchor-trigger>
+        <span>Command Line Interface</span>
+    </h1>
+</doc-anchor-target>
+<p>The <code v-pre>ezkl</code> cli provides a simple interface to load <code v-pre>.onnx</code> files, which represent graphs of operations (such as neural networks), convert them into a Halo2 circuit, then run a proof.</p>
+<doc-anchor-target id="python-and-cli-tutorial">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#python-and-cli-tutorial">#</doc-anchor-trigger>
+        <span>python and cli tutorial <span class="docs-emoji">&#x1F40D;</span></span>
+    </h3>
+</doc-anchor-target>
+<p>You can easily create an <code v-pre>.onnx</code> file using <code v-pre>pytorch</code>. For samples of Onnx files see <a href="https://github.com/zkonduit/onnx-examples">here</a>. For a tutorial on how to quickly generate Onnx files using python, check out <a href="https://github.com/zkonduit/pyezkl">pyezkl</a>.</p>
+<p>Sample onnx files are also available in <code v-pre>./examples/onnx</code>. To generate a proof on one of the examples, first build ezkl (<code v-pre>cargo build --release</code>) and add it to your favourite <code v-pre>PATH</code> variables, then generate a structured reference string (SRS):</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl -K=17 gen-srs --params-path=kzg.params</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl --bits=16 -K=17 prove -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --vk-path 1l_relu.vk --params-path=kzg.params</code></pre>
+</doc-codeblock></div>
+<p>This command generates a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by <code v-pre>--proof-path</code>, parameters that can be used for subsequent verification at <code v-pre>--params-path</code> and the verifier key at <code v-pre>--vk-path</code>.
+Luckily <code v-pre>ezkl</code> also provides command to verify the generated proofs:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl --bits=16 -K=17 verify -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --vk-path 1l_relu.vk --params-path=kzg.params</code></pre>
+</doc-codeblock></div>
+<p>To display a table of the loaded onnx nodes, their associated parameters, set <code v-pre>RUST_LOG=DEBUG</code> or run:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">cargo run --release --bin ezkl -- table -M ./examples/onnx/1l_relu/network.onnx
+</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="verifying-with-the-evm-">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#verifying-with-the-evm-">#</doc-anchor-trigger>
+        <span>verifying with the EVM ◊</span>
+    </h4>
+</doc-anchor-target>
+<p>Note that the above prove and verify stats can also be run with an EVM verifier. This can be done by generating a verifier smart contract after generating the proof</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># gen proof
+ezkl --bits=16 -K=17 prove -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --vk-path 1l_relu.vk --params-path=kzg.params --transcript=evm</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># gen evm verifier
+ezkl -K=17 --bits=16 create-evm-verifier -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path 1l_relu.vk --sol-code-path 1l_relu.sol</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># Verify (EVM)
+ezkl -K=17 --bits=16 verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code</code></pre>
+</doc-codeblock></div>
+<p>Note that the <code v-pre>.sol</code> file above can be deployed and composed with other Solidity contracts, via a <code v-pre>verify()</code> function. Please read <a href="https://hackmd.io/QOHOPeryRsOraO7FUnG-tg">this document</a> for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.</p>
+<p>The above pipeline can also be run using <a href="https://ethresear.ch/t/leveraging-snark-proof-aggregation-to-achieve-large-scale-pbft-based-consensus/11588">proof aggregation</a> to reduce proof size and verifying times, so as to be more suitable for EVM deployment. A sample pipeline for doing so would be:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># Generate a new 2^20 SRS
+ezkl -K=20 gen-srs --params-path=kzg.params</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># Single proof -&gt; single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
+ezkl -K=17 --bits=16 prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --params-path=kzg.params  --vk-path=1l_relu.vk</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># Aggregate -&gt; generates aggregate proof and also (mock)-verifies + verifies natively as sanity check
+ezkl -K=20 --bits=16 aggregate --app-logrows=17 --transcript=evm -M ./examples/onnx/1l_relu/network.onnx --aggregation-snarks=1l_relu.pf --aggregation-vk-paths 1l_relu.vk --vk-path aggr_1l_relu.vk --proof-path aggr_1l_relu.pf --params-path=kzg.params</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># Generate verifier code -&gt; create the EVM verifier code
+ezkl -K=17 --bits=16 create-evm-verifier-aggr --deployment-code-path aggr_1l_relu.code --params-path=kzg.params --vk-path aggr_1l_relu.vk</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># Verify (EVM) -&gt;
+ezkl -K=17 --bits=16 verify-evm --proof-path aggr_1l_relu.pf --deployment-code-path aggr_1l_relu.code</code></pre>
+</doc-codeblock></div>
+<p>Also note that this may require a local <a href="https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html">solc</a> installation, and that aggregated proof verification in Solidity is not currently supported.</p>
+<p>For both pipelines the resulting verifier can be deployed to an EVM instance (mainnet or otherwise !) using the <code v-pre>deploy-verifier-evm</code> command:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">Deploys an EVM verifier
+
+Usage: ezkl deploy-verifier-evm [OPTIONS] --secret &lt;SECRET&gt; --rpc-url &lt;RPC_URL&gt;
+
+Options:
+  -S, --secret &lt;SECRET&gt;
+          The path to the wallet mnemonic
+  -U, --rpc-url &lt;RPC_URL&gt;
+          RPC Url
+      --deployment-code-path &lt;DEPLOYMENT_CODE_PATH&gt;
+          The path to the desired EVM bytecode file (optional), either set this or sol_code_path
+      --sol-code-path &lt;SOL_CODE_PATH&gt;
+          The path to output the Solidity code (optional) supercedes deployment_code_path in priority
+  -h, --help
+          Print help
+</code></pre>
+</doc-codeblock></div>
+<p>For instance:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl deploy-verifier-evm -S ./mymnemonic.txt -U myethnode.xyz --deployment-code-path aggr_1l_relu.code</code></pre>
+</doc-codeblock></div>
+<p>You can also send proofs to be verified on deployed contracts using <code v-pre>send-proof</code>:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">Send a proof to be verified to an already deployed verifier
+
+Usage: ezkl send-proof-evm --secret &lt;SECRET&gt; --rpc-url &lt;RPC_URL&gt; --addr &lt;ADDR&gt; --proof-path &lt;PROOF_PATH&gt;
+
+Options:
+  -S, --secret &lt;SECRET&gt;          The path to the wallet mnemonic
+  -U, --rpc-url &lt;RPC_URL&gt;        RPC Url
+      --addr &lt;ADDR&gt;              The deployed verifier address
+      --proof-path &lt;PROOF_PATH&gt;  The path to the proof
+  -h, --help                     Print help
+</code></pre>
+</doc-codeblock></div>
+<p>For instance:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl send-proof-evm -S ./mymnemonic.txt -U myethnode.xyz --addr 0xFFFF --proof-path my.snark</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="using-pre-generated-srs">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#using-pre-generated-srs">#</doc-anchor-trigger>
+        <span>using pre-generated SRS</span>
+    </h3>
+</doc-anchor-target>
+<p>Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the <code v-pre>pse/halo2</code> prover ezkl uses by leveraging <a href="https://github.com/han0110/halo2-kzg-srs">han0110/halo2-kzg-srs</a>. This repo also contains pre-converted SRS from large projects such as Hermez and the <a href="https://github.com/privacy-scaling-explorations/perpetualpowersoftau">perpetual powers of tau repo</a>. Simply download the pre-converted file locally and point <code v-pre>--params-path</code> to the file.</p>
+<blockquote>
+<p>Note: Ensure you download the files in raw format. As this will be more performant and is the serialization format <code v-pre>ezkl</code> assumes.</p>
+</blockquote>
+<doc-anchor-target id="general-usage">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#general-usage">#</doc-anchor-trigger>
+        <span>general usage <span class="docs-emoji">&#x1F527;</span></span>
+    </h3>
+</doc-anchor-target>
+<blockquote>
+<p>Note: to get the full suite of cli capabilities you&#x27;ll need to compile <code v-pre>ezkl</code> with the <code v-pre>render</code> feature (<code v-pre>cargo build --features render --bin ezkl</code>). This enables the <code v-pre>render-circuit</code> command which can create <code v-pre>.png</code> representations of the compiled circuits. You&#x27;ll also need to install the <code v-pre>libexpat1-dev</code> and <code v-pre>libfreetype6-dev</code> libraries on Debian systems (there are equivalents for MacOS as well).</p>
+</blockquote>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">Usage: ezkl [OPTIONS] &lt;COMMAND&gt;
+
+Commands:
+  table                     Loads model and prints model table
+  render-circuit            Renders the model circuit to a .png file. For an overview of how to interpret these plots, see https://zcash.github.io/halo2/user/dev-tools.html
+  forward                   Runs a vanilla forward pass, produces a quantized output, and saves it to a .json file
+  gen-srs                   Generates a dummy SRS
+  mock                      Loads model and input and runs mock prover (for testing)
+  aggregate                 Aggregates proofs :)
+  prove                     Loads model and data, prepares vk and pk, and creates proof
+  create-evm-verifier       Creates an EVM verifier for a single proof
+  create-evm-verifier-aggr  Creates an EVM verifier for an aggregate proof
+  deploy-verifier           Deploys an EVM verifier
+  verify                    Verifies a proof, returning accept or reject
+  verify-aggr               Verifies an aggregate proof, returning accept or reject
+  verify-evm                Verifies a proof using a local EVM executor, returning accept or reject
+  print-proof-hex           Print the proof in hexadecimal
+  help                      Print this message or the help of the given subcommand(s)
+
+Options:
+  -T, --tolerance &lt;TOLERANCE&gt;          The tolerance for error on model outputs [default: 0]
+  -S, --scale &lt;SCALE&gt;                  The denominator in the fixed point representation used when quantizing [default: 7]
+  -B, --bits &lt;BITS&gt;                    The number of bits used in lookup tables [default: 16]
+  -K, --logrows &lt;LOGROWS&gt;              The log_2 number of rows [default: 17]
+      --public-inputs                  Flags whether inputs are public
+      --public-outputs                 Flags whether outputs are public
+      --public-params                  Flags whether params are public
+      --pack-base &lt;PACK_BASE&gt;              Base used to pack the public-inputs to the circuit. set ( &gt; 1) to pack instances as a single int. Useful when verifying on the EVM. Note that this will often break for very long inputs. Use with caution, still experimental.  [default: 1]
+  -h, --help                           Print help
+  -V, --version                        Print version</code></pre>
+</doc-codeblock></div>
+<p><code v-pre>bits</code>, <code v-pre>scale</code>, <code v-pre>tolerance</code>, and <code v-pre>logrows</code> have default values. You can use tolerance to express a tolerance to a certain amount of quantization error on the output eg. if set to 2 the circuit will verify even if the generated output deviates by an absolute value of 2 on any dimension from the expected output. <code v-pre>prove</code> and <code v-pre>mock</code>, all require <code v-pre>-D</code> and <code v-pre>-M</code> parameters, which if not provided, the cli will query the user to manually enter the path(s).</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">
+Usage: ezkl mock [OPTIONS]
+
+Options:
+  -D, --data &lt;DATA&gt;    The path to the .json data file [default: ]
+  -M, --model &lt;MODEL&gt;  The path to the .onnx model file [default: ]
+</code></pre>
+</doc-codeblock></div>
+<p>The <code v-pre>.onnx</code> file can be generated using pytorch or tensorflow. The data json file is structured as follows:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-javascript"><code v-pre class="language-javascript">{
+    &quot;input_data&quot;: [[1.0, 22.2, 0.12 ...]], // 2D arrays of floats which represents the (private) inputs we run the proof on
+    &quot;input_shapes&quot;: [[3, 3, ...]], // 2D array of integers which represents the shapes of model inputs (excluding batch size)
+    &quot;output_data&quot;: [[1.0, 5.0, 6.3 ...]], // 2D arrays of floats which represents the model outputs we want to constrain against (if any)
+}</code></pre>
+</doc-codeblock></div>
+<p>For examples of such files see <code v-pre>examples/onnx_models</code>.</p>
+<p>To run a simple example using the cli see <strong>python and cli tutorial</strong> above.</p>
+<p>If the above commands get too heavy and it becomes difficult to track parameters across commands; <code v-pre>ezkl</code> also supports loading global arguments (those specified before a subcommand) from a <code v-pre>.json</code> file. This can be done using the <code v-pre>RUNARGS</code> environment variable. For instance:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">RUNARGS=/path/to/args.json ezkl subcommand --subcommand-params...</code></pre>
+</doc-codeblock></div>
+<p>For an example of such a file see <code v-pre>examples/default_run_args.json</code>:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-json"><code v-pre class="language-json">{
+    &quot;tolerance&quot;: 0,
+    &quot;scale&quot;: 7,
+    &quot;bits&quot;: 11,
+    &quot;logrows&quot;: 17,
+    &quot;public_inputs&quot;: false,
+    &quot;public_outputs&quot;: true,
+    &quot;public_params&quot;: false,
+}</code></pre>
+</doc-codeblock></div>
+<p>Note that command-wide arguments can be specified using the <code v-pre>EZKLCONF</code> environment variable; which supercedes <code v-pre>RUNARGS</code> in priority !
+This json includes both global level arguments <em>and</em> subcommand specific arguments. Usage is thus as such:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">EZKLCONF=/path/to/fullconfig.json ezkl</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="benchmarks">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#benchmarks">#</doc-anchor-trigger>
+        <span>benchmarks <span class="docs-emoji">&#x23F3;</span></span>
+    </h2>
+</doc-anchor-target>
+<p>We include proof generation time benchmarks for some of the implemented layers including the affine, convolutional, and ReLu operations (more to come).</p>
+<p>To run these benchmarks:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">cargo bench</code></pre>
+</doc-codeblock></div>
+<p>To run a specific benchmark append one of <code v-pre>affine, cnvrl, relu</code> to the command. You can then find benchmarks results and plots in <code v-pre>target/criterion</code>. Note that depending on the capabilities of your machine you may need to increase the target time on the Criterion config. For instance:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-rust"><code v-pre class="language-rust">criterion_group! {
+  name = benches;
+  config = Criterion::default().measurement_time(Duration::from_secs(10));
+  targets = runrelu
+}</code></pre>
+</doc-codeblock></div>
+<hr />
+
+                                
+                                <!-- Required only on API pages -->
+                                <doc-toolbar-member-filter-no-results />
+                            </div>
+                            <footer class="clear-both">
+                            
+                                <nav class="flex mt-14">
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../getting_started/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
+                                                <span class="block mt-1">Getting Started</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../examples/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
+                                                <span class="block mt-1">Examples</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
+                                    </div>
+                                </nav>
+                            </footer>
+                        </main>
+                
+                        <div class="border-t dark:border-dark-650 pt-6 mb-8">
+                            <footer class="flex flex-wrap items-center justify-between">
+                                <div>
+                                    <ul class="flex flex-wrap items-center text-sm">
+                                    </ul>
+                                </div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2023. All rights reserved.</p></div>
+                            </footer>
+                        </div>
+                    </div>
+                
+                    <!-- Rendered if sidebar right is enabled -->
+                    <!-- Sidebar right skeleton-->
+                    <div v-cloak class="fixed top-0 bottom-0 right-0 translate-x-full bg-white border-gray-200 lg:sticky lg:border-l lg:shrink-0 lg:pt-6 lg:transform-none sm:w-1/2 lg:w-64 lg:z-0 md:w-104 sidebar-right skeleton dark:bg-dark-850 dark:border-dark-650">
+                        <div class="pl-5">
+                            <div class="w-32 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-48 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-40 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                        </div>
+                    </div>
+                
+                    <!-- User should be able to hide sidebar right -->
+                    <doc-sidebar-right v-cloak></doc-sidebar-right>
+                </div>
+
+            </div>
+        </div>
+    
+        <doc-search-mobile></doc-search-mobile>
+        <doc-back-to-top></doc-back-to-top>
+    </div>
+
+
+    <div id="docs-overlay-target"></div>
+
+    <script>window.__DOCS__ = { "title": "Command Line Interface", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
+</body>
+</html>
