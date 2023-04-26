@@ -33,7 +33,7 @@ If you're interested in contributing and are unsure where to start, reach out to
 
 More broadly:
 
-- Feel free to open up a discussion topic to ask questions.
+- Feel free to open up a [discussion topic](https://github.com/zkonduit/ezkl/discussions) to ask questions.
 
 - See currently open issues for ideas on how to contribute.
 
