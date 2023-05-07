@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.735840619652">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736796237073">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=2.4.0.735840619652" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=2.4.0.736796237073" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.735840619652" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.736796237073" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.735840619652" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=2.4.0.735840619652" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.736796237073" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=2.4.0.736796237073" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -373,26 +373,6 @@ This json includes both global level arguments <em>and</em> subcommand specific 
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">EZKLCONF=/path/to/fullconfig.json ezkl</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="benchmarks">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#benchmarks">#</doc-anchor-trigger>
-        <span>benchmarks <span class="docs-emoji">&#x23F3;</span></span>
-    </h2>
-</doc-anchor-target>
-<p>We include proof generation time benchmarks for some of the implemented layers including the affine, convolutional, and ReLu operations (more to come).</p>
-<p>To run these benchmarks:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">cargo bench</code></pre>
-</doc-codeblock></div>
-<p>To run a specific benchmark append one of <code v-pre>affine, cnvrl, relu</code> to the command. You can then find benchmarks results and plots in <code v-pre>target/criterion</code>. Note that depending on the capabilities of your machine you may need to increase the target time on the Criterion config. For instance:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-rust"><code v-pre class="language-rust">criterion_group! {
-  name = benches;
-  config = Criterion::default().measurement_time(Duration::from_secs(10));
-  targets = runrelu
-}</code></pre>
-</doc-codeblock></div>
-<hr />
 
                                 
                                 <!-- Required only on API pages -->
