@@ -1,6 +1,6 @@
 ---
 icon: rocket
-order: 4
+order: 10
 ---
 
 # What is EZKL?
@@ -30,6 +30,8 @@ If you're interested in contributing and are unsure where to start, reach out to
 
 * dante (alexander-camuto)
 * jason (jasonmorton)
+* jseam (JSeam2)
+* lance (lancenonce)
 
 More broadly:
 
