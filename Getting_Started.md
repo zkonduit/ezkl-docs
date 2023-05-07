@@ -1,6 +1,6 @@
 ---
 icon: gear
-order: 3
+order: 9
 ---
 
 ### building the project 🔨

@@ -1,5 +1,7 @@
-
-## Compiling to wasm 💾
+---
+icon: cpu
+order: 5
+---
 
 The cli can also be compiled to for `wasm32-wasi` target (browser bindings with `wasm32-unknown-unknown` coming soon). To do so first ensure that [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) is installed.
 

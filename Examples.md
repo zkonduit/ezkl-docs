@@ -1,8 +1,7 @@
 ---
 icon: book
-order: 1
+order: 7
 ---
-## Examples 📖
 
 This repository includes onnx example files as a submodule for testing out the cli.
 

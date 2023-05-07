@@ -1,4 +1,7 @@
-## benchmarks ⏳
+---
+icon: thumbsup
+order: 4
+---
 
 We include proof generation time benchmarks for some of the implemented layers including the affine, convolutional, and ReLu operations (more to come).
 

@@ -1,4 +1,8 @@
-## python bindings
+---
+icon: plug
+order: 6
+---
+
 Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin). This is done so to allow users of `ezkl` to leverage on the rich Data Science ecosystem that Python has instead of using Rust only.
 
 ### production
