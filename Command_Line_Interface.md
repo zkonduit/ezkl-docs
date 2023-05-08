@@ -13,17 +13,21 @@ Sample onnx files are also available in `./examples/onnx`. To generate a proof o
 ```bash
 ezkl -K=17 gen-srs --params-path=kzg.params
 ```
-
+We then set up the circuit to create a proving and verifying key for our circuit. You must provide the input.json and network.onnx files. 
 
 ```bash
-ezkl --bits=16 -K=17 prove -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --vk-path 1l_relu.vk --params-path=kzg.params
+ezkl setup -D input.json -M network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
 ```
 
-This command generates a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`, parameters that can be used for subsequent verification at `--params-path` and the verifier key at `--vk-path`.
-Luckily `ezkl` also provides command to verify the generated proofs:
+This command generates a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`, parameters that can be used for subsequent verification at `--params-path` and the verifier key at `--vk-path`:
 
 ```bash
-ezkl --bits=16 -K=17 verify -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --vk-path 1l_relu.vk --params-path=kzg.params
+ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --params-path=kzg.params
+```
+
+We can then verify our generated proof with the `verify` command:
+```bash
+ezkl verify --proof-path=model.proof --circuit-params-path=circuit.params --vk-path=vk.key --params-path=kzg.params
 ```
 
 To display a table of the loaded onnx nodes, their associated parameters, set `RUST_LOG=DEBUG` or run:
@@ -149,7 +153,6 @@ Usage: ezkl [OPTIONS] <COMMAND>
 
 Commands:
   table                     Loads model and prints model table
-  render-circuit            Renders the model circuit to a .png file. For an overview of how to interpret these plots, see https://zcash.github.io/halo2/user/dev-tools.html
   forward                   Runs a vanilla forward pass, produces a quantized output, and saves it to a .json file
   gen-srs                   Generates a dummy SRS
   mock                      Loads model and input and runs mock prover (for testing)
@@ -157,7 +160,8 @@ Commands:
   prove                     Loads model and data, prepares vk and pk, and creates proof
   create-evm-verifier       Creates an EVM verifier for a single proof
   create-evm-verifier-aggr  Creates an EVM verifier for an aggregate proof
-  deploy-verifier           Deploys an EVM verifier
+  deploy-verifier-evm       Deploys an EVM verifier
+  send-proof-evm            Send a proof to be verified to an already deployed verifier
   verify                    Verifies a proof, returning accept or reject
   verify-aggr               Verifies an aggregate proof, returning accept or reject
   verify-evm                Verifies a proof using a local EVM executor, returning accept or reject
@@ -165,16 +169,30 @@ Commands:
   help                      Print this message or the help of the given subcommand(s)
 
 Options:
-  -T, --tolerance <TOLERANCE>          The tolerance for error on model outputs [default: 0]
-  -S, --scale <SCALE>                  The denominator in the fixed point representation used when quantizing [default: 7]
-  -B, --bits <BITS>                    The number of bits used in lookup tables [default: 16]
-  -K, --logrows <LOGROWS>              The log_2 number of rows [default: 17]
-      --public-inputs                  Flags whether inputs are public
-      --public-outputs                 Flags whether outputs are public
-      --public-params                  Flags whether params are public
-      --pack-base <PACK_BASE>              Base used to pack the public-inputs to the circuit. set ( > 1) to pack instances as a single int. Useful when verifying on the EVM. Note that this will often break for very long inputs. Use with caution, still experimental.  [default: 1]
-  -h, --help                           Print help
-  -V, --version                        Print version
+  -T, --tolerance <TOLERANCE>
+          The tolerance for error on model outputs [default: 0]
+  -S, --scale <SCALE>
+          The denominator in the fixed point representation used when quantizing [default: 7]
+  -B, --bits <BITS>
+          The number of bits used in lookup tables [default: 16]
+  -K, --logrows <LOGROWS>
+          The log_2 number of rows [default: 17]
+      --public-inputs
+          Flags whether inputs are public
+      --public-outputs <PUBLIC_OUTPUTS>
+          Flags whether outputs are public [default: true] [possible values: true, false]
+      --public-params
+          Flags whether params are public
+      --pack-base <PACK_BASE>
+          Base used to pack the public-inputs to the circuit. (value > 1) to pack instances as a single int. Useful when verifying on the EVM. Note that this will often break for very long inputs. Use with caution, still experimental [default: 1]
+      --single-lookup <SINGLE_LOOKUP>
+          use a single argument for all lookups [default: true] [possible values: true, false]
+      --check-mode <CHECK_MODE>
+          use a single argument for all lookups [default: safe]
+  -h, --help
+          Print help
+  -V, --version
+          Print version
 ```
 
 `bits`, `scale`, `tolerance`, and `logrows` have default values. You can use tolerance to express a tolerance to a certain amount of quantization error on the output eg. if set to 2 the circuit will verify even if the generated output deviates by an absolute value of 2 on any dimension from the expected output. `prove` and `mock`, all require `-D` and `-M` parameters, which if not provided, the cli will query the user to manually enter the path(s).
