@@ -23,6 +23,5 @@ Check out our (pyezkl)[https://github.com/zkonduit/pyezkl] repository to find de
 
 
 resources:
-NOTE: onnx-examples throws a 404 for me
 https://github.com/onnx/onnx
 https://github.com/zkonduit/pyezkl

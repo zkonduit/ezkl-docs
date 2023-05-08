@@ -35,3 +35,5 @@ This error is thrown when there is an error during the creation of a lookup tabl
 A TableAlreadyAssigned Error is thrown when ezkl attempts to initialize a lookup table that has already been initialized
 ### Error: UnsupportedOp
 An UnsupportedOp Error is thrown when there is an operation in the ONNX file that ezkl cannot yet handle. Please look at the supported operations under src/circuit/ops to get an idea of what operations ezkl can handle.
+### Error: PyValueError
+This is a pyo3 error that occurs when a data type fails to be extracted from Python to Rust. Please make sure you are passing the correct data types when utilizing the python bindings.
