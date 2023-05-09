@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736950876444">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.736972428774">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>General</title>
     <meta name="title" content="General">
-    <meta name="description" content="Ezkl does not require application of a programming language." />
+    <meta name="description" content="ezkl does not require application of a programming language." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/faq/" />
@@ -20,21 +20,21 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/faq/">
     <meta property="og:title" content="General">
-    <meta property="og:description" content="Ezkl does not require application of a programming language.">
+    <meta property="og:description" content="ezkl does not require application of a programming language.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/faq/">
     <meta property="twitter:title" content="General">
-    <meta property="twitter:description" content="Ezkl does not require application of a programming language.">
+    <meta property="twitter:description" content="ezkl does not require application of a programming language.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=2.4.0.736950876444" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=2.4.0.736972428774" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.736950876444" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.736972428774" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.736950876444" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.736972428774" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -178,14 +178,14 @@
         <span>What programming languages and frameworks does ezkl support?</span>
     </h3>
 </doc-anchor-target>
-<p>Ezkl does not require application of a programming language. You may want to use Python to create a neural network and export it with pyezkl, but though the library is built with Rust, you do not need to use Rust.</p>
+<p><code v-pre>ezkl</code> does not require application of a programming language. You may want to use Python to create a neural network and export it with pyezkl, but though the library is built with Rust, you do not need to use Rust.</p>
 <doc-anchor-target id="do-i-need-to-know-rust-before-getting-started-with-ezkl">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#do-i-need-to-know-rust-before-getting-started-with-ezkl">#</doc-anchor-trigger>
         <span>Do I need to know Rust before getting started with ezkl?</span>
     </h3>
 </doc-anchor-target>
-<p>No, Rust is not a requirement to use the library. As long as you have the ONNX file and proper input &amp; output format of the model, you can use ezkl.</p>
+<p>No, Rust is not a requirement to use the library. As long as you have the ONNX file and proper input &amp; output format of the model, you can use <code v-pre>ezkl</code>.</p>
 <doc-anchor-target id="technical">
     <h1>
         <doc-anchor-trigger class="header-anchor-trigger" to="#technical">#</doc-anchor-trigger>
@@ -205,21 +205,21 @@
         <span>Can I use ezkl with other machine learning frameworks like TensorFlow, PyTorch, or Scikit-learn?</span>
     </h3>
 </doc-anchor-target>
-<p>All ezkl requires is an onnx file and a JSON configuration of mock inputs and outputs of the neural network.</p>
+<p>All <code v-pre>ezkl</code> requires is an onnx file and a JSON configuration of mock inputs and outputs of the neural network.</p>
 <doc-anchor-target id="how-fast-is-ezkl">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#how-fast-is-ezkl">#</doc-anchor-trigger>
         <span>How fast is ezkl?</span>
     </h3>
 </doc-anchor-target>
-<p>Feel free to run &#x27;cargo bench&#x27; on your machine to see what the benchmarks are for your hardware.</p>
+<p>Feel free to run <code v-pre>cargo bench</code> on your machine to see what the benchmarks are for your hardware.</p>
 <doc-anchor-target id="do-i-need-to-deploy-a-verifier-smart-contract-to-use-ezkl">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#do-i-need-to-deploy-a-verifier-smart-contract-to-use-ezkl">#</doc-anchor-trigger>
         <span>Do I need to deploy a verifier smart contract to use ezkl?</span>
     </h3>
 </doc-anchor-target>
-<p>No, we recently integrated a (WASM verifier)[https://github.com/zkonduit/ezkl/pull/219] that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally.</p>
+<p>No, we recently integrated a <a href="https://github.com/zkonduit/ezkl/pull/219">WASM verifier</a> that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally.</p>
 <doc-anchor-target id="errors">
     <h1>
         <doc-anchor-trigger class="header-anchor-trigger" to="#errors">#</doc-anchor-trigger>
@@ -253,14 +253,14 @@
         <span>Error: TableAlreadyAssigned</span>
     </h3>
 </doc-anchor-target>
-<p>A TableAlreadyAssigned Error is thrown when ezkl attempts to initialize a lookup table that has already been initialized</p>
+<p>A TableAlreadyAssigned Error is thrown when <code v-pre>ezkl</code> attempts to initialize a lookup table that has already been initialized</p>
 <doc-anchor-target id="error-unsupportedop">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-unsupportedop">#</doc-anchor-trigger>
         <span>Error: UnsupportedOp</span>
     </h3>
 </doc-anchor-target>
-<p>An UnsupportedOp Error is thrown when there is an operation in the ONNX file that ezkl cannot yet handle. Please look at the supported operations under src/circuit/ops to get an idea of what operations ezkl can handle.</p>
+<p>An UnsupportedOp Error is thrown when there is an operation in the ONNX file that <code v-pre>ezkl</code> cannot yet handle. Please look at the supported operations under src/circuit/ops to get an idea of what operations <code v-pre>ezkl</code> can handle.</p>
 <doc-anchor-target id="error-pyvalueerror">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-pyvalueerror">#</doc-anchor-trigger>
@@ -268,6 +268,104 @@
     </h3>
 </doc-anchor-target>
 <p>This is a pyo3 error that occurs when a data type fails to be extracted from Python to Rust. Please make sure you are passing the correct data types when utilizing the python bindings.</p>
+<doc-anchor-target id="error-invalidlookupinputs">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-invalidlookupinputs">#</doc-anchor-trigger>
+        <span>Error: InvalidLookupInputs</span>
+    </h3>
+</doc-anchor-target>
+<p>InvalidLookupInputs is thrown when the wrong inputs were passed to a lookup node.</p>
+<doc-anchor-target id="error-invaliddims">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-invaliddims">#</doc-anchor-trigger>
+        <span>Error: InvalidDims</span>
+    </h3>
+</doc-anchor-target>
+<p>InvalidDims is thrown when there is a shape mismatch in circuit construction. Invalid dimensions were used for a node with the given index and description.</p>
+<doc-anchor-target id="error-wrongmethod">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-wrongmethod">#</doc-anchor-trigger>
+        <span>Error: WrongMethod</span>
+    </h3>
+</doc-anchor-target>
+<p>This error means that the wrong method was called to configure a node with the given index and description</p>
+<doc-anchor-target id="error-missingnode">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-missingnode">#</doc-anchor-trigger>
+        <span>Error: MissingNode</span>
+    </h3>
+</doc-anchor-target>
+<p>MissingNode is thrown when a requested node is missing in the graph with the given index</p>
+<doc-anchor-target id="error-opmismatch">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-opmismatch">#</doc-anchor-trigger>
+        <span>Error: OpMismatch</span>
+    </h3>
+</doc-anchor-target>
+<p>OpMismatch is thrown when an unsupported method was called on a node with the given index and description</p>
+<doc-anchor-target id="error-unsupportedop-1">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-unsupportedop-1">#</doc-anchor-trigger>
+        <span>Error: UnsupportedOp</span>
+    </h3>
+</doc-anchor-target>
+<p>UnsupportedOp is thrown when there is an operation in the onnx graph that isn&#x27;t supported by <code v-pre>ezkl</code></p>
+<doc-anchor-target id="error-missingparams">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-missingparams">#</doc-anchor-trigger>
+        <span>Error: MissingParams</span>
+    </h3>
+</doc-anchor-target>
+<p>MissingParams is thrown when a node has missing parameters; please check the parameters in your model&#x27;s operations</p>
+<doc-anchor-target id="error-misformedparams">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-misformedparams">#</doc-anchor-trigger>
+        <span>Error: MisformedParams</span>
+    </h3>
+</doc-anchor-target>
+<p>MisformedParams is thrown when a node has misformed parameters; the error can stem from erroneous padding height and width dimensions, wrong kernel / data format, dilations that are not uint type, and more.</p>
+<doc-anchor-target id="error-visibility">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-visibility">#</doc-anchor-trigger>
+        <span>Error: Visibility</span>
+    </h3>
+</doc-anchor-target>
+<p>This error is typically thrown when no public variables are passed to the circuit configuration function</p>
+<doc-anchor-target id="error-nonconstantdiv">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-nonconstantdiv">#</doc-anchor-trigger>
+        <span>Error: NonConstantDiv</span>
+    </h3>
+</doc-anchor-target>
+<p><code v-pre>ezkl</code> only supports divisions by constants</p>
+<doc-anchor-target id="error-nonconstantpower">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-nonconstantpower">#</doc-anchor-trigger>
+        <span>Error: NonConstantPower</span>
+    </h3>
+</doc-anchor-target>
+<p><code v-pre>ezkl</code> only supports constant exponents</p>
+<doc-anchor-target id="error-rescalingerror">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-rescalingerror">#</doc-anchor-trigger>
+        <span>Error: RescalingError</span>
+    </h3>
+</doc-anchor-target>
+<p>This error is thrown when attempting to rescale inputs for an operation</p>
+<doc-anchor-target id="error-modelload">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-modelload">#</doc-anchor-trigger>
+        <span>Error: ModelLoad</span>
+    </h3>
+</doc-anchor-target>
+<p>This error is thrown when a model fails to load; please check your onnx file for missing connections / unsupported layers. We suggest using <a href="https://netron.app/">Netron</a> to view onnx files.</p>
+<doc-anchor-target id="error-packingexponent">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#error-packingexponent">#</doc-anchor-trigger>
+        <span>Error: PackingExponent</span>
+    </h3>
+</doc-anchor-target>
+<p>PackingExponent is thrown when the scale for packing tensor values is too large. Keep the exponent under the logarithm (with your chosen base) of <code v-pre>i128::MAX</code> (about 38 for base 10, about 88 for base <code v-pre>e</code>).</p>
 
                                 
                                 <!-- Required only on API pages -->
