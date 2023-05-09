@@ -1,6 +1,6 @@
 ---
 icon: book
-order: 7
+order: 6
 ---
 
 This repository includes onnx example files as a submodule for testing out the cli.
@@ -20,7 +20,7 @@ TODO: add associated python files in the onnx model directories.
 
 Beyond the `.onnx` examples detailed above, we also include examples which directly use some of our rust API; allowing users to code up computational graphs and circuits from scratch in rust without having to go via python.
 
-The MNIST inference example using ezkl as a library is contained in `examples/conv2d_mnist`. To run it:
+The MNIST inference example using `ezkl` as a library is contained in `examples/conv2d_mnist`. To run it:
 
 ```bash
 # download MNIST data

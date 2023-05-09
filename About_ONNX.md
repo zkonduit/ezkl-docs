@@ -1,6 +1,6 @@
 ---
 icon: tools
-order: 2
+order: 1
 ---
 
 ### What is ONNX?
@@ -8,6 +8,8 @@ ONNX (Open Neural Network Exchange) is an open-source standard for representing 
 
 ### Why do we use ONNX?
 ONNX is used for several reasons:
+
+**Easy Integration**: ONNX files are used in ezkl to generate zk-SNARKS from individual operations (e.g. ReLU, Sigmoid, Softmax). The ONNX format makes it straight-forward to parse and separate layers for generating individual circuits. 
 
 **Interoperability**: ONNX enables developers to train models in one deep learning framework and use them in another for inference, without the need for conversion. This eases the process of deploying models and allows developers to use the best tools for each part of the development process.
 
@@ -18,10 +20,4 @@ ONNX is used for several reasons:
 **Ecosystem support**: Many popular deep learning frameworks and tools, like TensorFlow, PyTorch, and Microsoft's ONNX Runtime, support ONNX, providing a broad range of options for developers.
 
 ### How to create an ONNX file
-Check out our (pyezkl)[https://github.com/zkonduit/pyezkl] repository to find detailed steps on generating an ONNX file.
-
-
-
-resources:
-https://github.com/onnx/onnx
-https://github.com/zkonduit/pyezkl
+Check out our [pyezkl](https://github.com/zkonduit/pyezkl) repository to find detailed steps on generating an ONNX file.

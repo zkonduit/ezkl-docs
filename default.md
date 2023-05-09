@@ -1,6 +1,6 @@
 ---
 icon: rocket
-order: 10
+order: 9
 ---
 
 # What is EZKL?
