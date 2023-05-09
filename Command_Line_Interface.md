@@ -1,6 +1,6 @@
 ---
 icon: code-square
-order: 8
+order: 7
 ---
 
 The `ezkl` cli provides a simple interface to load `.onnx` files, which represent graphs of operations (such as neural networks), convert them into a Halo2 circuit, then run a proof.
@@ -9,7 +9,7 @@ The `ezkl` cli provides a simple interface to load `.onnx` files, which represen
 
 You can easily create an `.onnx` file using `pytorch`. For samples of Onnx files see [here](https://github.com/onnx/models). For a tutorial on how to quickly generate Onnx files using python, check out [pyezkl](https://github.com/zkonduit/pyezkl).
 
-Sample onnx files are also available in `./examples/onnx`. To generate a proof on one of the examples, first build ezkl (`cargo build --release`) and add it to your favourite `PATH` variables, then generate a structured reference string (SRS):
+Sample onnx files are also available in `./examples/onnx`. To generate a proof on one of the examples, first build `ezkl` (`cargo build --release`) and add it to your favourite `PATH` variables, then generate a structured reference string (SRS):
 ```bash
 ezkl -K=17 gen-srs --params-path=kzg.params
 ```
@@ -138,7 +138,7 @@ ezkl send-proof-evm -S ./mymnemonic.txt -U myethnode.xyz --addr 0xFFFF --proof-p
 
 ### using pre-generated SRS
 
-Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the `pse/halo2` prover ezkl uses by leveraging [han0110/halo2-kzg-srs](https://github.com/han0110/halo2-kzg-srs). This repo also contains pre-converted SRS from large projects such as Hermez and the [perpetual powers of tau repo](https://github.com/privacy-scaling-explorations/perpetualpowersoftau). Simply download the pre-converted file locally and point `--params-path` to the file.
+Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the `pse/halo2` prover `ezkl` uses by leveraging [han0110/halo2-kzg-srs](https://github.com/han0110/halo2-kzg-srs). This repo also contains pre-converted SRS from large projects such as Hermez and the [perpetual powers of tau repo](https://github.com/privacy-scaling-explorations/perpetualpowersoftau). Simply download the pre-converted file locally and point `--params-path` to the file.
 
 > Note: Ensure you download the files in raw format. As this will be more performant and is the serialization format `ezkl` assumes.
 
