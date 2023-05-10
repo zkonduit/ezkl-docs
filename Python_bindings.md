@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 You can now build the package for development and enable python bindings.
 ```bash
-maturin develop --features python-bindings
+ maturin develop --release --features python-bindings
 ```
 
 Once done you will be able to access `ezkl_lib` as a python import as follows.
