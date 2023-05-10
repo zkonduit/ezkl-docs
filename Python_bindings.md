@@ -21,9 +21,14 @@ source .env/bin/activate
 pip install -r requirements.txt
 ```
 
-You can now build the package for development and enable python bindings.
+You can now build the package for development and enable python bindings. The following command will install `ezkl_lib` into your local python environment.
 ```bash
+# Unoptimized development build, use this if you require visibility regarding Rust errors
+# Note that this can result in long proving/verification times, if this is a problem use the optimized development build below
 maturin develop --features python-bindings
+
+# Optimized development build, use this if you find that the proving/verification times become long
+maturin develop --release --features python-bindings
 ```
 
 Once done you will be able to access `ezkl_lib` as a python import as follows.
@@ -32,8 +37,12 @@ import ezkl_lib
 ```
 
 You may test if the existing build is working properly.
-```
+```bash
 pytest
 ```
 
 The list of python functions that can be accessed are found within `src/python.rs`
+
+
+#### Optimized Development Build
+For the optimized development build you will need to run the following instead
