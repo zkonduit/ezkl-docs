@@ -42,7 +42,3 @@ pytest
 ```
 
 The list of python functions that can be accessed are found within `src/python.rs`
-
-
-#### Optimized Development Build
-For the optimized development build you will need to run the following instead
