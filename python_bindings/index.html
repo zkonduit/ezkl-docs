@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.737042734158">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.737068969500">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.4.0">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=2.4.0.737042734158" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=2.4.0.737068969500" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.737042734158" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.737068969500" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.737042734158" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=2.4.0.737042734158" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.737068969500" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=2.4.0.737068969500" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -195,9 +195,14 @@
 source .env/bin/activate
 pip install -r requirements.txt</code></pre>
 </doc-codeblock></div>
-<p>You can now build the package for development and enable python bindings.</p>
+<p>You can now build the package for development and enable python bindings. The following command will install <code v-pre>ezkl_lib</code> into your local python environment.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">maturin develop --features python-bindings</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash"># Unoptimized development build, use this if you require visibility regarding Rust errors
+# Note that this can result in long proving/verification times, if this is a problem use the optimized development build below
+maturin develop --features python-bindings
+
+# Optimized development build, use this if you find that the proving/verification times become long
+maturin develop --release --features python-bindings</code></pre>
 </doc-codeblock></div>
 <p>Once done you will be able to access <code v-pre>ezkl_lib</code> as a python import as follows.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -205,9 +210,16 @@ pip install -r requirements.txt</code></pre>
 </doc-codeblock></div>
 <p>You may test if the existing build is working properly.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">pytest</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">pytest</code></pre>
 </doc-codeblock></div>
 <p>The list of python functions that can be accessed are found within <code v-pre>src/python.rs</code></p>
+<doc-anchor-target id="optimized-development-build">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#optimized-development-build">#</doc-anchor-trigger>
+        <span>Optimized Development Build</span>
+    </h4>
+</doc-anchor-target>
+<p>For the optimized development build you will need to run the following instead</p>
 
                                 
                                 <!-- Required only on API pages -->
