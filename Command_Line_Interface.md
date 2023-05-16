@@ -11,7 +11,7 @@ You can easily create an `.onnx` file using `pytorch`. For samples of Onnx files
 
 Sample onnx files are also available in `./examples/onnx`. To generate a proof on one of the examples, first build `ezkl` (`cargo build --release`) and add it to your favourite `PATH` variables, then generate a structured reference string (SRS):
 ```bash
-ezkl -K=17 gen-srs --params-path=kzg.params
+ezkl gen-srs --logrows 17 --params-path=kzg.params
 ```
 We then set up the circuit to create a proving and verifying key for our circuit. You must provide the input.json and network.onnx files. 
 
@@ -78,7 +78,7 @@ Options:
   -B, --bits <BITS>
           The number of bits used in lookup tables [default: 16]
   -K, --logrows <LOGROWS>
-          The log_2 number of rows [default: 17]
+          The log_2 number of rows
       --public-inputs
           Flags whether inputs are public
       --public-outputs <PUBLIC_OUTPUTS>

@@ -25,7 +25,7 @@ The above pipeline can also be run using [proof aggregation](https://ethresear.c
 
 ```bash
 # Generate a new SRS
-ezkl gen-srs --params-path=kzg.params
+ezkl gen-srs --logrows 17 --params-path=kzg.params
 ```
 
 ```bash
