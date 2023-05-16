@@ -22,7 +22,7 @@ ezkl setup -D input.json -M network.onnx --params-path=kzg.params --vk-path=vk.k
 This command generates a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`, parameters that can be used for subsequent verification at `--params-path` and the verifier key at `--vk-path`:
 
 ```bash
-ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --params-path=kzg.params
+ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --params-path=kzg.params --circuit-params-path=circuit.params
 ```
 
 We can then verify our generated proof with the `verify` command:
