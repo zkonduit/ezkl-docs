@@ -16,7 +16,7 @@ ezkl create-evm-verifier -D ./examples/onnx/1l_relu/input.json -M ./examples/onn
 ```
 ```bash
 # Verify (EVM)
-ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code
+ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code --transcript evm
 ```
 
 Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function. Please read [this document](https://hackmd.io/QOHOPeryRsOraO7FUnG-tg) for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.
