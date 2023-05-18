@@ -37,7 +37,6 @@ cargo run --release --bin ezkl -- table -M ./examples/onnx/1l_relu/network.onnx
 
 ```
 
-
 ### using pre-generated SRS
 
 Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the `pse/halo2` prover `ezkl` uses by leveraging [han0110/halo2-kzg-srs](https://github.com/han0110/halo2-kzg-srs). This repo also contains pre-converted SRS from large projects such as Hermez and the [perpetual powers of tau repo](https://github.com/privacy-scaling-explorations/perpetualpowersoftau). Simply download the pre-converted file locally and point `--params-path` to the file.
@@ -114,7 +113,6 @@ The `.onnx` file can be generated using pytorch or tensorflow. The data json fil
 ```javascript
 {
     "input_data": [[1.0, 22.2, 0.12 ...]], // 2D arrays of floats which represents the (private) inputs we run the proof on
-    "input_shapes": [[3, 3, ...]], // 2D array of integers which represents the shapes of model inputs (excluding batch size)
     "output_data": [[1.0, 5.0, 6.3 ...]], // 2D arrays of floats which represents the model outputs we want to constrain against (if any)
 }
 ```
