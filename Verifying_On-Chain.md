@@ -8,15 +8,15 @@ Note that the above prove and verify stats can also be run with an EVM verifier.
 
 ```bash
 # gen proof
-ezkl prove -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --vk-path 1l_relu.vk --params-path=kzg.params
+ezkl prove -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --params-path=kzg.params --circuit-params-path=circuit.params --transcript=evm
 ```
 ```bash
 # gen evm verifier
-ezkl create-evm-verifier -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path 1l_relu.vk --sol-code-path 1l_relu.sol
+ezkl create-evm-verifier --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path vk.key --sol-code-path 1l_relu.sol --circuit-params-path=circuit.params
 ```
 ```bash
 # Verify (EVM)
-ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code --transcript evm
+ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code
 ```
 
 Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function. Please read [this document](https://hackmd.io/QOHOPeryRsOraO7FUnG-tg) for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.
