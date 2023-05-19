@@ -113,15 +113,15 @@ Change the name of your project to the package name you want along with the desc
 ```javascript
 import * as wasm from './ezkl_lib.wasm';
 
-export function init_panic_hook() {
+export async function init_panic_hook() {
   return wasm.init_panic_hook();
 }
 
-export function prove_wasm(data, pk, circuit_ser, circuit_params_ser, params_ser) {
+export async function prove_wasm(data, pk, circuit_ser, circuit_params_ser, params_ser) {
   return wasm.prove_wasm(data, pk, circuit_ser, circuit_params_ser, params_ser);
 }
 
-export function verify_wasm(proof, vk, circuit_params_ser, params_ser) {
+export async function verify_wasm(proof, vk, circuit_params_ser, params_ser) {
   return wasm.verify_wasm(proof, vk, circuit_params_ser, params_ser);
 }
 ```
