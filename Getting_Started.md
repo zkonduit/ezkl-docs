@@ -11,7 +11,7 @@ rustup override set nightly
 
 After which you may build the library
 ```bash
-cargo install --force --path
+cargo install --force --path .
 ```
 
 If you're optimizing for speed, run:
