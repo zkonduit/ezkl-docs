@@ -9,12 +9,12 @@ Note that the library requires a nightly version of the rust toolchain. You can 
 rustup override set nightly
 ```
 
-After which you may build the library
+After which you may build and install the library
 ```bash
 cargo install --force --path .
 ```
 
-If you're optimizing for speed, run:
+If you want to build manually with cargo build, be sure to use the release flag as the debug build will result in slow proofs
 ```bash
 cargo build --release
 ```
