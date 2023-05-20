@@ -16,7 +16,7 @@ cargo install --force --path .
 
 If you want to build manually with cargo build, be sure to use the release flag as the debug build will result in slow proofs
 ```bash
-cargo build --release
+cargo build --release --bin ezkl
 ```
 ---------
 ### Rust docs 📖
