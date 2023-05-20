@@ -97,7 +97,13 @@ Options:
           Print version
 ```
 
-`bits`, `scale`, and `tolerance` have default values. You can use tolerance to express a tolerance to a certain amount of quantization error on the output eg. if set to 2 the circuit will verify even if the generated output deviates by an absolute value of 2 on any dimension from the expected output. `prove` and `mock`, all require `-D` and `-M` parameters, which if not provided, the cli will query the user to manually enter the path(s).
+`bits`, `scale`, and `tolerance` have default values. You can use tolerance to express a tolerance to a certain amount of quantization error on the output eg. if set to 2 the circuit will verify even if the generated output deviates by an absolute value of 2 on any dimension from the expected output. We also added percentage tolerance checks if you'd prefer to use a percent deviation of the output. Here's an examle of percent tolerance (we use -T for tolerance):
+
+```bash 
+ezkl setup -T 1.0  -D examples/onnx/1l_softmax/input.json -M examples/onnx/1l_softmax/network.onnx --params-path kzg.params --vk-path vksoftmax.key --pk-path pksoftmax.key --circuit-params-path circuitsoftmax.params
+```
+
+`prove` and `mock`, all require `-D` and `-M` parameters, which if not provided, the cli will query the user to manually enter the path(s).
 
 ```bash
 
