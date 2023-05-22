@@ -11,6 +11,8 @@ To run these benchmarks:
 cargo bench
 ```
 
+This may take a **long** time.
+
 To run a specific benchmark append one of `affine, cnvrl, relu` to the command. You can then find benchmarks results and plots in `target/criterion`. Note that depending on the capabilities of your machine you may need to increase the target time on the Criterion config. For instance:
 
 ```rust
