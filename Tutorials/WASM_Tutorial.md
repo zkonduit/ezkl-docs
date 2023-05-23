@@ -1,4 +1,4 @@
-![wasmwhirlwind](assets/wasmwhirlwind.png) 
+![wasmwhirlwind](../assets/wasmwhirlwind.png) 
 
 #### Getting Started
 
