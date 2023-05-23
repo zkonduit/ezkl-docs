@@ -1,4 +1,4 @@
-<img src="../assets/wasmwhirlwind.png" width="10%">
+![WASM storm](../assets/wasmwhirl.png) 
 
 ### Getting Started
 
