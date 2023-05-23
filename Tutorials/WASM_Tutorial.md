@@ -1,6 +1,6 @@
-![wasmwhirlwind](../assets/wasmwhirlwind.png) 
+<img src="../assets/wasmwhirlwind.png" width="10%">
 
-#### Getting Started
+### Getting Started
 
 It is useful to have a verifier on a blockchain. However, sometimes you just want to generate and verify proofs in the browser. Thankfully, ezkl supports a WASM environment that you can use to generate proofs and verify them in-browser. For those who are unfamiliar, [**here**](https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts) is a good resource on WASM and [**here**](https://github.com/zkonduit/ezkl/blob/main/src/wasm.rs) you can find the functions we define for ezkl's WASM interface. Let's get started!
 
