@@ -9,24 +9,26 @@
     <meta name="generator" content="Retype 2.4.0">
 
     <!-- Primary Meta Tags -->
-    <title>Verifying On-Chain</title>
-    <meta name="title" content="Verifying On-Chain">
-    <meta name="description" content="Note that the above prove and verify stats can also be run with an EVM verifier." />
+    <title>WASM Tutorial</title>
+    <meta name="title" content="WASM Tutorial">
+    <meta name="description" content="wasmwhirlwind" />
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://docs.ezkl.xyz/verifying_on-chain/" />
+    <link rel="canonical" href="https://docs.ezkl.xyz/wasm_tutorial/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
-    <meta property="og:title" content="Verifying On-Chain">
-    <meta property="og:description" content="Note that the above prove and verify stats can also be run with an EVM verifier.">
+    <meta property="og:url" content="https://docs.ezkl.xyz/wasm_tutorial/">
+    <meta property="og:title" content="WASM Tutorial">
+    <meta property="og:description" content="wasmwhirlwind">
+    <meta property="og:image" content="https://docs.ezkl.xyz/assets/wasmwhirlwind.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
-    <meta property="twitter:title" content="Verifying On-Chain">
-    <meta property="twitter:description" content="Note that the above prove and verify stats can also be run with an EVM verifier.">
+    <meta property="twitter:url" content="https://docs.ezkl.xyz/wasm_tutorial/">
+    <meta property="twitter:title" content="WASM Tutorial">
+    <meta property="twitter:description" content="wasmwhirlwind">
+    <meta property="twitter:image" content="https://docs.ezkl.xyz/assets/wasmwhirlwind.png">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
@@ -167,99 +169,256 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="verifying-on-chain" class="break-words">
+<doc-anchor-target id="wasm-tutorial" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#verifying-on-chain">#</doc-anchor-trigger>
-        <span>Verifying On-Chain</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#wasm-tutorial">#</doc-anchor-trigger>
+        <span>WASM Tutorial</span>
     </h1>
 </doc-anchor-target>
-<doc-anchor-target id="verifying-with-the-evm-">
+<p><figure class="content-center">
+    <img src="../assets/wasmwhirlwind.png" alt="wasmwhirlwind" />
+    <figcaption class="caption">wasmwhirlwind</figcaption>
+</figure>
+</p>
+<doc-anchor-target id="getting-started">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#verifying-with-the-evm-">#</doc-anchor-trigger>
-        <span>verifying with the EVM ◊</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#getting-started">#</doc-anchor-trigger>
+        <span>Getting Started</span>
     </h4>
 </doc-anchor-target>
-<p>Note that the above prove and verify stats can also be run with an EVM verifier. This can be done by generating a verifier smart contract after generating the proof</p>
+<p>It is useful to have a verifier on a blockchain. However, sometimes you just want to generate and verify proofs in the browser. Thankfully, ezkl supports a WASM environment that you can use to generate proofs and verify them in-browser. For those who are unfamiliar, <a href="https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts"><strong>here</strong></a> is a good resource on WASM and <a href="https://github.com/zkonduit/ezkl/blob/main/src/wasm.rs"><strong>here</strong></a> you can find the functions we define for ezkl&#x27;s WASM interface. Let&#x27;s get started!</p>
+<p>First, we need to add the <code v-pre>wasm32-unknown-unknown</code> target to our rustup configuration.  <code v-pre>wasm32-unknown-unknown</code> is is a target for creating WebAssembly binaries. The <code v-pre>wasm32</code> part represents the platform (WASM 32 bit in our case). The first <code v-pre>unknown</code> specifies the operating system we are building on. We want to build on any operating system since we&#x27;re just building on browser. The second <code v-pre>unknown</code> refers to the target&#x27;s standard library (Rust/C++ <code v-pre>std</code>), but with WASM, we won&#x27;t be using one. We add this as a target with:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># gen proof
-ezkl prove --transcript=evm -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --params-path=kzg.params --circuit-params-path=circuit.params </code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">rustup target add wasm32-unknown-unknown</code></pre>
 </doc-codeblock></div>
+<p>Note that you should be on Rust&#x27;s nightly release channel when interacting with ezkl.</p>
+<p>Another thing we need before we get our <code v-pre>.wasm</code> file is <a href="https://llvm.org/">LLVM</a>. LLVM is a compiler tool that will help us use libraries that are essential for compiling our Rust ezkl code to a WASM binary fit for <code v-pre>wasm32-unknown-unknown</code>. You can get the latest release <a href="https://releases.llvm.org/download.html">here</a> (especially for Windows users) or install it with a package manager:</p>
+<p><em>Linux</em></p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># gen evm verifier
-ezkl create-evm-verifier --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path vk.key --sol-code-path 1l_relu.sol --circuit-params-path=circuit.params</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">sudo apt install llvm
+sudo apt install clang-12</code></pre>
 </doc-codeblock></div>
+<p><em>Mac</em>: You can use Homebrew to install llvm. This library comes with <code v-pre>clang</code>, which we&#x27;ll also need.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Verify (EVM)
-ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">brew install --debug llvm
+export PATH=/usr/local/opt/llvm/bin:$PATH</code></pre>
 </doc-codeblock></div>
-<p>Note that the <code v-pre>.sol</code> file above can be deployed and composed with other Solidity contracts, via a <code v-pre>verify()</code> function. Please read <a href="https://hackmd.io/QOHOPeryRsOraO7FUnG-tg">this document</a> for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.</p>
-<p>The above pipeline can also be run using <a href="https://ethresear.ch/t/leveraging-snark-proof-aggregation-to-achieve-large-scale-pbft-based-consensus/11588">proof aggregation</a> to reduce proof size and verifying times, so as to be more suitable for EVM deployment. A sample pipeline for doing so would be:</p>
+<p>After this step, make sure you have access to the <code v-pre>PATH</code> for both <code v-pre>clang</code> and <code v-pre>llvm</code>. We&#x27;ll be using environment variables such as <code v-pre>CC=/opt/homebrew/opt/llvm/bin/clang</code> for the remainder of the project.</p>
+<p>Install <a href="https://rustwasm.github.io/wasm-pack/book/">wasm-pack</a></p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Generate a new SRS. We use 20 since aggregation requires larger circuits.
-ezkl gen-srs --logrows 20 --params-path=kzg.params</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh</code></pre>
 </doc-codeblock></div>
+<p>Now, navigate to your fork or branch of <code v-pre>ezkl</code> and install the <a href="https://crates.io/crates/wasm-server-runner">WASM server runner</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Set up a new circuit
-ezkl setup -D examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">cargo install wasm-server-runner</code></pre>
 </doc-codeblock></div>
+<p>With this, we&#x27;re finally able to compile our .wasm file! You can do that with this command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Single proof -&gt; single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
-ezkl prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --params-path=kzg.params  --pk-path=pk.key --circuit-params-path=circuit.params</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">AR=/opt/llvm/bin/llvm-ar  CC=/opt/llvm/bin/clang wasm-pack build --target web . -- -Z build-std=&quot;panic_abort,std&quot;</code></pre>
 </doc-codeblock></div>
+<p>Make sure that you supply the correct paths for llvm-ar and clang (AR and CC). You can use <code v-pre>brew info llvm</code> on Mac or <code v-pre>dpkg -L llvm</code> for Linux.</p>
+<p>This command will generate a directory called <code v-pre>pkg</code> in our root ezkl directory. Within it, you will find these files:</p>
+<ul>
+<li>.gitignore</li>
+<li>ezkl_lib_bg.wasm</li>
+<li>ezkl_lib_bg.wasm.d.ts</li>
+<li>ezkl_lib.d.ts</li>
+<li>ezkl_lib.js</li>
+<li>package.json</li>
+<li>README.md</li>
+</ul>
+<p>If something goes wrong, be certain that the paths to your llvm-ar and clang libraries are correct. Also make sure wasm-pack is installed and that your .cargo/config file in ezkl looks like this:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Aggregate -&gt; generates aggregate proof and also (mock)-verifies + verifies natively as sanity check
-ezkl aggregate --logrows=17 --aggregation-snarks=1l_relu.pf --aggregation-vk-paths 1l_relu.vk --vk-path aggr_1l_relu.vk --proof-path aggr_1l_relu.pf --params-path=kzg.params --circuit-params-paths=circuit.params</code></pre>
+<pre class="language-none"><code v-pre class="language-none">[target.wasm32-unknown-unknown]
+runner = 'wasm-bindgen-test-runner'
+rustflags = [&quot;-C&quot;, &quot;target-feature=+atomics,+bulk-memory,+mutable-globals&quot;]</code></pre>
 </doc-codeblock></div>
+<doc-anchor-target id="creating-a-frontend">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#creating-a-frontend">#</doc-anchor-trigger>
+        <span>Creating a frontend</span>
+    </h3>
+</doc-anchor-target>
+<p>Now that we have the wasm-pack package, we can build a simple frontend that uses its exports to prove and verify models (we would love to see projects using this in more intricate ways).</p>
+<p>We&#x27;ll be using the ezkl library to pass in <strong>input data</strong>, <strong>the proving key</strong>, <strong>the serialized circuit</strong>, <strong>the serialized circuit parameters</strong>, and our <strong>polynomial commitment scheme paramenters</strong> to our <code v-pre>prove_wasm</code> function. Additionally, we will pass the <strong>proof</strong>, <strong>the verify key</strong>, <strong>the serialized circuit parameters</strong>, and the <strong>polynomial commitment scheme parameters</strong> to our <code v-pre>verify_wasm</code> function. It is important to note that you will have a lot of this information after you create a circuit with ezkl. Feel free to store them in your project (perhaps .gitignore-ing them). Let&#x27;s begin.</p>
+<ol>
+<li>Make a new directory for your project.</li>
+<li>copy your new <code v-pre>pkg</code> directory into the project</li>
+<li>create an index.html and paste this starter code in:</li>
+</ol>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Generate verifier code -&gt; create the EVM verifier code
-ezkl create-evm-verifier-aggr --deployment-code-path aggr_1l_relu.code --params-path=kzg.params --vk-path aggr_1l_relu.vk</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Verify (EVM) -&gt;
-ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --params-path=kzg.params --vk-path aggr_1l_relu.vk</code></pre>
-</doc-codeblock></div>
-<p>Also note that this may require a local <a href="https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html">solc</a> installation, and that aggregated proof verification in Solidity is not currently supported.</p>
-<p>For both pipelines the resulting verifier can be deployed to an EVM instance (mainnet or otherwise !) using the <code v-pre>deploy-verifier-evm</code> command:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">Deploys an EVM verifier
+<pre class="language-bash"><code v-pre class="language-bash">&lt;html&gt;
 
-Usage: ezkl deploy-verifier-evm [OPTIONS] --secret &lt;SECRET&gt; --rpc-url &lt;RPC_URL&gt;
+&lt;head&gt;
+    &lt;meta content=&quot;text/html;charset=utf-8&quot; http-equiv=&quot;Content-Type&quot; /&gt;
+&lt;/head&gt;
 
-Options:
-  -S, --secret &lt;SECRET&gt;
-          The path to the wallet mnemonic
-  -U, --rpc-url &lt;RPC_URL&gt;
-          RPC Url
-      --deployment-code-path &lt;DEPLOYMENT_CODE_PATH&gt;
-          The path to the desired EVM bytecode file (optional), either set this or sol_code_path
-      --sol-code-path &lt;SOL_CODE_PATH&gt;
-          The path to output the Solidity code (optional) supercedes deployment_code_path in priority
-  -h, --help
-          Print help
+&lt;body&gt;
+    &lt;script type=&quot;module&quot;&gt;
+        // Importing the necessary functions from the WASM module
+        import init, { prove_wasm, verify_wasm } from './pkg/ezkl_lib.js';
+
+        async function run() {
+            try {
+                // Initialize the WASM module
+                await init();
+
+                // Function to read an uploaded file and return its content as a Uint8ClampedArray
+                function readUploadedFileAsText(inputFileElement) {
+                    return new Promise((resolve, reject) =&gt; {
+                        const file = inputFileElement.files[0];
+                        const reader = new FileReader();
+
+                        reader.onload = event =&gt; {
+                            const arrayBuffer = event.target.result;
+                            resolve(new Uint8ClampedArray(arrayBuffer));
+                        };
+
+                        reader.onerror = error =&gt; {
+                            reject(new Error('File could not be read: ' + error));
+                        };
+
+                        reader.readAsArrayBuffer(file);
+                    });
+                }
+
+                // Adding an event listener to the proveButton
+                document.getElementById(&quot;proveButton&quot;).addEventListener(&quot;click&quot;, async () =&gt; {
+                    try {
+                        // Reading the content of the input files
+                        const data = await readUploadedFileAsText(document.getElementById(&quot;data&quot;));
+                        const pk = await readUploadedFileAsText(document.getElementById(&quot;pk&quot;));
+                        const circuit_ser = await readUploadedFileAsText(document.getElementById(&quot;circuit_ser&quot;));
+                        const circuit_params_ser = await readUploadedFileAsText(document.getElementById(&quot;circuit_params_ser&quot;));
+                        const params_ser = await readUploadedFileAsText(document.getElementById(&quot;params_ser&quot;));
+
+                        // Using the WASM function to get a result
+                        const result = await prove_wasm(data, pk, circuit_ser, circuit_params_ser, params_ser);
+
+                        document.getElementById(&quot;proveResult&quot;).innerText = result ? 'Proof OK' : 'Proof failed';
+
+                        // Creating a blob and a URL for it from the result
+                        const blob = new Blob([result.buffer], { type: 'application/octet-stream' });
+                        const url = URL.createObjectURL(blob);
+
+                        // Creating a hidden anchor element, adding it to the document,
+                        // clicking it to download the file and then removing the element
+                        const a = document.createElement(&quot;a&quot;);
+                        a.href = url;
+                        a.download = 'network.proof';
+                        a.style.display = 'none';
+                        document.body.appendChild(a);
+                        a.click();
+                        setTimeout(() =&gt; {
+                            URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        }, 0);
+                    } catch (error) {
+                        console.error(&quot;An error occurred during proving:&quot;, error);
+                    }
+                });
+
+                // Adding an event listener to the verifyButton
+                document.getElementById(&quot;verifyButton&quot;).addEventListener(&quot;click&quot;, async () =&gt; {
+                    try {
+                        // Reading the content of the input files
+                        const proof_js = await readUploadedFileAsText(document.getElementById(&quot;proof_js&quot;));
+                        const vk = await readUploadedFileAsText(document.getElementById(&quot;vk&quot;));
+                        const circuit_params_ser = await readUploadedFileAsText(document.getElementById(&quot;circuit_params_ser_verify&quot;));
+                        const params_ser = await readUploadedFileAsText(document.getElementById(&quot;params_ser_verify&quot;));
+
+                        // Using the WASM function to get a result
+                        const result = await verify_wasm(proof_js, vk, circuit_params_ser, params_ser);
+
+                        // Displaying the result
+                        document.getElementById(&quot;verifyResult&quot;).innerText = result ? 'True' : 'False';
+                    } catch (error) {
+                        console.error(&quot;An error occurred during verification:&quot;, error);
+                    }
+                });
+            } catch (error) {
+                console.error(&quot;An error occurred:&quot;, error);
+            }
+        }
+
+        // Running the main function
+        run();
+    &lt;/script&gt;
+    &lt;!--HTML forms for the proving and verifying functionality--&gt;
+    &lt;div&gt;
+        &lt;h1&gt;Prove&lt;/h1&gt;
+        &lt;!--File inputs to upload the necessary files--&gt;
+        &lt;label for=&quot;data&quot;&gt;Input Data:&lt;/label&gt;
+        &lt;input id=&quot;data&quot; type=&quot;file&quot; placeholder=&quot;data&quot; /&gt;
+        &lt;label for=&quot;pk&quot;&gt;Proving key:&lt;/label&gt;
+        &lt;input id=&quot;pk&quot; type=&quot;file&quot; placeholder=&quot;pk&quot; /&gt;
+        &lt;label for=&quot;circuit_ser&quot;&gt;Circuit (.onnx):&lt;/label&gt;
+        &lt;input id=&quot;circuit_ser&quot; type=&quot;file&quot; placeholder=&quot;circuit_ser&quot; /&gt;
+        &lt;label for=&quot;circuit_params_ser&quot;&gt;Circuit params:&lt;/label&gt;
+        &lt;input id=&quot;circuit_params_ser&quot; type=&quot;file&quot; placeholder=&quot;circuit_params_ser&quot; /&gt;
+        &lt;label for=&quot;params_ser&quot;&gt;KZG params:&lt;/label&gt;
+        &lt;input id=&quot;params_ser&quot; type=&quot;file&quot; placeholder=&quot;params_ser&quot; /&gt;
+        &lt;!--Button to start the proving process--&gt;
+        &lt;button id=&quot;proveButton&quot;&gt;Prove&lt;/button&gt;
+        &lt;h2&gt;Result:&lt;/h2&gt;
+        &lt;!--Placeholder for the proving result--&gt;
+        &lt;div id=&quot;proveResult&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;h1&gt;Verify&lt;/h1&gt;
+        &lt;!--File inputs to upload the necessary files--&gt;
+        &lt;label for=&quot;proof_js&quot;&gt;Proof (proof.bin):&lt;/label&gt;
+        &lt;input id=&quot;proof_js&quot; type=&quot;file&quot; placeholder=&quot;proof_js&quot; /&gt;
+        &lt;label for=&quot;vk&quot;&gt;Verifier key:&lt;/label&gt;
+        &lt;input id=&quot;vk&quot; type=&quot;file&quot; placeholder=&quot;vk&quot; /&gt;
+        &lt;label for=&quot;circuit_params_ser_verify&quot;&gt;Circuit params:&lt;/label&gt;
+        &lt;input id=&quot;circuit_params_ser_verify&quot; type=&quot;file&quot; placeholder=&quot;circuit_params_ser&quot; /&gt;
+        &lt;label for=&quot;params_ser_verify&quot;&gt;KZG params:&lt;/label&gt;
+        &lt;input id=&quot;params_ser_verify&quot; type=&quot;file&quot; placeholder=&quot;params_ser&quot; /&gt;
+        &lt;!--Button to start the verification process--&gt;
+        &lt;button id=&quot;verifyButton&quot;&gt;Verify&lt;/button&gt;
+        &lt;h2&gt;Result:&lt;/h2&gt;
+        &lt;!--Placeholder for the verification result--&gt;
+        &lt;div id=&quot;verifyResult&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
 </code></pre>
 </doc-codeblock></div>
-<p>For instance:</p>
+<ol start="4">
+<li><p>This script generates a simple HTML frontend with fields to pass in files for our input fields (we&#x27;ll upload them from our ezkl directory). It also calls the <code v-pre>ezkl_lib.js</code> folder in our pkg to fetch the exported <code v-pre>prove_wasm</code>, <code v-pre>verify_wasm</code>, and <code v-pre>init_panic_hook</code> functions.</p>
+</li>
+<li><p>Run a simple http server such as python3&#x27;s:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl deploy-verifier-evm -S ./mymnemonic.txt -U myethnode.xyz --deployment-code-path aggr_1l_relu.code</code></pre>
+<pre class="language-none"><code v-pre class="language-none">python3 -m http.server</code></pre>
 </doc-codeblock></div>
-<p>You can also send proofs to be verified on deployed contracts using <code v-pre>send-proof</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">Send a proof to be verified to an already deployed verifier
-
-Usage: ezkl send-proof-evm --secret &lt;SECRET&gt; --rpc-url &lt;RPC_URL&gt; --addr &lt;ADDR&gt; --proof-path &lt;PROOF_PATH&gt;
-
-Options:
-  -S, --secret &lt;SECRET&gt;          The path to the wallet mnemonic
-  -U, --rpc-url &lt;RPC_URL&gt;        RPC Url
-      --addr &lt;ADDR&gt;              The deployed verifier address
-      --proof-path &lt;PROOF_PATH&gt;  The path to the proof
-  -h, --help                     Print help
-</code></pre>
-</doc-codeblock></div>
-<p>For instance:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl send-proof-evm -S ./mymnemonic.txt -U myethnode.xyz --addr 0xFFFF --proof-path my.snark</code></pre>
-</doc-codeblock></div>
+</li>
+<li><p>Finally, run the <code v-pre>setup</code> step in ezkl (WASM support for this coming soon) and upload the files to your <code v-pre>Prove</code> function. The ordering for <code v-pre>Prove</code> (from left to right) is:</p>
+<ul>
+<li><code v-pre>data</code>: input data (input.json)</li>
+<li><code v-pre>pk</code>: proving key (pk.key)</li>
+<li><code v-pre>circuit_ser</code>: circuit (network.onnx)</li>
+<li><code v-pre>circuit_params_ser</code>: circuit parameters (circuit.params)</li>
+<li><code v-pre>params_ser</code>: commitment scheme parameters (kzg.params)</li>
+</ul>
+<p>This will prompt you to download a file called <code v-pre>result</code>. <code v-pre>result</code> is a binary file of the generated proof. Note that this step may take time. After <code v-pre>result</code> has been downloaded, upload the file to the first value of the <code v-pre>Verify</code> function. The ordering for <code v-pre>Verify</code> (from left to right) is:</p>
+<ul>
+<li><code v-pre>proof_js</code>: proof (proof.pf)</li>
+<li><code v-pre>vk</code>: verifier key (vk.key)</li>
+<li><code v-pre>circuit_params_ser</code>: circuit parameters (circuit.params)</li>
+<li><code v-pre>params_ser</code>: commitment scheme parameters (kzg.params)</li>
+</ul>
+<p><code v-pre>True</code> or <code v-pre>False</code> should appear as the result for the Verify function.</p>
+</li>
+</ol>
+<p>At the end of the interaction, your screen should look something like:</p>
+<p><figure class="content-center">
+    <img src="../assets/verification.png" alt="verification" />
+    <figcaption class="caption">verification</figcaption>
+</figure>
+</p>
+<p>And thus, we have a WASM prover and verifier that you can use for your zkml project without having to worry about the blockchain! Feel free to check out the <a href="https://github.com/lancenonce/wasm-tutorial-web">source code</a> and build your own zkml applications with this simple interface. Thank you for reading and thank you for using ezkl.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -269,23 +428,16 @@ Options:
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../command_line_interface/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../faq/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Command Line Interface</span>
+                                                <span class="block mt-1">General</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../examples/">
-                                            <span>
-                                                <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Examples</span>
-                                            </span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
-                                        </a>
                                     </div>
                                 </nav>
                             </footer>
@@ -326,6 +478,6 @@ Options:
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Verifying On-Chain", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "WASM Tutorial", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
