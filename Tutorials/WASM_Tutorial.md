@@ -249,7 +249,7 @@ We'll be using the ezkl library to pass in **input data**, **the proving key**, 
 
 At the end of the interaction, your screen should look something like:
 
-![verification](assets/verification.png) 
+![verification](../assets/verification.png)
 
 
-And thus, we have a WASM prover and verifier that you can use for your zkml project without having to worry about the blockchain! Feel free to check out the [source code](https://github.com/lancenonce/wasm-tutorial-web) and build your own zkml applications with this simple interface. Thank you for reading and thank you for using ezkl. 
+And thus, we have a WASM prover and verifier that you can use for your zkml project without having to worry about the blockchain! Feel free to check out the [source code](https://github.com/lancenonce/wasm-tutorial-web) and build your own zkml applications with this simple interface. Thank you for reading, and thank you for using ezkl. 
