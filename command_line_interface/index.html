@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.738178994715">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.1.739145311625">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 2.4.0">
+    <meta name="generator" content="Retype 3.0.1">
 
     <!-- Primary Meta Tags -->
     <title>Command Line Interface</title>
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=2.4.0.738178994715" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.1.739145311625" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=2.4.0.738178994715" data-turbo-eval="false" defer></script>
-    <script type="text/javascript" src="../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=2.4.0.738178994715" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=2.4.0.738178994715" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.1.739145311625" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/retype.js?v=3.0.1" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.1.739145311625" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.1.739145311625" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -160,8 +160,8 @@
             <div class="grow min-w-0 dark:bg-dark-850">
                 <!-- Render "toolbar" template here on api pages --><!-- Render page content -->
                 <div class="flex">
-                    <div class="grow min-w-0 px-6 md:px-16">
-                        <main class="relative pt-6 pb-16">
+                    <div class="min-w-0 p-4 grow md:px-16">
+                        <main class="relative pb-12 lg:pt-2">
                             <div class="docs-markdown" id="docs-content">
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="docs-sidebar-right-toggle"></div>
@@ -180,7 +180,7 @@
         <span>python and cli tutorial <span class="docs-emoji">&#x1F40D;</span></span>
     </h3>
 </doc-anchor-target>
-<p>You can easily create an <code v-pre>.onnx</code> file using <code v-pre>pytorch</code>. For samples of Onnx files see <a href="https://github.com/onnx/models">here</a>. For a tutorial on how to quickly generate Onnx files using python, check out <a href="https://github.com/zkonduit/pyezkl">pyezkl</a>.</p>
+<p>You can easily create an <code v-pre>.onnx</code> file using <code v-pre>pytorch</code>. For samples of Onnx files see <a href="https://github.com/onnx/models">here</a>. For a tutorial on how to quickly generate Onnx files using python, check out <a href="https://github.com/zkonduit/pyezkl">pyezkl</a>. You&#x27;ll also need an <code v-pre>input.json</code> file with sample inputs and outputs of your model (Note: input shape is no longer needed since this is now inferred by the library).</p>
 <p>Sample onnx files are also available in <code v-pre>./examples/onnx</code>. To generate a proof on one of the examples, first build <code v-pre>ezkl</code> (<code v-pre>cargo build --release</code>) and add it to your favourite <code v-pre>PATH</code> variables, then generate a structured reference string (SRS):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl gen-srs --logrows 17 --params-path=kzg.params</code></pre>

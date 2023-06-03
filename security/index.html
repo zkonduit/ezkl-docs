@@ -9,24 +9,24 @@
     <meta name="generator" content="Retype 3.0.1">
 
     <!-- Primary Meta Tags -->
-    <title>Examples</title>
-    <meta name="title" content="Examples">
-    <meta name="description" content="This repository includes onnx example files as a submodule for testing out the cli." />
+    <title>Security</title>
+    <meta name="title" content="Security">
+    <meta name="description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution." />
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://docs.ezkl.xyz/examples/" />
+    <link rel="canonical" href="https://docs.ezkl.xyz/security/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.ezkl.xyz/examples/">
-    <meta property="og:title" content="Examples">
-    <meta property="og:description" content="This repository includes onnx example files as a submodule for testing out the cli.">
+    <meta property="og:url" content="https://docs.ezkl.xyz/security/">
+    <meta property="og:title" content="Security">
+    <meta property="og:description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.ezkl.xyz/examples/">
-    <meta property="twitter:title" content="Examples">
-    <meta property="twitter:description" content="This repository includes onnx example files as a submodule for testing out the cli.">
+    <meta property="twitter:url" content="https://docs.ezkl.xyz/security/">
+    <meta property="twitter:title" content="Security">
+    <meta property="twitter:description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
@@ -167,41 +167,49 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="examples" class="break-words">
+<doc-anchor-target id="security" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#examples">#</doc-anchor-trigger>
-        <span>Examples</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#security">#</doc-anchor-trigger>
+        <span>Security</span>
     </h1>
 </doc-anchor-target>
-<p>This repository includes onnx example files as a submodule for testing out the cli.</p>
-<p>If you want to add a model to <code v-pre>examples/onnx</code>, open a PR creating a new folder within <code v-pre>examples/onnx</code> with a descriptive model name. This folder should contain:</p>
-<ul>
-<li>an <code v-pre>input.json</code> input file, with the fields expected by the  <a href="https://github.com/zkonduit/ezkl">ezkl</a> cli.</li>
-<li>a <code v-pre>network.onnx</code> file representing the trained model</li>
-<li>a <code v-pre>gen.py</code> file for generating the <code v-pre>.json</code> and <code v-pre>.onnx</code> files following the general structure of <code v-pre>examples/tutorial/tutorial.py</code>.</li>
-</ul>
-<p>TODO: add associated python files in the onnx model directories.</p>
-<hr />
-<doc-anchor-target id="library-examples">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#library-examples">#</doc-anchor-trigger>
-        <span>library examples <span class="docs-emoji">&#x1F50D;</span></span>
-    </h2>
+<p>Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution. Because there have not been many production-ready projects, the potential attack vectors are mostly theoretical or unknown.</p>
+<p>However, we ensure that if an ML model is secure, <code v-pre>ezkl</code> proofs will be sound and secure. Below we discuss best security practices for your neural networks and what we&#x27;re doing on our end to ensure our proofs are secure.</p>
+<doc-anchor-target id="aiml-security">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#aiml-security">#</doc-anchor-trigger>
+        <span>AI/ML Security</span>
+    </h3>
 </doc-anchor-target>
-<p>Beyond the <code v-pre>.onnx</code> examples detailed above, we also include examples which directly use some of our rust API; allowing users to code up computational graphs and circuits from scratch in rust without having to go via python.</p>
-<p>The MNIST inference example using <code v-pre>ezkl</code> as a library is contained in <code v-pre>examples/conv2d_mnist</code>. To run it:</p>
+<p>There are several types of adversarial attacks on neural networks. <a href="https://paperswithcode.com/paper/asymmetric-heavy-tails-and-implicit-bias-in">Gaussian Noise Injection</a>, <a href="https://paperswithcode.com/task/data-poisoning">Data poisoning</a>, <a href="https://paperswithcode.com/paper/membership-inference-attacks-on-machine">Membership Inference Attacks</a> (MIAs), and more are attack vectors that adversaries can use to corrupt your ouputs. MIAs and others like it are especially hazardous when the aim of using zkml is to keep the model and its training data private.</p>
+<p>Adversarial Training involves training your model with adversarial data so that edge cases are expected and accounted for. <a href="https://github.com/cleverhans-lab/cleverhans">CleverHans</a> is a useful tool for discovering potential vulnerabilities in your model. For best security results, have an idea of the overall threat model of your neural net and its potential inputs.</p>
+<doc-anchor-target id="zk-security">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#zk-security">#</doc-anchor-trigger>
+        <span>ZK Security</span>
+    </h3>
+</doc-anchor-target>
+<p>The goal of zero knowledge proof systems is to construct complete, sound proofs. Completeness is the highly probable assurance that any valid proof will verify. Soundness is the quality of the verifier (or parties representing the verifier) knowing that if a proof passes, it is more than likely a true statement. In some cases, such as those in <a href="https://eprint.iacr.org/2023/512.pdf">underconstrained circuits</a>, bad proofs can be generated that fool the verifier into passing a false statement. In this case, the vulnerability is not in the machine learning model itself, but in the SNARK constructed by <code v-pre>ezkl</code>.</p>
+<p>In this case, we would deeply appreciate an <a href="https://github.com/zkonduit/ezkl/issues">issue</a> or <a href="https://github.com/zkonduit/ezkl/discussions">discussion</a> regarding the bad proof. We will respond with alacrity.</p>
+<doc-anchor-target id="ezkl-security-tooling">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#ezkl-security-tooling">#</doc-anchor-trigger>
+        <span>EZKL Security Tooling</span>
+    </h3>
+</doc-anchor-target>
+<p>We want to provide you with the best means of mitigating the potential of an attack on the SNARK of your model. This is why we are making security tools that allow you to test the robustness of your model.</p>
+<doc-anchor-target id="fuzzing">
+    <h6>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#fuzzing">#</doc-anchor-trigger>
+        <span>Fuzzing</span>
+    </h6>
+</doc-anchor-target>
+<p><code v-pre>ezkl</code> supports fuzzing over your model&#x27;s edge inputs to test for potential vulnerabilities. Use your <code v-pre>input.json</code> and <code v-pre>network.onnx</code> files to run:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># download MNIST data
-chmod +x data.sh
-./data.sh
-# test the model (takes 600-700 seconds)
-cargo run --release --example conv2d_mnist</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl fuzz -D input.json -M network.onnx --transcript=evm --num-runs 10</code></pre>
 </doc-codeblock></div>
-<p>We also provide an example which runs an MLP on input data with four dimensions. To run it:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">cargo run --release --example mlp_4d</code></pre>
-</doc-codeblock></div>
-<hr />
+<p>Be sure to replace <code v-pre>num-runs</code> with the amount of fuzz testing rounds you want to do along with other parameters you are using to generate your circuit.</p>
+<p>Thank you for using <code v-pre>ezkl</code>; please contact us if you have any security resources that should be included in this documentation.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -211,20 +219,20 @@ cargo run --release --example conv2d_mnist</code></pre>
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../verifying_on-chain/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../about_onnx/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Verifying On-​Chain</span>
+                                                <span class="block mt-1">About ONNX</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../python_bindings/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../faq/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Python bindings</span>
+                                                <span class="block mt-1">FAQ</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -268,6 +276,6 @@ cargo run --release --example conv2d_mnist</code></pre>
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Examples", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Security", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
