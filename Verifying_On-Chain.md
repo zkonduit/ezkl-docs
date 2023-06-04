@@ -55,33 +55,6 @@ ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --params-path=kzg.par
 
 Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation, and that aggregated proof verification in Solidity is not currently supported.
 
-For both pipelines the resulting verifier can be deployed to an EVM instance (mainnet or otherwise !) using the `deploy-verifier-evm` command:
-
-```bash
-Deploys an EVM verifier
-
-Usage: ezkl deploy-verifier-evm [OPTIONS] --secret <SECRET> --rpc-url <RPC_URL>
-
-Options:
-  -S, --secret <SECRET>
-          The path to the wallet mnemonic
-  -U, --rpc-url <RPC_URL>
-          RPC Url
-      --deployment-code-path <DEPLOYMENT_CODE_PATH>
-          The path to the desired EVM bytecode file (optional), either set this or sol_code_path
-      --sol-code-path <SOL_CODE_PATH>
-          The path to output the Solidity code (optional) supercedes deployment_code_path in priority
-  -h, --help
-          Print help
-
-```
-
-For instance:
-
-```bash
-ezkl deploy-verifier-evm -S ./mymnemonic.txt -U myethnode.xyz --deployment-code-path aggr_1l_relu.code
-```
-
 You can also send proofs to be verified on deployed contracts using `send-proof`:
 
 ```bash

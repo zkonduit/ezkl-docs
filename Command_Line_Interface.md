@@ -13,10 +13,10 @@ Sample onnx files are also available in `./examples/onnx`. To generate a proof o
 ```bash
 ezkl gen-srs --logrows 17 --params-path=kzg.params
 ```
-We then set up the circuit to create a proving and verifying key for our circuit. You must provide the input.json and network.onnx files. 
+We then set up the circuit to create a proving and verifying key for our circuit. You must provide the input.json (for proving and verifying) and network.onnx files. 
 
 ```bash
-ezkl setup -D input.json -M network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
+ezkl setup -M network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
 ```
 
 This command generates a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`, parameters that can be used for subsequent verification at `--params-path` and the verifier key at `--vk-path`:
@@ -61,7 +61,6 @@ Commands:
   prove                     Loads model and data, prepares vk and pk, and creates proof
   create-evm-verifier       Creates an EVM verifier for a single proof
   create-evm-verifier-aggr  Creates an EVM verifier for an aggregate proof
-  deploy-verifier-evm       Deploys an EVM verifier
   send-proof-evm            Send a proof to be verified to an already deployed verifier
   verify                    Verifies a proof, returning accept or reject
   verify-aggr               Verifies an aggregate proof, returning accept or reject
