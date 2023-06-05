@@ -47,7 +47,7 @@ Note that you can use pre-generated KZG SRS. These SRS can be converted to a for
 
 ### general usage 🔧
 
-> Note: to get the full suite of cli capabilities you'll need to compile `ezkl` with the `render` feature (`cargo build --features render --bin ezkl`). This enables the `render-circuit` command which can create `.png` representations of the compiled circuits. You'll also need to install the `libexpat1-dev` and `libfreetype6-dev` libraries on Debian systems (there are equivalents for MacOS as well). You can use `cargo build —bin ezkl —features=render` to render the halo2 circuit svg.
+> Note: to get the full suite of cli capabilities you'll need to compile `ezkl` with the `render` feature (`cargo build --features render --bin ezkl`). This enables the `render-circuit` command which can create `.png` representations of the compiled circuits. You'll also need to install the `libexpat1-dev` and `libfreetype6-dev` libraries on Debian systems (there are equivalents for MacOS as well).
 
 ```bash
 Usage: ezkl [OPTIONS] <COMMAND>
