@@ -54,25 +54,3 @@ ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --params-path=kzg.par
 ```
 
 Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation, and that aggregated proof verification in Solidity is not currently supported.
-
-You can also send proofs to be verified on deployed contracts using `send-proof`:
-
-```bash
-Send a proof to be verified to an already deployed verifier
-
-Usage: ezkl send-proof-evm --secret <SECRET> --rpc-url <RPC_URL> --addr <ADDR> --proof-path <PROOF_PATH>
-
-Options:
-  -S, --secret <SECRET>          The path to the wallet mnemonic
-  -U, --rpc-url <RPC_URL>        RPC Url
-      --addr <ADDR>              The deployed verifier address
-      --proof-path <PROOF_PATH>  The path to the proof
-  -h, --help                     Print help
-
-```
-
-For instance:
-
-```bash
-ezkl send-proof-evm -S ./mymnemonic.txt -U myethnode.xyz --addr 0xFFFF --proof-path my.snark
-```

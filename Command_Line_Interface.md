@@ -62,7 +62,6 @@ Commands:
   prove                     Loads model and data, prepares vk and pk, and creates proof
   create-evm-verifier       Creates an EVM verifier for a single proof
   create-evm-verifier-aggr  Creates an EVM verifier for an aggregate proof
-  send-proof-evm            Send a proof to be verified to an already deployed verifier
   verify                    Verifies a proof, returning accept or reject
   verify-aggr               Verifies an aggregate proof, returning accept or reject
   verify-evm                Verifies a proof using a local EVM executor, returning accept or reject
