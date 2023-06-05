@@ -33,7 +33,7 @@ ezkl verify --proof-path=model.proof --circuit-params-path=circuit.params --vk-p
 To display a table of the loaded onnx nodes, their associated parameters, set `RUST_LOG=DEBUG` or run:
 
 ```bash
-ezkl -- table -M ./examples/onnx/1l_relu/network.onnx
+ezkl table -M ./examples/onnx/1l_relu/network.onnx
 
 ```
 
