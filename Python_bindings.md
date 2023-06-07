@@ -3,42 +3,19 @@ icon: plug
 order: 5
 ---
 
-Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin). This is done so to allow users of `ezkl` to leverage on the rich Data Science ecosystem that Python has instead of using Rust only.
+Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin). This is done so to allow users of `ezkl` to leverage on the rich Data Science ecosystem that Python has instead of using Rust only. You can find the `ezkl` package on Pypi [here](https://pypi.org/project/ezkl/).  
 
-Check out our Jupyter Notebook example [here](https://github.com/zkonduit/ezkl/blob/main/examples/notebook/ezkl_demo.ipynb)
-
-### production
-Production Python bindings are made available via [pyezkl](https://github.com/zkonduit/pyezkl).
-
-
-### development
-To test the developmental Python bindings you will need to install [Python3](https://realpython.com/installing-python/). `ezkl` only supports version of python where `python >=3.7`.
-
-Once python is installed setup a virtual environment and install `maturin`
+### Using the library
+Install `ezkl` with pip:
 ```bash
-python -m venv .env
-source .env/bin/activate
-pip install -r requirements.txt
+pip install ezkl
 ```
 
-You can now build the package for development and enable python bindings. The following command will install `ezkl_lib` into your local python environment.
-```bash
-# Unoptimized development build, use this if you require visibility regarding Rust errors
-# Note that this can result in long proving/verification times, if this is a problem use the optimized development build below
-maturin develop --features python-bindings
+The `ezkl` python library provides all the functions you need to make a SNARK from your model. The functions are:
+- `export(circuit: torch.nn, input_shape: [int])`: export your neural net to a .onnx input.json files
+- `gen_srs(params_path, logrows: int <= 28)`: Generates the structured reference string for the circuit
+- `setup(data_path, model_path, vk_path, pk_path, params_path, circuit_params_path)`: Sets up the circuit and generates circuit parameters and proving & verifying keys at the mentioned paths
+- `prove(data_path, model_path, pk_path, proof_path, params_path, transcript-type (e.g. "poseidon"), strategy-type: (e.g. "single"), circuit_params_path)`: Generates a proof for a model
+- `verify(proof_path, circuit_params_path, vk_path, params_path,)`: Verifies a proof
 
-# Optimized development build, use this if you find that the proving/verification times become long
-maturin develop --release --features python-bindings
-```
-
-Once done you will be able to access `ezkl_lib` as a python import as follows.
-```python
-import ezkl_lib
-```
-
-You may test if the existing build is working properly.
-```bash
-pytest
-```
-
-The list of python functions that can be accessed are found within `src/python.rs`
+You can check out our Jupyter Notebook example [here](https://github.com/zkonduit/pyezkl/blob/main/examples/ezkl_demo.ipynb) for reference.
