@@ -8,11 +8,11 @@ Note that the above prove and verify stats can also be run with an EVM verifier.
 
 ```bash
 # gen proof
-ezkl prove -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --vk-path 1l_relu.vk --params-path=kzg.params
+ezkl prove --transcript=evm -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --params-path=kzg.params --circuit-params-path=circuit.params 
 ```
 ```bash
 # gen evm verifier
-ezkl create-evm-verifier -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path 1l_relu.vk --sol-code-path 1l_relu.sol
+ezkl create-evm-verifier --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path vk.key --sol-code-path 1l_relu.sol --circuit-params-path=circuit.params
 ```
 ```bash
 # Verify (EVM)
@@ -24,18 +24,23 @@ Note that the `.sol` file above can be deployed and composed with other Solidity
 The above pipeline can also be run using [proof aggregation](https://ethresear.ch/t/leveraging-snark-proof-aggregation-to-achieve-large-scale-pbft-based-consensus/11588) to reduce proof size and verifying times, so as to be more suitable for EVM deployment. A sample pipeline for doing so would be:
 
 ```bash
-# Generate a new SRS
-ezkl gen-srs --logrows 17 --params-path=kzg.params
+# Generate a new SRS. We use 20 since aggregation requires larger circuits.
+ezkl gen-srs --logrows 20 --params-path=kzg.params
+```
+
+```bash
+# Set up a new circuit
+ezkl setup -D examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
 ```
 
 ```bash
 # Single proof -> single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
-ezkl prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --params-path=kzg.params  --vk-path=1l_relu.vk
+ezkl prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --params-path=kzg.params  --pk-path=pk.key --circuit-params-path=circuit.params
 ```
 
 ```bash
 # Aggregate -> generates aggregate proof and also (mock)-verifies + verifies natively as sanity check
-ezkl aggregate --app-logrows=17 -M ./examples/onnx/1l_relu/network.onnx --aggregation-snarks=1l_relu.pf --aggregation-vk-paths 1l_relu.vk --vk-path aggr_1l_relu.vk --proof-path aggr_1l_relu.pf --params-path=kzg.params
+ezkl aggregate --logrows=20 --aggregation-snarks=1l_relu.pf --aggregation-vk-paths vk.key --vk-path aggr_1l_relu.vk --proof-path aggr_1l_relu.pf --params-path=kzg.params --circuit-params-paths=circuit.params
 ```
 
 ```bash
@@ -45,56 +50,23 @@ ezkl create-evm-verifier-aggr --deployment-code-path aggr_1l_relu.code --params-
 
 ```bash
 # Verify (EVM) ->
-ezkl verify-evm --proof-path aggr_1l_relu.pf --deployment-code-path aggr_1l_relu.code
+ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --params-path=kzg.params --vk-path aggr_1l_relu.vk
 ```
 
-Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation, and that aggregated proof verification in Solidity is not currently supported.
+Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation, and that aggregated proof verification in Solidity is not currently supported. You can follow the SolidityLang instructions linked above, or you can use [svm-rs](https://github.com/alloy-rs/svm-rs) to install solc. Here's how:
 
-For both pipelines the resulting verifier can be deployed to an EVM instance (mainnet or otherwise !) using the `deploy-verifier-evm` command:
-
+Install svm-rs:
 ```bash
-Deploys an EVM verifier
-
-Usage: ezkl deploy-verifier-evm [OPTIONS] --secret <SECRET> --rpc-url <RPC_URL>
-
-Options:
-  -S, --secret <SECRET>
-          The path to the wallet mnemonic
-  -U, --rpc-url <RPC_URL>
-          RPC Url
-      --deployment-code-path <DEPLOYMENT_CODE_PATH>
-          The path to the desired EVM bytecode file (optional), either set this or sol_code_path
-      --sol-code-path <SOL_CODE_PATH>
-          The path to output the Solidity code (optional) supercedes deployment_code_path in priority
-  -h, --help
-          Print help
-
+cargo install svm-rs
 ```
 
-For instance:
-
+Install a recent Solidity version (we use 0.8.17 in our implementation):
 ```bash
-ezkl deploy-verifier-evm -S ./mymnemonic.txt -U myethnode.xyz --deployment-code-path aggr_1l_relu.code
+svm install 0.8.17
 ```
 
-You can also send proofs to be verified on deployed contracts using `send-proof`:
-
+Verify your Solidity version:
 ```bash
-Send a proof to be verified to an already deployed verifier
-
-Usage: ezkl send-proof-evm --secret <SECRET> --rpc-url <RPC_URL> --addr <ADDR> --proof-path <PROOF_PATH>
-
-Options:
-  -S, --secret <SECRET>          The path to the wallet mnemonic
-  -U, --rpc-url <RPC_URL>        RPC Url
-      --addr <ADDR>              The deployed verifier address
-      --proof-path <PROOF_PATH>  The path to the proof
-  -h, --help                     Print help
-
+solc --version
 ```
 
-For instance:
-
-```bash
-ezkl send-proof-evm -S ./mymnemonic.txt -U myethnode.xyz --addr 0xFFFF --proof-path my.snark
-```

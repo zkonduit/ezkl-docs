@@ -2,7 +2,7 @@
 icon: rocket
 order: 10
 ---
-
+![](../assets/theThumbnail.jpg) 
 # What is EZKL?
 
 `ezkl` is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark. It enables the following workflow:
