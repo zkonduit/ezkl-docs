@@ -3,7 +3,7 @@ icon: cpu
 order: 4
 ---
 
-The cli can also be compiled for the `wasm32-wasi` target (browser bindings with `wasm32-unknown-unknown` under `Tutorials/WASMTutorial`). To do so first ensure that [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) is installed.
+The cli can also be compiled for the `wasm32-wasi` target (browser bindings with `wasm32-unknown-unknown` under `Tutorials/WASMTutorial`). To do so, first ensure that [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) is installed.
 
 
 You can then run:
