@@ -16,7 +16,7 @@ ezkl gen-srs --logrows 17 --params-path=kzg.params
 We then set up the circuit to create a proving and verifying key for our circuit. You must provide the input.json (for proving and verifying) and network.onnx files. 
 
 ```bash
-ezkl setup -M network.onnx -D input.json --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
+ezkl setup -M network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
 ```
 
 This command generates a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`, parameters that can be used for subsequent verification at `--params-path` and the verifier key at `--vk-path`:
@@ -94,13 +94,7 @@ Options:
           Print version
 ```
 
-`bits`, `scale`, and `tolerance` have default values. You can use tolerance to express a tolerance to a certain amount of quantization error on the output eg. if set to 2 the circuit will verify even if the generated output deviates by an absolute value of 2 on any dimension from the expected output. We also added percentage tolerance checks if you'd prefer to use a percent deviation of the output. Here's an examle of percent tolerance (we use -T for tolerance):
-
-```bash 
-ezkl setup -T 1.0  -D examples/onnx/1l_softmax/input.json -M examples/onnx/1l_softmax/network.onnx --params-path kzg.params --vk-path vksoftmax.key --pk-path pksoftmax.key --circuit-params-path circuitsoftmax.params
-```
-
-`prove` and `mock`, all require `-D` and `-M` parameters, which if not provided, the cli will query the user to manually enter the path(s).
+`prove` and `mock` both require `-D` and `-M` parameters, which if not provided, the cli will query the user to manually enter the path(s).
 
 ```bash
 
