@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739549874976">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739566810762">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.739549874976" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.739566810762" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739549874976" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739566810762" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739549874976" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739549874976" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739566810762" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739566810762" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -173,46 +173,26 @@
         <span>Python bindings</span>
     </h1>
 </doc-anchor-target>
-<p>Python bindings are built for <code v-pre>ezkl</code> using <a href="https://pyo3.rs">PyO3</a> and <a href="https://github.com/PyO3/maturin">Maturin</a>. This is done so to allow users of <code v-pre>ezkl</code> to leverage on the rich Data Science ecosystem that Python has instead of using Rust only.</p>
-<p>Check out our Jupyter Notebook example <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebook/ezkl_demo.ipynb">here</a></p>
-<doc-anchor-target id="production">
+<p>Python bindings are built for <code v-pre>ezkl</code> using <a href="https://pyo3.rs">PyO3</a> and <a href="https://github.com/PyO3/maturin">Maturin</a>. This is done so to allow users of <code v-pre>ezkl</code> to leverage on the rich Data Science ecosystem that Python has instead of using Rust only. You can find the <code v-pre>ezkl</code> package on Pypi <a href="https://pypi.org/project/ezkl/">here</a>.</p>
+<doc-anchor-target id="using-the-library">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#production">#</doc-anchor-trigger>
-        <span>production</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#using-the-library">#</doc-anchor-trigger>
+        <span>Using the library</span>
     </h3>
 </doc-anchor-target>
-<p>Production Python bindings are made available via <a href="https://github.com/zkonduit/pyezkl">pyezkl</a>.</p>
-<doc-anchor-target id="development">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#development">#</doc-anchor-trigger>
-        <span>development</span>
-    </h3>
-</doc-anchor-target>
-<p>To test the developmental Python bindings you will need to install <a href="https://realpython.com/installing-python/">Python3</a>. <code v-pre>ezkl</code> only supports version of python where <code v-pre>python &gt;=3.7</code>.</p>
-<p>Once python is installed setup a virtual environment and install <code v-pre>maturin</code></p>
+<p>Install <code v-pre>ezkl</code> with pip:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">python -m venv .env
-source .env/bin/activate
-pip install -r requirements.txt</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">pip install ezkl</code></pre>
 </doc-codeblock></div>
-<p>You can now build the package for development and enable python bindings. The following command will install <code v-pre>ezkl_lib</code> into your local python environment.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Unoptimized development build, use this if you require visibility regarding Rust errors
-# Note that this can result in long proving/verification times, if this is a problem use the optimized development build below
-maturin develop --features python-bindings
-
-# Optimized development build, use this if you find that the proving/verification times become long
-maturin develop --release --features python-bindings</code></pre>
-</doc-codeblock></div>
-<p>Once done you will be able to access <code v-pre>ezkl_lib</code> as a python import as follows.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">import ezkl_lib</code></pre>
-</doc-codeblock></div>
-<p>You may test if the existing build is working properly.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">pytest</code></pre>
-</doc-codeblock></div>
-<p>The list of python functions that can be accessed are found within <code v-pre>src/python.rs</code></p>
+<p>The <code v-pre>ezkl</code> python library provides all the functions you need to make a SNARK from your model. The functions are:</p>
+<ul>
+<li><code v-pre>export(circuit: torch.nn, input_shape: [int])</code>: export your neural net to a .onnx input.json files</li>
+<li><code v-pre>gen_srs(params_path, logrows: int &lt;= 28)</code>: Generates the structured reference string for the circuit</li>
+<li><code v-pre>setup(data_path, model_path, vk_path, pk_path, params_path, circuit_params_path)</code>: Sets up the circuit and generates circuit parameters and proving &amp; verifying keys at the mentioned paths</li>
+<li><code v-pre>prove(data_path, model_path, pk_path, proof_path, params_path, transcript-type (e.g. &quot;poseidon&quot;), strategy-type: (e.g. &quot;single&quot;), circuit_params_path)</code>: Generates a proof for a model</li>
+<li><code v-pre>verify(proof_path, circuit_params_path, vk_path, params_path,)</code>: Verifies a proof</li>
+</ul>
+<p>You can check out our Jupyter Notebook example <a href="https://github.com/zkonduit/pyezkl/blob/main/examples/ezkl_demo.ipynb">here</a> for reference.</p>
 
                                 
                                 <!-- Required only on API pages -->
