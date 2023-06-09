@@ -7,7 +7,7 @@ order: 10
 
 `ezkl` is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark. It enables the following workflow:
 
-1. Define a computational graph, for instance a neural network (but really any arbitrary set of operations), as you would normally in pytorch or tensorflow.
+1. Define a computational graph, for instance a neural network (but really any arbitrary set of operations), as you would normally in [pytorch](https://pytorch.org/docs/stable/index.html).
 2. Export the final graph of operations as an [.onnx](https://onnx.ai/) file and some sample inputs to a `.json` file.
 3. Point `ezkl` to the `.onnx` and `.json` files to generate a ZK-SNARK circuit with which you can prove statements such as:
 > "I ran this publicly available neural network on some private data and it produced this output"
@@ -16,7 +16,9 @@ order: 10
 
 > "I correctly ran this publicly available neural network on some public data and it produced this output"
 
-The rust API is also sufficiently flexible to enable you to code up a computational graph and resulting circuit from scratch. For examples on how to do so see the **library examples** section below.
+`ezkl` can be used directly from Python; [see this colab notebook](https://colab.research.google.com/drive/14t1rnzDVdEPVLHBUfQO-XRPQPpfw6aM5?usp=sharing) and the python bindings docs. [!ref](/python_bindings)
+
+The rust API is also sufficiently flexible to enable you to code up a computational graph and resulting circuit from scratch. For examples on how to do so see the **library examples** in the repo.
 
 In the backend we use [Halo2](https://github.com/privacy-scaling-explorations/halo2) as a proof system.
 
