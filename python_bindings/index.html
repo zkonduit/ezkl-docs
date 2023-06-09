@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739566810762">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739636213815">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.739566810762" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.739636213815" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739566810762" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739566810762" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739566810762" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739636213815" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -173,26 +173,729 @@
         <span>Python bindings</span>
     </h1>
 </doc-anchor-target>
-<p>Python bindings are built for <code v-pre>ezkl</code> using <a href="https://pyo3.rs">PyO3</a> and <a href="https://github.com/PyO3/maturin">Maturin</a>. This is done so to allow users of <code v-pre>ezkl</code> to leverage on the rich Data Science ecosystem that Python has instead of using Rust only. You can find the <code v-pre>ezkl</code> package on Pypi <a href="https://pypi.org/project/ezkl/">here</a>.</p>
+<p>Python bindings are built for <code v-pre>ezkl</code> using <a href="https://pyo3.rs">PyO3</a> and <a href="https://github.com/PyO3/maturin">Maturin</a>. This is done so to allow users of <code v-pre>ezkl</code> to leverage on the rich Data Science ecosystem that Python has instead of using Rust only. You can find the <code v-pre>ezkl</code> package on PyPI <a href="https://pypi.org/project/ezkl/">here</a>.</p>
 <doc-anchor-target id="using-the-library">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#using-the-library">#</doc-anchor-trigger>
         <span>Using the library</span>
     </h3>
 </doc-anchor-target>
-<p>Install <code v-pre>ezkl</code> with pip:</p>
+<doc-anchor-target id="1-install-ezkl">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#1-install-ezkl">#</doc-anchor-trigger>
+        <span>1. Install EZKL</span>
+    </h4>
+</doc-anchor-target>
+<p>Install <code v-pre>ezkl</code> with pip, you will want to use a virtualenv for this.
+Some virtualenv management solutions for python includes <code v-pre>venv</code>, <code v-pre>pipenv</code>, <code v-pre>conda</code>, <code v-pre>poetry</code>.</p>
+<p>Note, <code v-pre>ezkl</code> is only supported for <code v-pre>Python&gt;=3.7</code>, this installs the <a href="https://github.com/zkonduit/pyezkl">pyezkl build</a> which contains Python specific functions that the <a href="https://github.com/zkonduit/ezkl">Rust bindings on the main ezkl repository do not implement</a>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">pip install ezkl</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash"># using venv
+python -m venv .env
+source .env/bin/activate
+pip install ezkl</code></pre>
 </doc-codeblock></div>
-<p>The <code v-pre>ezkl</code> python library provides all the functions you need to make a SNARK from your model. The functions are:</p>
-<ul>
-<li><code v-pre>export(circuit: torch.nn, input_shape: [int])</code>: export your neural net to a .onnx input.json files</li>
-<li><code v-pre>gen_srs(params_path, logrows: int &lt;= 28)</code>: Generates the structured reference string for the circuit</li>
-<li><code v-pre>setup(data_path, model_path, vk_path, pk_path, params_path, circuit_params_path)</code>: Sets up the circuit and generates circuit parameters and proving &amp; verifying keys at the mentioned paths</li>
-<li><code v-pre>prove(data_path, model_path, pk_path, proof_path, params_path, transcript-type (e.g. &quot;poseidon&quot;), strategy-type: (e.g. &quot;single&quot;), circuit_params_path)</code>: Generates a proof for a model</li>
-<li><code v-pre>verify(proof_path, circuit_params_path, vk_path, params_path,)</code>: Verifies a proof</li>
-</ul>
-<p>You can check out our Jupyter Notebook example <a href="https://github.com/zkonduit/pyezkl/blob/main/examples/ezkl_demo.ipynb">here</a> for reference.</p>
+<doc-anchor-target id="2-install-solc-select-or-svm-rs">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#2-install-solc-select-or-svm-rs">#</doc-anchor-trigger>
+        <span>2. Install solc-select or svm-rs</span>
+    </h4>
+</doc-anchor-target>
+<p>To run solidity and evm related functionality make sure to have solc available in your environment.
+We will need <code v-pre>solc &gt;= 0.8.20</code>, otherwise contracts will fail to compile.
+Otherwise, you are likely to encounter errors when dealing with solidity and evm related functionality that is used within ezkl.</p>
+<p>It is recommended that you use <a href="https://github.com/crytic/solc-select">solc-select if you prefer a python based management solution</a> or <a href="https://github.com/alloy-rs/svm-rs">svm if you prefer a rust based management solution</a>.
+With a solidity version manager you are then able to change solidity versions in your environment easily.</p>
+<doc-anchor-target id="3-try-out-ezkl-examples-in-the-repository-with-a-jupyter-notebook">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#3-try-out-ezkl-examples-in-the-repository-with-a-jupyter-notebook">#</doc-anchor-trigger>
+        <span>3. Try out EZKL Examples in the repository with a Jupyter Notebook</span>
+    </h4>
+</doc-anchor-target>
+<p>Clone the pyezkl repository.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">git clone https://github.com/zkonduit/pyezkl.git</code></pre>
+</doc-codeblock></div>
+<p>Install jupyter and start the jupyter notebook</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">pip install jupyter
+jupyter notebook</code></pre>
+</doc-codeblock></div>
+<p>Navigate to the <a href="https://github.com/zkonduit/pyezkl/blob/main/examples/ezkl_demo.ipynb">ezkl_demo.ipynb</a> file which is located in the examples folder. It contains a minimal setup for running ezkl within python.</p>
+<doc-anchor-target id="developmental-python-bindings">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#developmental-python-bindings">#</doc-anchor-trigger>
+        <span>Developmental python bindings</span>
+    </h3>
+</doc-anchor-target>
+<p>Setting up the developmental python bindings can be an involved process.</p>
+<doc-anchor-target id="ezkl-repository">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#ezkl-repository">#</doc-anchor-trigger>
+        <span>ezkl repository</span>
+    </h4>
+</doc-anchor-target>
+<p>In the event that you may want to use the developmental bindings on the main <code v-pre>ezkl</code> repository, you can clone and build the <a href="https://github.com/zkonduit/ezkl">main ezkl repository written in rust</a> instead.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">git clone https://github.com/zkonduit/ezkl.git</code></pre>
+</doc-codeblock></div>
+<p>It&#x27;s recommended that you set up a separate virtual environment for this.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># using venv
+python -m venv .env
+source .env/bn/activate
+pip install -r requirements.txt</code></pre>
+</doc-codeblock></div>
+<p>Ensure that rust is installed in your local environment, this is needed by maturin/pyo3 to build the project.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+</code></pre>
+</doc-codeblock></div>
+<p>Change the default toolchain to the nightly version as this is needed by some of the libraries used.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">rustup override set nightly</code></pre>
+</doc-codeblock></div>
+<p>After which, you should be able to build via <code v-pre>maturin build</code>. This will build <code v-pre>ezkl_lib</code> not <code v-pre>ezkl</code>.
+<code v-pre>ezkl_lib</code> only includes the basic rust bindings without other Python functionality.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># Unoptimized development build, use this if you require visibility regarding Rust errors
+
+# Note that this can result in long proving/verification times, if this is a problem use the optimized development build below
+
+maturin build --features python-bindings
+
+
+# Optimized development build, use this if you find that the proving/verification times become long
+
+maturin build --release --features python-bindings</code></pre>
+</doc-codeblock></div>
+<p>Once the build is complete, you will be able to find the built wheels within <code v-pre>target/wheels</code>.
+If your build is successful you should find a <code v-pre>.whl</code> file in the folder</p>
+<p>Example:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ls target/wheels
+
+ezkl_lib-0.1.0-cp37-abi3-manylinux_2_35_x86_64.whl
+
+pip install ezkl_lib-0.1.0-cp37-abi3-manylinux_2_35_x86_64.whl</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="pyezkl-repository">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#pyezkl-repository">#</doc-anchor-trigger>
+        <span>pyezkl repository</span>
+    </h4>
+</doc-anchor-target>
+<p>If you would like to then use the development version of <a href="https://github.com/zkonduit/pyezkl">pyezkl</a> with the developmental bindings at <a href="https://github.com/zkonduit/ezkl">ezkl</a>, you will need to setup pyezkl too.</p>
+<p>Clone the pyezkl repository in a separate directory if you haven&#x27;t done so already.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">git clone https://github.com/zkonduit/pyezkl.git</code></pre>
+</doc-codeblock></div>
+<p>We will use <code v-pre>poetry</code> for the pyezkl repository. <a href="https://python-poetry.org/docs/">Install poetry by following the instructions provided</a>.</p>
+<p>You will also need to deactivate any existing virtualenv.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">deactivate</code></pre>
+</doc-codeblock></div>
+<p>Once that is done setup the repository with <code v-pre>poetry</code>.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">cd pyezkl
+poetry install
+poetry shell        # activates the virtual environment for poetry</code></pre>
+</doc-codeblock></div>
+<p>Navigate to the ezkl repository and install the wheel that you have built.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">cd ezkl/target/wheels
+pip install ezkl_lib-version-pythontype-abi3-osversion-processor.whl</code></pre>
+</doc-codeblock></div>
+<p>This will install the developmental <code v-pre>ezkl_lib</code> into the <code v-pre>poetry</code> environment.
+After which, you should be able to build the developmental <code v-pre>ezkl</code> library from the <code v-pre>pyezkl</code> repository.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># navigate back to pyezkl
+cd pyezkl
+poetry build
+pip install ./dist/ezkl-version-py3-none-any.whl</code></pre>
+</doc-codeblock></div>
+<p>If successful, you should be able to run python in your <code v-pre>poetry</code> environment and call the functions.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">python
+&gt;&gt;&gt; import ezkl
+&gt;&gt;&gt; ezkl.export(...)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="api-reference">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#api-reference">#</doc-anchor-trigger>
+        <span>API Reference</span>
+    </h3>
+</doc-anchor-target>
+<p>This reference details function, modules, and objects included in both <code v-pre>ezkl</code> and <code v-pre>ezkl_lib</code>.
+Note that <code v-pre>ezkl</code> is a superset of <code v-pre>ezkl_lib</code> so functions contained within <code v-pre>ezkl_lib</code> will be contained in <code v-pre>ezkl</code>.</p>
+<doc-anchor-target id="ezkl">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#ezkl">#</doc-anchor-trigger>
+        <span><code v-pre>ezkl</code></span>
+    </h3>
+</doc-anchor-target>
+<doc-anchor-target id="utilities">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#utilities">#</doc-anchor-trigger>
+        <span>Utilities</span>
+    </h4>
+</doc-anchor-target>
+<doc-anchor-target id="export">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#export">#</doc-anchor-trigger>
+        <span><code v-pre>export</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong>
+The export function is designed to export a PyTorch model in ONNX format for further use in different environments without Python dependencies. It also saves a sample input in JSON format. The function supports models with single input and output.</p>
+<p><strong>Parameters</strong>
+<code v-pre>torch_model (required)</code>: This is the PyTorch model you want to export. It should be an instance of a class that inherits from torch.nn.Module.</p>
+<p><code v-pre>input_shape (optional)</code>: This is a list of integers specifying the shape of the input tensor that the model expects. For example, for a 2D image, this might be [3, 224, 224] for three color channels (RGB) each of 224x224 pixels. This argument is required if input_array is not provided.</p>
+<p><code v-pre>input_array (optional)</code>: This is a tensor that you can pass in if you want to specify the exact values of the input tensor. This should be a NumPy ndarray or something that can be converted into one (like a list or tuple of numbers). This argument is required if input_shape is not provided.</p>
+<p><code v-pre>onnx_filename (optional)</code>: This is the name of the ONNX file that will be generated. The default value is &quot;network.onnx&quot;.</p>
+<p><code v-pre>input_filename (optional)</code>: This is the name of the JSON file that will be generated containing a sample input for the model. The default value is &quot;input.json&quot;.</p>
+<p><strong>Returns</strong>
+The function does not have a return value. However, it writes two files to the disk:</p>
+<p>An ONNX file containing the exported model. The name of the file is specified by the <code v-pre>onnx_filename</code> argument.
+A JSON file containing a sample input for the model. The name of the file is specified by the <code v-pre>input_filename</code> argument.</p>
+<p><strong>Notes</strong>
+The <code v-pre>torch.onnx.export</code> function is used to convert the PyTorch model to ONNX format. The function requires an example input tensor, which is used to run a forward pass of the model. This is needed because the ONNX exporter needs to know the shapes and data types of the tensors that flow through the model.</p>
+<p>The exported ONNX model includes the weights of the trained model and also the network architecture. This means that the model can be used for inference in an environment where PyTorch is not installed.</p>
+<p>The <code v-pre>ezkl_lib.forward</code> function is used for the forward operation to quantize inputs, there may be quantization errors associated with the quantization. Error metric functions can be used to compare the performance before and after quantization.</p>
+<p>The function raises an error if neither <code v-pre>input_shape</code> nor <code v-pre>input_array</code> are provided, or if both are provided but <code v-pre>input_shape</code> doesn&#x27;t match the shape of <code v-pre>input_array</code>.</p>
+<doc-anchor-target id="ezkl_lib">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#ezkl_lib">#</doc-anchor-trigger>
+        <span><code v-pre>ezkl_lib</code></span>
+    </h3>
+</doc-anchor-target>
+<doc-anchor-target id="command-bindings">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#command-bindings">#</doc-anchor-trigger>
+        <span>Command Bindings</span>
+    </h4>
+</doc-anchor-target>
+<doc-anchor-target id="pyrunargs">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#pyrunargs">#</doc-anchor-trigger>
+        <span><code v-pre>PyRunArgs</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>PyRunArgs</code> struct is a Python-friendly data structure that provides a set of arguments required to perform certain operations in a Rust environment. The structure is defined using the pyclass macro from the pyo3 library which makes it compatible with Python via PyO3/Maturin. The fields of PyRunArgs are accessible from Python, and can be both read and modified like Python classes.</p>
+<p><strong>Fields</strong></p>
+<p><code v-pre>tolerance</code>: This is an instance of the Tolerance enum, which defines the acceptable range of values for the snark computation.</p>
+<p><code v-pre>scale</code>: This is a 32-bit unsigned integer which could be used to scale computation.</p>
+<p><code v-pre>bits</code>: This is a usize type and denotes the bit length for the snark.</p>
+<p><code v-pre>logrows</code>: This is a 32-bit unsigned integer. This corresponds to the K value used in generating the SRS (Structured Reference String). You can obtain <a href="https://github.com/privacy-scaling-explorations/perpetualpowersoftau">generated SRS from the powers of tau repository</a> or call the <code v-pre>gen_srs</code> function for development use.</p>
+<p><code v-pre>public_inputs</code>: This is a boolean flag indicating whether inputs are public.</p>
+<p><code v-pre>public_outputs</code>: This is a boolean flag indicating whether outputs are public.</p>
+<p><code v-pre>public_params</code>: This is a boolean flag indicating whether parameters are public.</p>
+<p><code v-pre>pack_base</code>: This is a 32-bit unsigned integer. This value refers to the packing base value to be used in the snark.</p>
+<p><code v-pre>batch_size</code>: This is a 32-bit unsigned integer that specifies the batch size for certain operations.</p>
+<p><code v-pre>allocated_constraints</code>: This is an optional field that may contain a usize value representing the number of allocated constraints.</p>
+<p><strong>Methods</strong>
+The PyRunArgs struct has a new method that provides default instantiation. It initializes the fields with default values.</p>
+<p>There&#x27;s also a conversion method provided for transforming a PyRunArgs instance to a RunArgs instance mainly used internally within the rust python bindings.</p>
+<p><strong>Notes</strong>
+For integer fields, you are able to use default Python integers.</p>
+<p>Fields marked with the <code v-pre>#[pyo3(get, set)]</code> attribute can be accessed (read or modified) directly from Python.</p>
+<doc-anchor-target id="table">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#table">#</doc-anchor-trigger>
+        <span><code v-pre>table</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The table function reads an ONNX model file, and then outputs the nodes of the model as a string.</p>
+<p><strong>Parameters</strong>
+<code v-pre>model (required)</code>: This is a string representing the file path of the ONNX model to be loaded.</p>
+<p><code v-pre>py_run_args (optional)</code>: This is an instance of PyRunArgs struct. If not provided, a new instance of PyRunArgs with default parameters will be created.</p>
+<p><strong>Returns</strong>
+The function returns the table formatted as a string in Python. It may throw an <code v-pre>IOError</code> if there are issues loading the model file.</p>
+<p><strong>Example</strong>
+The following is a Python example of how you might call this function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+
+run_args = ezkl.PyRunArgs()
+run_args.scale = 17
+
+try:
+    table_string = ezkl.table(&quot;path/to/model&quot;, run_args)
+    print(table_string)
+except Exception as e:
+    print(f&quot;An error occurred: {e}&quot;)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="gen_srs">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#gen_srs">#</doc-anchor-trigger>
+        <span><code v-pre>gen_srs</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong>
+The <code v-pre>gen_srs</code> function is designed to generate the Structured Reference String (SRS) for the KZGCommitmentScheme<Bn256> and save it to the specified path. The SRS is used in zk-SNARKs (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge), to set up public parameters.</p>
+<p><strong>Important Note: The SRS generated here is not meant for production</strong>. You should use the <a href="https://github.com/privacy-scaling-explorations/perpetualpowersoftau">powers of tau repo</a> instead for production applications.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>params_path (required)</code>: This is a string representing the file path where the generated SRS will be saved.</p>
+<p><code v-pre>logrows (required)</code>: This is an integer that represents the K value used in the SRS. More complex models will require more logrows in general. The downside of having more logrows is that the compute resources required will increase, increasing the time taken to generate proofs.</p>
+<p>ezkl allows for the overflow of columns which would allow for more complex models to be computer with lesser logrows.</p>
+<p><strong>Returns</strong>
+The function returns nothing. Should it be successful a SRS file will be generated at the specified path.</p>
+<p><strong>Example</strong></p>
+<p>The following is a Python example of how you might call this function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+
+ezkl.gen_srs(&quot;path/to/save/params&quot;, 17)
+print(&quot;SRS generation successful.&quot;)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="forward">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#forward">#</doc-anchor-trigger>
+        <span><code v-pre>forward</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The forward function runs the forward pass operation for a specified model using the given data. It quantizes the input data, runs the model&#x27;s forward pass with the quantized data, dequantizes the model output according to the scale factor, and saves the resulting data to a file.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>data (required)</code>: A string representing the file path of the data to be processed.</p>
+<p><code v-pre>model (required)</code>: A string representing the file path of the model to be used for the forward pass operation.</p>
+<p><code v-pre>output (required)</code>: A string representing the file path where the result of the forward pass operation will be saved.</p>
+<p><code v-pre>py_run_args (optional)</code>: This is an instance of PyRunArgs struct. If not provided, a new instance of PyRunArgs with default parameters will be created.</p>
+<p><strong>Returns</strong></p>
+<p>The function returns nothing, but creates the output file at the provided <code v-pre>output</code> path. If there are errors reading and writing to files <code v-pre>IOError</code> will be raised.</p>
+<p><strong>Example</strong>
+The following is a Python example of how you might call this function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+
+run_args = ezkl.PyRunArgs()
+
+try:
+    ezkl.forward(&quot;path/to/data&quot;, &quot;path/to/model&quot;, &quot;path/to/save/output&quot;, run_args)
+    print(&quot;Forward operation successful.&quot;)
+except Exception as e:
+    print(f&quot;An error occurred: {e}&quot;)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="mock">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#mock">#</doc-anchor-trigger>
+        <span><code v-pre>mock</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The mock function creates a mock prover using the provided model and data. It processes the model, prepares public inputs, and uses a mock prover to verify the given setup. This function is typically used for testing and validation purposes.</p>
+<p><strong>Parameters</strong>
+<code v-pre>data (required)</code>: A string representing the file path of the data to be used in the mock prover.</p>
+<p><code v-pre>model (required)</code>: A string representing the file path of the model to be used by the mock prover.</p>
+<p><code v-pre>py_run_args (optional)</code>: This is an instance of the PyRunArgs struct. If not provided, a new instance of PyRunArgs with default parameters will be created.</p>
+<p><strong>Returns</strong></p>
+<p>The function returns a boolean value. On successful execution, <code v-pre>True</code> or <code v-pre>False</code> if it does not. It may return an <code v-pre>IOError</code> if there are problems reading and writing to files, or a <code v-pre>RuntimeError</code> if there are problems constructing the circuit.</p>
+<p><strong>Example</strong>
+The following is a Python example of how you might call this function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+
+run_args = ezkl.PyRunArgs()
+run_args.scale = 17
+
+try:
+    result = ezkl.mock(&quot;path/to/data&quot;, &quot;path/to/model&quot;, run_args)
+    if result:
+        print(&quot;Mock prover verification successful.&quot;)
+    else:
+        print(&quot;Mock prover verification failed.&quot;)
+except Exception as e:
+    print(f&quot;An error occurred: {e}&quot;)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="setup">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup">#</doc-anchor-trigger>
+        <span><code v-pre>setup</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The setup function is used to set up the proving system. It processes a model, constructs a circuit, loads the parameters for the prover, creates and saves the prover and verifier keys, and finally saves the circuit parameters. You will have to run <code v-pre>setup</code> prior to running the <code v-pre>prove</code> step.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>model (required)</code>: A string representing the file path of the ONNX model to be processed and used to build the circuit.</p>
+<p><code v-pre>vk_path (required)</code>: A string representing the file path where the verifier key will be saved.</p>
+<p><code v-pre>pk_path (required)</code>: A string representing the file path where the prover key will be saved.</p>
+<p><code v-pre>params_path (required)</code>: A string representing the file path where the parameters for the prover will be loaded from.</p>
+<p><code v-pre>circuit_params_path (required)</code>: A string representing the file path where the circuit parameters will be saved.</p>
+<p><code v-pre>py_run_args (optional)</code>: This is an instance of the PyRunArgs struct. If not provided, a new instance of PyRunArgs with default parameters will be created.</p>
+<p><strong>Returns</strong></p>
+<p>The function returns a boolean. If all the operations are successful, it will return <code v-pre>True</code>. If an error occurs at any stage, it will throw an <code v-pre>IOError</code> for errors associated with reading and writing or a <code v-pre>RuntimeError</code> associated with failure in the circuit setup.</p>
+<p><strong>Example</strong></p>
+<p>The following is a Python example of how you might call this function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+# Create the PyRunArgs
+run_args = ezkl.PyRunArgs()
+run_args.scale = 17
+
+# Define the paths
+model_path = os.path.join(&quot;path/to/model&quot;)
+vk_path = os.path.join(&quot;path/to/vk&quot;)
+pk_path = os.path.join(&quot;path/to/pk&quot;)
+params_path = os.path.join(&quot;path/to/params&quot;)
+circuit_params_path = os.path.join(&quot;path/to/circuit_params&quot;)
+
+try:
+    result = ezkl.setup(model_path, vk_path, pk_path, params_path, circuit_params_path, run_args)
+    if result:
+        print(&quot;Prover setup successful.&quot;)
+
+except Exception as e:
+    print(f&quot;An error occurred: {e}&quot;)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="prove">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#prove">#</doc-anchor-trigger>
+        <span><code v-pre>prove</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>prove</code> function is used to execute a proving operation on a set of inputs. It prepares the data, loads the model circuit parameters, creates a circuit, prepares the public inputs, loads the parameters for the prover, loads the proving key, then based on the strategy, it creates a proof using a circuit and saves the proof.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>data (required)</code>: A string representing the file path of the data to be used in the proof.</p>
+<p><code v-pre>model (required)</code>: A string representing the file path of the ONNX model.</p>
+<p><code v-pre>pk_path (required)</code>: A string representing the file path where the prover key will be loaded from.</p>
+<p><code v-pre>proof_path (required)</code>: A string representing the file path where the proof will be saved.</p>
+<p><code v-pre>params_path (required)</code>: A string representing the file path where the parameters for the prover will be loaded from.</p>
+<p><code v-pre>transcript (required)</code>: A string representing the type of transcript to be used. <code v-pre>blake</code>, <code v-pre>poseidon</code>, or <code v-pre>evm</code> is supported.</p>
+<p><code v-pre>strategy (required)</code>: A string representing the strategy to be used for creating the proof. <code v-pre>single</code> or <code v-pre>accum</code> is supported.</p>
+<p><code v-pre>circuit_params_path (required)</code>: A string representing the file path where the circuit parameters will be loaded from.</p>
+<p><strong>Returns</strong></p>
+<p>The function returns a boolean. If all the operations are successful, it will return <code v-pre>True</code>. If an error occurs at any stage, it will throw an <code v-pre>IOError</code> for errors associated with reading and writing or a <code v-pre>RuntimeError</code> associated with failure in the circuit creation.</p>
+<p><strong>Example</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+# Define the paths
+data_path = os.path.join(&quot;path/to/data&quot;)
+model_path = os.path.join(&quot;path/to/model&quot;)
+proof_path = os.path.join(&quot;path/to/prove&quot;)
+pk_path = os.path.join(&quot;path/to/pk&quot;)
+params_path = os.path.join(&quot;path/to/params&quot;)
+circuit_params_path = os.path.join(&quot;path/to/circuit_params&quot;)
+
+try:
+    result = ezkl.prove(
+        data_path,
+        model_path,
+        pk_path,
+        proof_path,
+        params_path,
+        &quot;poseidon&quot;,
+        &quot;single&quot;,
+        circuit_params_path
+    )
+
+    if result:
+        print(&quot;Proof successful.&quot;)
+
+except Exception as e:
+    print(f&quot;An error occurred: {e}&quot;)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="verify">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#verify">#</doc-anchor-trigger>
+        <span><code v-pre>verify</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The verify function is used to verify a given proof. It loads the model circuit parameters, the parameters for the verifier, the proof, and the verifier key. Then it verifies the proof using a circuit.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>proof_path (required)</code>: A string representing the file path where the proof will be loaded from.</p>
+<p><code v-pre>circuit_params_path (required)</code>: A string representing the file path where the circuit parameters will be loaded from.</p>
+<p><code v-pre>vk_path (required)</code>: A string representing the file path where the verifier key will be loaded from.</p>
+<p><code v-pre>params_path (required)</code>: A string representing the file path where the parameters for the verifier will be loaded from.</p>
+<p><strong>Returns</strong></p>
+<p>The function returns a boolean. If all the operations are successful, it will return <code v-pre>True</code>. If an error occurs at any stage, it will throw an <code v-pre>IOError</code> for errors associated with reading and writing or a <code v-pre>RuntimeError</code> associated with failure in the circuit creation.</p>
+<p><strong>Example</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+# Define the paths
+proof_path = os.path.join(&quot;path/to/prove&quot;)
+circuit_params_path = os.path.join(&quot;path/to/circuit_params&quot;)
+vk_path = os.path.join(&quot;path/to/vk&quot;)
+params_path = os.path.join(&quot;path/to/params&quot;)
+
+try:
+    result = ezkl.verify(
+        proof_path,
+        circuit_params_path,
+        vk_path,
+        params_path,
+    )
+
+    if result:
+        print(&quot;Verify successful.&quot;)
+
+except Exception as e:
+    print(f&quot;An error occurred: {e}&quot;)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="aggregate">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#aggregate">#</doc-anchor-trigger>
+        <span><code v-pre>aggregate</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>aggregate</code> function is used to create an aggregated proof from multiple proofs. It loads the parameters, then for each pair of proof and verifier key path, and circuit parameters path, it loads the model circuit parameters, the parameters for the prover, and the verifier key. Then it loads the proofs. Afterwards, it creates an aggregation circuit, the keys for it, creates a proof using the circuit, and saves the proof and the verifier key.</p>
+<p>Aggregation helps in making the overall proof size smaller, however, this comes at the expense of additional computational time required. Note that you will usually need more logrows for aggregation, so if proof aggregation is desired use a higher value of K for the logrows used.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>proof_path (required)</code>: A string representing the file path where the aggregated proof will be saved.</p>
+<p><code v-pre>aggregation_snarks (required)</code>: A list of strings representing the file paths where the proofs to be aggregated will be loaded from.</p>
+<p><code v-pre>circuit_params_paths (required)</code>: A list of strings representing the file paths where the circuit parameters will be loaded from.</p>
+<p><code v-pre>aggregation_vk_paths (required)</code>: A list of strings representing the file paths where the verifier keys will be loaded from.</p>
+<p><code v-pre>vk_path (required)</code>: A string representing the file path where the aggregated verifier key will be saved.</p>
+<p><code v-pre>params_path (required)</code>: A string representing the file path where the parameters for the prover will be loaded from.</p>
+<p><code v-pre>transcript (required)</code>: A string representing the type of transcript to be used. <code v-pre>blake</code>, <code v-pre>poseidon</code>, or <code v-pre>evm</code> is supported.</p>
+<p><code v-pre>logrows (required)</code>: An integer specifying the number of logrows available for compute, this will need to correspond to the logrows with the <code v-pre>params_path</code>.</p>
+<p><code v-pre>check_mode (required)</code>: A string indicating whether checks will be performed. <code v-pre>safe</code> or <code v-pre>unsafe</code> is supported. If safety is not required in the case of development you may use <code v-pre>unsafe</code> which can provide some speedup.</p>
+<p><strong>Returns</strong></p>
+<p>The function returns a boolean. If all the operations are successful, it will return <code v-pre>True</code>. If an error occurs at any stage, it will throw an <code v-pre>IOError</code> for errors associated with reading and writing or a <code v-pre>RuntimeError</code> associated with failure in the circuit creation.</p>
+<p><strong>Example</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+aggregate_proof_path = os.path.join(&quot;path/to/aggregate_proof&quot;)
+proof_path = os.path.join(&quot;path/to/proof&quot;)
+circuit_params_path = os.path.join(&quot;path/to/circuit_params&quot;)
+aggregate_vk_path = os.path.join(&quot;path/to/vk&quot;)
+params_path = os.path.join(&quot;path/to/params&quot;)
+
+res = ezkl_lib.aggregate(
+    aggregate_proof_path,
+    [proof_path],
+    [circuit_params_path],
+    [vk_path],
+    aggregate_vk_path,
+    params_path,
+    &quot;poseidon&quot;,
+    20,
+    &quot;unsafe&quot;</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="verify_aggr">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#verify_aggr">#</doc-anchor-trigger>
+        <span><code v-pre>verify_aggr</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>verify_aggr</code> function is used to verify an aggregated proof. It loads the parameters, the proof, and the verifier key, then uses these to verify the proof using the Accumulator Strategy. If the verification is successful, it returns true; otherwise, it returns false.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>proof_path (required)</code>: A string representing the file path where the aggregated proof will be loaded from.</p>
+<p><code v-pre>vk_path (required)</code>: A string representing the file path where the verifier key will be loaded from.</p>
+<p><code v-pre>params_path (required)</code>: A string representing the file path where the parameters for the verifier will be loaded from.</p>
+<p><code v-pre>logrows (required)</code>: An integer specifying the number of logrows used for computation.</p>
+<p><strong>Returns</strong></p>
+<p>If the verification of the proof is successful, it will return <code v-pre>True</code>. If the proof cannot be verified or an error occurs at any stage, it will return <code v-pre>False</code>. If an error occurs at any stage, it will throw an <code v-pre>IOError</code> for errors associated with reading and writing or a <code v-pre>RuntimeError</code> associated with failure in the circuit creation.</p>
+<p><strong>Example</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+aggregate_proof_path = os.path.join(&quot;path/to/aggregate_proof&quot;)
+aggregate_vk_path = os.path.join(&quot;path/to/vk&quot;)
+params_path = os.path.join(&quot;path/to/params&quot;)
+
+res = ezkl.verify_aggr(
+    aggregate_proof_path,
+    aggregate_vk_path,
+    params_path,
+    20,
+)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="create_evm_verifier">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#create_evm_verifier">#</doc-anchor-trigger>
+        <span><code v-pre>create_evm_verifier</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>create_evm_verifier</code> function is used to generate an Ethereum Virtual Machine (EVM) compatible verifier. This function requires that the Solidity compiler (solc) is installed in the user&#x27;s environment. You should use <code v-pre>solc-select</code> or <code v-pre>svm-rs</code> to help manage solc installed in the user&#x27;s environment.</p>
+<p>It first loads the model circuit parameters, the verifier parameters, and the verifier key. Using these, it generates the EVM compatible verifier. The verifier code is then saved as Yul and/or Solidity code.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>vk_path (required)</code>: A string representing the file path where the verifier key will be loaded from.</p>
+<p><code v-pre>params_path (required)</code>: A string representing the file path where the parameters for the verifier will be loaded from.</p>
+<p><code v-pre>circuit_params_path (required)</code>: A string representing the file path where the circuit parameters will be loaded from.</p>
+<p><code v-pre>deployment_code_path (required)</code>: A string representing the file path where the yul deployment code for the verifier will be saved.</p>
+<p><code v-pre>sol_code_path (optional)</code>: A string representing the file path where the Solidity code for the verifier will be saved.</p>
+<p><strong>Returns</strong></p>
+<p>If the EVM compatible verifier is successfully generated and saved, it will return <code v-pre>True</code>. If an error occurs at any stage, it will return an <code v-pre>IOError</code> or <code v-pre>RuntimeError</code>.</p>
+<p><strong>Example</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+vk_path = os.path.join(folder_path, 'test_evm.vk')
+circuit_params_path = os.path.join(folder_path, 'circuit.params')
+deployment_code_path = os.path.join(folder_path, 'deploy.code')
+sol_code_path = os.path.join(folder_path, 'test.sol')
+
+res = ezkl.create_evm_verifier(
+    vk_path,
+    params_path,
+    circuit_params_path,
+    deployment_code_path,
+    sol_code_path
+)
+
+assert res == True
+assert os.path.isfile(deployment_code_path)
+assert os.path.isfile(sol_code_path)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="verify_evm">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#verify_evm">#</doc-anchor-trigger>
+        <span><code v-pre>verify_evm</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>verify_evm</code> function verifies an Ethereum Virtual Machine (EVM) compatible proof. The function requires the Solidity compiler (solc) to be installed in the user&#x27;s environment. The proof is loaded, and the deployment code is loaded from the given path. The proof is then verified using the EVM and optionally verified using Solidity if a path to the Solidity code is provided.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>proof_path (required)</code>: A string representing the file path where the proof will be loaded from.</p>
+<p><code v-pre>deployment_code_path (required)</code>: A string representing the file path where the deployment code will be loaded from.</p>
+<p><code v-pre>sol_code_path (optional)</code>: A string representing the file path where the Solidity code will be loaded from. If provided, the proof will also be verified using this Solidity code.</p>
+<p><code v-pre>runs (optional)</code>: An integer &gt; representing the number of times to run the Solidity verifier. This is only used if sol_code_path is provided.</p>
+<p><strong>Returns</strong></p>
+<p>If the EVM compatible proof is successfully verified, it will return <code v-pre>True</code>. If an error occurs at any stage, it will return an Err variant containing the Python error PyErr. If an error occurs at any stage, it will return an <code v-pre>IOError</code> or <code v-pre>RuntimeError</code>.</p>
+<p><strong>Example</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+proof_path = os.path.join(folder_path, 'test_evm.pf')
+deployment_code_path = os.path.join(folder_path, 'deploy.code')
+
+
+res = ezkl.verify_evm(
+    proof_path,
+    deployment_code_path,
+)
+
+assert res == True</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="create_evm_verifier_aggr">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#create_evm_verifier_aggr">#</doc-anchor-trigger>
+        <span><code v-pre>create_evm_verifier_aggr</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>create_evm_verifier_aggr</code> function creates an EVM compatible aggregate verifier. The function requires the Solidity compiler (solc) to be installed in the user&#x27;s environment. The function loads the parameters and verifier key and generates the aggregate verifier. The generated verifier is then saved as Yul code, and optionally as Solidity code if a path to save the Solidity code is provided.</p>
+<p><strong>Parameters</strong>
+<code v-pre>vk_path (required)</code>: A string representing the file path where the verifier key will be loaded from.</p>
+<p><code v-pre>params_path (required)</code>: A string representing the file path where the parameters for the verifier will be loaded from.</p>
+<p><code v-pre>deployment_code_path (required)</code>: A string representing the file path where the Yul deployment code for the verifier will be saved.</p>
+<p><code v-pre>sol_code_path (optional)</code>: A string representing the file path where the Solidity code for the verifier will be saved.</p>
+<p><strong>Returns</strong></p>
+<p>The function returns a boolean. If the EVM compatible aggregate verifier is successfully created and saved, it will return <code v-pre>True</code>. If an error occurs at any stage, it will return a <code v-pre>IOError</code> or <code v-pre>RuntimeError</code>.</p>
+<p><strong>Example</strong></p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">import ezkl
+import os
+
+data_path = os.path.join(
+    examples_path,
+    'onnx',
+    '1l_relu',
+    'input.json'
+)
+
+model_path = os.path.join(
+    examples_path,
+    'onnx',
+    '1l_relu',
+    'network.onnx'
+)
+
+pk_path = os.path.join(folder_path, '1l_relu.pk')
+vk_path = os.path.join(folder_path, '1l_relu.vk')
+circuit_params_path = os.path.join(folder_path, '1l_relu_circuit.params')
+
+ezkl_lib.setup(
+    model_path,
+    vk_path,
+    pk_path,
+    params_path,
+    circuit_params_path,
+)
+
+proof_path = os.path.join(folder_path, '1l_relu.pf')
+
+ezkl_lib.prove(
+    data_path,
+    model_path,
+    pk_path,
+    proof_path,
+    params_path,
+    &quot;poseidon&quot;,
+    &quot;accum&quot;,
+    circuit_params_path,
+)
+
+aggregate_proof_path = os.path.join(folder_path, 'aggr_1l_relu.pf')
+aggregate_vk_path = os.path.join(folder_path, 'aggr_1l_relu.vk')
+
+res = ezkl_lib.aggregate(
+    aggregate_proof_path,
+    [proof_path],
+    [circuit_params_path],
+    [vk_path],
+    aggregate_vk_path,
+    params_k20_path,
+    &quot;evm&quot;,
+    20,
+    &quot;unsafe&quot;
+)
+
+assert res == True
+assert os.path.isfile(aggregate_proof_path)
+assert os.path.isfile(aggregate_vk_path)
+
+aggregate_deploy_path = os.path.join(folder_path, 'aggr_1l_relu.code')
+sol_code_path = os.path.join(folder_path, 'aggr_1l_relu.sol')
+
+res = ezkl_lib.create_evm_verifier_aggr(
+    aggregate_vk_path,
+    params_k20_path,
+    aggregate_deploy_path,
+    sol_code_path
+)
+
+assert res == True
+assert os.path.isfile(aggregate_deploy_path)
+
+res = ezkl_lib.verify_aggr(
+    aggregate_proof_path,
+    aggregate_vk_path,
+    params_k20_path,
+    20,
+)
+assert res == True</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="print_proof_hex">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#print_proof_hex">#</doc-anchor-trigger>
+        <span><code v-pre>print_proof_hex</code></span>
+    </h5>
+</doc-anchor-target>
+<p><strong>Description</strong></p>
+<p>The <code v-pre>print_proof_hex</code> function loads a proof from a given file path and returns a string containing the hexadecimal representation of the proof.</p>
+<p><strong>Parameters</strong></p>
+<p><code v-pre>proof_path (required)</code>: A string representing the file path where the proof will be loaded from.</p>
+<p><strong>Returns</strong></p>
+<p>If the proof is successfully loaded and converted to a hexadecimal string, it will return a hex string in Python.</p>
 
                                 
                                 <!-- Required only on API pages -->
