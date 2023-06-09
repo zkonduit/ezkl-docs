@@ -7,7 +7,7 @@ order: 2
 > - Tolerance: `-T` | `--tolerance`
 > - Scale: `-S` | `--scale`
 > - Bits: `-B` | `--bits`
-> - Logrows: `-K` | `logrows`
+> - Logrows: `-K` | `--logrows`
 > - Batch Size: `--batch-size`
 > - Input Visibility: `--input-visibility`
 > - Output Visibility: `--output-visibility`
@@ -17,9 +17,11 @@ order: 2
 
 Let's go over each in detail with examples. Again, we'll be using the `1l_sigmoid` example under `examples/onnx`. 
 
+> Note: We use "computational graph" and "neural network" interchangeably. This is due to the fact that `ezkl` can be used for making SNARKs of any computational graph including neural networks. You can think of "computational graph" as your model in .onnx format.
+
 ### Tolerance
 
-Sometimes, quantization can throw off the output of our neural network. We need to quantize to keep model parameters within the finite field or our proof system, but with this margin for error, you might want to increase the range of values your output can be in order to verify. For example, let's say we are using a sigmoid layer with 2 values. The output should be `[0.5,0.5]` (would be whole numbers depending on `scale`, using decimals for simplicity), but due to quantization, the SNARK's output is `[0.4, 0.6]`. You know that this result is just from quantization, so you want to allow more values than *strictly* 0.5 and 0.5 to appear in the output. This is where percent tolerance comes in. You can set the tolerance for error on model outputs so that the proof verifies on outputs that aren't **exactly** what you're expecting. It's a very useful tool. You can use it like this:
+Sometimes, quantization can throw off the output of our computational graph. We need to quantize to keep model parameters within the finite field or our proof system, but with this margin for error, you might want to increase the range of values your output can be in order to verify. For example, let's say we are using a sigmoid layer with 2 values. The output should be `[0.5,0.5]` (would be whole numbers depending on `scale`, using decimals for simplicity), but due to quantization, the SNARK's output is `[0.4, 0.6]`. You know that this result is just from quantization, so you want to allow more values than *strictly* 0.5 and 0.5 to appear in the output. This is where percent tolerance comes in. You can set the tolerance for error on model outputs so that the proof verifies on outputs that aren't **exactly** what you're expecting. It's a very useful tool. You can use it like this:
 
 ```bash
 ezkl setup -T 1.0  -M examples/onnx/1l_sigmoid/network.onnx --params-path kzg.params --vk-path vk.key --pk-path pk.key --circuit-params-path circuit.params
@@ -29,7 +31,7 @@ This will give you a 1% tolerance on your outputs.
 
 ### Scale
 
-As stated in the last section, `ezkl` quantizes neural networks to remain within the finite field of our proving system. This is why we have the `scale` RunArg. Scale serves as the number of digits for fixed point numbers after quantizing. For example, since the default is 7, after quantiation, the number `3.1415926` will be `31415926`, a number within the finite field of the elliptic curves halo2 uses. Let's say our model needs as much precision as possible. We can use a scale of  `13` to account for 13 decimal places:
+As stated in the last section, `ezkl` quantizes computational graphs to remain within the finite field of our proving system. This is why we have the `scale` RunArg. Scale serves as the number of digits for fixed point numbers after quantizing. For example, since the default is 7, after quantiation, the number `3.1415926` will be `31415926`, a number within the finite field of the elliptic curves halo2 uses. Let's say our model needs as much precision as possible. We can use a scale of  `13` to account for 13 decimal places:
 
 ```bash
 ezkl setup -S 13 -M examples/onnx/1l_sigmoid/network.onnx --params-path kzg.params --vk-path vk.key --pk-path pk.key --circuit-params-path circuit.params
@@ -85,6 +87,6 @@ In the `Commands` section, we used an example of proof aggregation to aggregate 
 
 Let's say you know the number of constraints from your model because you've generated a proof from it before. As a compute-saving hack, you can use `--allocated-constraints` to specify how many constraints your circuit uses so that `ezkl` doesn't have to calculate this. For example, let's say my model uses 5 constraints. By setting `--allocated-constraints` to 5, I save my prover compute and time by not having to run the dummy layout pass to compute this with each proof generation. It could be very useful for in-production SNARKs that need to shave off every second of proof generation time.
 
-By running `ezkl` with `RUST_LOG=trace` or `RUST_LOG=debug`, you can find the number of constraints your circuit has after running `prove`:
+By running `ezkl prove`, you can find the number of constraints your circuit has in `INFO`:
 
 ![img](../assets/constraints.png)
