@@ -53,7 +53,7 @@ ONNX is used for several reasons:
 >
 > ***\*Ecosystem support\****: Many popular deep learning frameworks and tools, like TensorFlow, PyTorch, and Microsoft's ONNX Runtime, support ONNX, providing a broad range of options for developers.
 
-Check out our [pyezkl](https://github.com/zkonduit/pyezkl) repository to find detailed steps on generating an ONNX file. Here are the commands that require `network.onnx`:
+Check out our Python [documentation](https://docs.ezkl.xyz/python_bindings/) and [pyezkl](https://github.com/zkonduit/pyezkl) repository to find detailed steps on generating an ONNX file. Here are the commands that require `network.onnx`:
 
 - `setup`
 - `prove`
