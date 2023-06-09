@@ -24,12 +24,11 @@ pip install ezkl
 #### 2. Install solc-select or svm-rs
 
 To run solidity and evm related functionality make sure to have solc available in your environment.
+We will need `solc >= 0.8.20`, otherwise contracts will fail to compile.
 Otherwise, you are likely to encounter errors when dealing with solidity and evm related functionality that is used within ezkl.
 
 It is recommended that you use [solc-select if you prefer a python based management solution](https://github.com/crytic/solc-select) or [svm if you prefer a rust based management solution](https://github.com/alloy-rs/svm-rs).
 With a solidity version manager you are then able to change solidity versions in your environment easily.
-
-This should install the dependencies required to run `ezkl` on your python environment
 
 #### 3. Try out EZKL Examples in the repository with a Jupyter Notebook
 
