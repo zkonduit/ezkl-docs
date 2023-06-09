@@ -86,7 +86,7 @@ ezkl table -M examples/onnx/1l_sigmoid/network.onnx
 will produce a table that looks like:
 
 ```bash
-		┌─────────┬───────────┬────────┬──────────┬─────┐
+ |	┌─────────┬───────────┬────────┬──────────┬─────┐
  |  │ opkind  │ out_scale │ inputs │ out_dims │ idx │
  |  ├─────────┼───────────┼────────┼──────────┼─────┤
  |  │ Input   │ 7         │        │ [1, 3]   │ 0   │
