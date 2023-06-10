@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739636213815">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739683508332">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Verifying On-Chain</title>
     <meta name="title" content="Verifying On-Chain">
-    <meta name="description" content="Note that the above prove and verify stats can also be run with an EVM verifier." />
+    <meta name="description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/verifying_on-chain/" />
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
     <meta property="og:title" content="Verifying On-Chain">
-    <meta property="og:description" content="Note that the above prove and verify stats can also be run with an EVM verifier.">
+    <meta property="og:description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
     <meta property="twitter:title" content="Verifying On-Chain">
-    <meta property="twitter:description" content="Note that the above prove and verify stats can also be run with an EVM verifier.">
+    <meta property="twitter:description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.739636213815" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.739683508332" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739636213815" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739683508332" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -179,28 +179,31 @@
         <span>verifying with the EVM ◊</span>
     </h4>
 </doc-anchor-target>
-<p>Note that the above prove and verify stats can also be run with an EVM verifier. This can be done by generating a verifier smart contract after generating the proof</p>
+<p>Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># gen proof
-ezkl prove --transcript=evm -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --params-path=kzg.params --circuit-params-path=circuit.params </code></pre>
+<pre class="language-bash"><code v-pre class="language-bash"># Set up a new circuit
+ezkl setup -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># gen evm verifier
 ezkl create-evm-verifier --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path vk.key --sol-code-path 1l_relu.sol --circuit-params-path=circuit.params</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove --transcript=evm -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --params-path=kzg.params --circuit-params-path=circuit.params </code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Verify (EVM)
 ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code</code></pre>
 </doc-codeblock></div>
 <p>Note that the <code v-pre>.sol</code> file above can be deployed and composed with other Solidity contracts, via a <code v-pre>verify()</code> function. Please read <a href="https://hackmd.io/QOHOPeryRsOraO7FUnG-tg">this document</a> for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.</p>
-<p>The above pipeline can also be run using <a href="https://ethresear.ch/t/leveraging-snark-proof-aggregation-to-achieve-large-scale-pbft-based-consensus/11588">proof aggregation</a> to reduce proof size and verifying times, so as to be more suitable for EVM deployment. A sample pipeline for doing so would be:</p>
+<p>The above pipeline can also be run using proof aggregation to reduce the final proof size and the size and execution cost of the on-chain verifier. A sample pipeline for doing so would be:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Generate a new SRS. We use 20 since aggregation requires larger circuits.
+<pre class="language-bash"><code v-pre class="language-bash"># Generate a new SRS. We use 20 since aggregation requires larger circuits (more commonly 23+).
 ezkl gen-srs --logrows 20 --params-path=kzg.params</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Set up a new circuit
-ezkl setup -D examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params</code></pre>
+ezkl setup  -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Single proof -&gt; single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
@@ -223,9 +226,9 @@ ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --params-path=kzg.par
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">cargo install svm-rs</code></pre>
 </doc-codeblock></div>
-<p>Install a recent Solidity version (we use 0.8.17 in our implementation):</p>
+<p>Install a recent Solidity version (we use 0.8.20 in our implementation):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">svm install 0.8.17</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">svm install 0.8.20</code></pre>
 </doc-codeblock></div>
 <p>Verify your Solidity version:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -240,11 +243,11 @@ ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --params-path=kzg.par
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../command_line_interface/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../about_ezkl/parameters/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Command Line Interface</span>
+                                                <span class="block mt-1">Parameters</span>
                                             </span>
                                         </a>
                                     </div>
@@ -268,7 +271,7 @@ ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --params-path=kzg.par
                                     <ul class="flex flex-wrap items-center text-sm">
                                     </ul>
                                 </div>
-                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2023. All rights reserved.</p></div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright Zkonduit Inc. 2023. All rights reserved.</p></div>
                             </footer>
                         </div>
                     </div>

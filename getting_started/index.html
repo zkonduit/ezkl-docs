@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739636213815">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739683508332">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Getting Started</title>
     <meta name="title" content="Getting Started">
-    <meta name="description" content="Note that the library requires a nightly version of the rust toolchain. You can change the default toolchain by running:" />
+    <meta name="description" content="Ezkl is built in rust. First install rust, e.g. by" />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/getting_started/" />
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/getting_started/">
     <meta property="og:title" content="Getting Started">
-    <meta property="og:description" content="Note that the library requires a nightly version of the rust toolchain. You can change the default toolchain by running:">
+    <meta property="og:description" content="Ezkl is built in rust. First install rust, e.g. by">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/getting_started/">
     <meta property="twitter:title" content="Getting Started">
-    <meta property="twitter:description" content="Note that the library requires a nightly version of the rust toolchain. You can change the default toolchain by running:">
+    <meta property="twitter:description" content="Ezkl is built in rust. First install rust, e.g. by">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.739636213815" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.739683508332" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739636213815" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739683508332" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -179,7 +179,16 @@
         <span>building the project <span class="docs-emoji">&#x1F528;</span></span>
     </h3>
 </doc-anchor-target>
-<p>Note that the library requires a nightly version of the rust toolchain. You can change the default toolchain by running:</p>
+<p>Ezkl is built in rust. First <a href="https://www.rust-lang.org/tools/install">install rust</a>, e.g. by</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code></pre>
+</doc-codeblock></div>
+<p>then download the repo and enter the directory</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">git clone git@github.com:zkonduit/ezkl.git
+cd ezkl</code></pre>
+</doc-codeblock></div>
+<p>We require a nightly version of the rust toolchain. You can change the default toolchain by running:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">rustup override set nightly</code></pre>
 </doc-codeblock></div>
@@ -193,12 +202,26 @@
 </doc-codeblock></div>
 <hr />
 <doc-anchor-target id="rust-docs">
-    <h3>
+    <h5>
         <doc-anchor-trigger class="header-anchor-trigger" to="#rust-docs">#</doc-anchor-trigger>
         <span>Rust docs <span class="docs-emoji">&#x1F4D6;</span></span>
+    </h5>
+</doc-anchor-target>
+<p>Use <code v-pre>cargo doc --open</code> to compile and open the Rust documentation for <code v-pre>ezkl</code> in your default browser.</p>
+<doc-anchor-target id="things-to-consider">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#things-to-consider">#</doc-anchor-trigger>
+        <span>Things to consider</span>
     </h3>
 </doc-anchor-target>
-<p>Use <code v-pre>cargo doc --open</code> to compile and open the Rust documentation for <code v-pre>ezkl</code> in your default browser. We will also have a live link with our Rust documentation available soon.</p>
+<p>This section is meant to give our users some warnings and precautions about using <code v-pre>ezkl</code>.</p>
+<doc-anchor-target id="quantization">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#quantization">#</doc-anchor-trigger>
+        <span>Quantization</span>
+    </h5>
+</doc-anchor-target>
+<p>In order to create a SNARK of a neural network, we must quantize the model parameters. In ML, parameters are almost always floating point numbers. In ezkl, we transform these to field elements so that we can use the zero knowledge proving system appropriately. Though we preserve as much precision as possible with our <code v-pre>--scale</code> flag (discussed more under the <code v-pre>Commands</code> section), outputs can still have some margin of error that should be accounted for.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -236,7 +259,7 @@
                                     <ul class="flex flex-wrap items-center text-sm">
                                     </ul>
                                 </div>
-                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2023. All rights reserved.</p></div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright Zkonduit Inc. 2023. All rights reserved.</p></div>
                             </footer>
                         </div>
                     </div>

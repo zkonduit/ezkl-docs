@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739636213815">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739683508332">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Python bindings</title>
     <meta name="title" content="Python bindings">
-    <meta name="description" content="Python bindings are built for ezkl using PyO3 and Maturin. This is done so to allow users of ezkl to leverage on the rich Data Science ecosystem that..." />
+    <meta name="description" content="lets you use ezkl directly from Python. It also contains an export function to generate .onnx and .json" />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/python_bindings/" />
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/python_bindings/">
     <meta property="og:title" content="Python bindings">
-    <meta property="og:description" content="Python bindings are built for ezkl using PyO3 and Maturin. This is done so to allow users of ezkl to leverage on the rich Data Science ecosystem that...">
+    <meta property="og:description" content="lets you use ezkl directly from Python. It also contains an export function to generate .onnx and .json">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/python_bindings/">
     <meta property="twitter:title" content="Python bindings">
-    <meta property="twitter:description" content="Python bindings are built for ezkl using PyO3 and Maturin. This is done so to allow users of ezkl to leverage on the rich Data Science ecosystem that...">
+    <meta property="twitter:description" content="lets you use ezkl directly from Python. It also contains an export function to generate .onnx and .json">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.739636213815" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.739683508332" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739636213815" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739683508332" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -173,21 +173,27 @@
         <span>Python bindings</span>
     </h1>
 </doc-anchor-target>
-<p>Python bindings are built for <code v-pre>ezkl</code> using <a href="https://pyo3.rs">PyO3</a> and <a href="https://github.com/PyO3/maturin">Maturin</a>. This is done so to allow users of <code v-pre>ezkl</code> to leverage on the rich Data Science ecosystem that Python has instead of using Rust only. You can find the <code v-pre>ezkl</code> package on PyPI <a href="https://pypi.org/project/ezkl/">here</a>.</p>
-<doc-anchor-target id="using-the-library">
+<doc-anchor-target id="using-ezkl-from-python">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#using-the-library">#</doc-anchor-trigger>
-        <span>Using the library</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#using-ezkl-from-python">#</doc-anchor-trigger>
+        <span>using ezkl from Python</span>
     </h3>
 </doc-anchor-target>
-<doc-anchor-target id="1-install-ezkl">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#1-install-ezkl">#</doc-anchor-trigger>
-        <span>1. Install EZKL</span>
-    </h4>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">pip install ezkl</code></pre>
+</doc-codeblock></div>
+<p>lets you use <code v-pre>ezkl</code> directly from Python. It also contains an <code v-pre>export</code> function to generate <code v-pre>.onnx</code> and <code v-pre>.json</code> input files that can be ingested by the <code v-pre>ezkl</code> cli or from Python. <a href="https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing">Here is colab notebook</a> that shows how to produce and verify a proof from Python.</p>
+<p>These Python bindings are developed in <a href="https://github.com/zkonduit/pyezkl">pyezkl</a>.</p>
+<p>When installing <code v-pre>ezkl</code> with pip, you may want to use a virtualenv.
+Some virtualenv management solutions for python includes <code v-pre>venv</code>, <code v-pre>pipenv</code>, <code v-pre>conda</code>, and <code v-pre>poetry</code>.</p>
+<doc-anchor-target id="development">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#development">#</doc-anchor-trigger>
+        <span>development</span>
+    </h3>
 </doc-anchor-target>
-<p>Install <code v-pre>ezkl</code> with pip, you will want to use a virtualenv for this.
-Some virtualenv management solutions for python includes <code v-pre>venv</code>, <code v-pre>pipenv</code>, <code v-pre>conda</code>, <code v-pre>poetry</code>.</p>
+<p>Python bindings are built for <code v-pre>ezkl</code> using <a href="https://pyo3.rs">PyO3</a> and <a href="https://github.com/PyO3/maturin">Maturin</a>.</p>
+<p>To test the development Python bindings you will need to install <a href="https://realpython.com/installing-python/">Python3</a>.</p>
 <p>Note, <code v-pre>ezkl</code> is only supported for <code v-pre>Python&gt;=3.7</code>, this installs the <a href="https://github.com/zkonduit/pyezkl">pyezkl build</a> which contains Python specific functions that the <a href="https://github.com/zkonduit/ezkl">Rust bindings on the main ezkl repository do not implement</a>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># using venv
@@ -228,7 +234,7 @@ jupyter notebook</code></pre>
         <span>Developmental python bindings</span>
     </h3>
 </doc-anchor-target>
-<p>Setting up the developmental python bindings can be an involved process.</p>
+<p>Setting up the development python bindings can be an involved process.</p>
 <doc-anchor-target id="ezkl-repository">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#ezkl-repository">#</doc-anchor-trigger>
@@ -933,7 +939,7 @@ assert res == True</code></pre>
                                     <ul class="flex flex-wrap items-center text-sm">
                                     </ul>
                                 </div>
-                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2023. All rights reserved.</p></div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright Zkonduit Inc. 2023. All rights reserved.</p></div>
                             </footer>
                         </div>
                     </div>

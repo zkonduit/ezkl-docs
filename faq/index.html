@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739636213815">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739683508332">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>FAQ</title>
     <meta name="title" content="FAQ">
-    <meta name="description" content="ezkl does not require application of a programming language." />
+    <meta name="description" content="ezkl is a command line tool, and a library that can be used from Rust or Python. You may want to use Python to create a neural network and export it." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/faq/" />
@@ -20,21 +20,21 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/faq/">
     <meta property="og:title" content="FAQ">
-    <meta property="og:description" content="ezkl does not require application of a programming language.">
+    <meta property="og:description" content="ezkl is a command line tool, and a library that can be used from Rust or Python. You may want to use Python to create a neural network and export it.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/faq/">
     <meta property="twitter:title" content="FAQ">
-    <meta property="twitter:description" content="ezkl does not require application of a programming language.">
+    <meta property="twitter:description" content="ezkl is a command line tool, and a library that can be used from Rust or Python. You may want to use Python to create a neural network and export it.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.739636213815" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.739683508332" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -178,7 +178,7 @@
         <span>What programming languages and frameworks does ezkl support?</span>
     </h3>
 </doc-anchor-target>
-<p><code v-pre>ezkl</code> does not require application of a programming language. You may want to use Python to create a neural network and export it with pyezkl, but though the library is built with Rust, you do not need to use Rust.</p>
+<p><code v-pre>ezkl</code> is a command line tool, and a library that can be used from Rust or Python. You may want to use Python to create a neural network and export it. Though ezkl is built with Rust, you do not need to use Rust except possibly for installation.</p>
 <doc-anchor-target id="do-i-need-to-know-rust-before-getting-started-with-ezkl">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#do-i-need-to-know-rust-before-getting-started-with-ezkl">#</doc-anchor-trigger>
@@ -198,28 +198,28 @@
         <span>Why is the gen-srs step is stalling?</span>
     </h3>
 </doc-anchor-target>
-<p>Generating a structured reference string takes a considerable amount of time and memory. Make sure your machine has enough memory available and wait for the process to finish.</p>
+<p>Generating a structured reference string takes a considerable amount of time and memory. Make sure your machine has enough memory available and wait for the process to finish. Alternatively, download a pre-generated srs.</p>
 <doc-anchor-target id="can-i-use-ezkl-with-other-machine-learning-frameworks-like-tensorflow-pytorch-or-scikit-learn">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#can-i-use-ezkl-with-other-machine-learning-frameworks-like-tensorflow-pytorch-or-scikit-learn">#</doc-anchor-trigger>
         <span>Can I use ezkl with other machine learning frameworks like TensorFlow, PyTorch, or Scikit-learn?</span>
     </h3>
 </doc-anchor-target>
-<p>All <code v-pre>ezkl</code> requires is an onnx file and a JSON configuration of mock inputs and outputs of the neural network.</p>
+<p>All <code v-pre>ezkl</code> requires is an onnx file and a JSON configuration of mock inputs and outputs of the neural network. At this time, it works best with PyTorch.</p>
 <doc-anchor-target id="how-fast-is-ezkl">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#how-fast-is-ezkl">#</doc-anchor-trigger>
         <span>How fast is ezkl?</span>
     </h3>
 </doc-anchor-target>
-<p>Feel free to run <code v-pre>cargo bench</code> on your machine to see what the benchmarks are for your hardware.</p>
+<p>We believe that <code v-pre>ezkl</code> is the fastest zkml package available, and we are working hard every day to make it faster. Feel free to run <code v-pre>cargo bench</code> on your machine to see what the benchmarks are for your hardware.</p>
 <doc-anchor-target id="do-i-need-to-deploy-a-verifier-smart-contract-to-use-ezkl">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#do-i-need-to-deploy-a-verifier-smart-contract-to-use-ezkl">#</doc-anchor-trigger>
         <span>Do I need to deploy a verifier smart contract to use ezkl?</span>
     </h3>
 </doc-anchor-target>
-<p>No, we recently integrated a <a href="https://github.com/zkonduit/ezkl/pull/219">WASM verifier</a> that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally.</p>
+<p>No, we recently integrated a <a href="https://github.com/zkonduit/ezkl/pull/219">WASM verifier</a> that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally, or the command line <code v-pre>ezkl verify</code> command.</p>
 <doc-anchor-target id="errors">
     <h1>
         <doc-anchor-trigger class="header-anchor-trigger" to="#errors">#</doc-anchor-trigger>
@@ -232,7 +232,7 @@
         <span>Error: VerifyError</span>
     </h3>
 </doc-anchor-target>
-<p>A VerifyError is thrown when the Mock prover fails due to a mismatched shape problem in the model. Please verify that your input.json inputs and outputs match those of your .onnx file.</p>
+<p>A VerifyError is thrown when the Mock prover fails, often due to a mismatched shape problem in the model. Please verify that your input.json inputs and outputs match those of your .onnx file.</p>
 <doc-anchor-target id="error-dimmismatch">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-dimmismatch">#</doc-anchor-trigger>
@@ -403,7 +403,7 @@
                                     <ul class="flex flex-wrap items-center text-sm">
                                     </ul>
                                 </div>
-                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2023. All rights reserved.</p></div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright Zkonduit Inc. 2023. All rights reserved.</p></div>
                             </footer>
                         </div>
                     </div>

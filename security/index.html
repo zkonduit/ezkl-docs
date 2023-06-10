@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739636213815">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.739683508332">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Security</title>
     <meta name="title" content="Security">
-    <meta name="description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution." />
+    <meta name="description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with caution." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/security/" />
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/security/">
     <meta property="og:title" content="Security">
-    <meta property="og:description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution.">
+    <meta property="og:description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with caution.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/security/">
     <meta property="twitter:title" content="Security">
-    <meta property="twitter:description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution.">
+    <meta property="twitter:description" content="Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with caution.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.739636213815" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.739683508332" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739636213815" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739636213815" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.739683508332" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.739683508332" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -173,15 +173,16 @@
         <span>Security</span>
     </h1>
 </doc-anchor-target>
-<p>Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with precaution. Because there have not been many production-ready projects, the potential attack vectors are mostly theoretical or unknown.</p>
-<p>However, we ensure that if an ML model is secure, <code v-pre>ezkl</code> proofs will be sound and secure. Below we discuss best security practices for your neural networks and what we&#x27;re doing on our end to ensure our proofs are secure.</p>
+<p>Zero knowledge machine learning, particularly in blockchain applications, is still a nascent field and should be used with caution. Because there have not yet been many production-ready projects, the potential attack vectors include both the usual and the mostly theoretical or unknown. <code v-pre>ezkl</code> has not been audited and we make no guarantees on its security.</p>
+<p>Moreover, zkml is just one component of an overall cryptosystem, and that system as a whole has to be carefully thought out. Neural networks are not by themselves adequate hash functions; the whole point is that they are susceptible to differentiation!</p>
+<p>Here are a few more things to worry about.</p>
 <doc-anchor-target id="aiml-security">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#aiml-security">#</doc-anchor-trigger>
         <span>AI/ML Security</span>
     </h3>
 </doc-anchor-target>
-<p>There are several types of adversarial attacks on neural networks. <a href="https://paperswithcode.com/paper/asymmetric-heavy-tails-and-implicit-bias-in">Gaussian Noise Injection</a>, <a href="https://paperswithcode.com/task/data-poisoning">Data poisoning</a>, <a href="https://paperswithcode.com/paper/membership-inference-attacks-on-machine">Membership Inference Attacks</a> (MIAs), and more are attack vectors that adversaries can use to corrupt your ouputs. MIAs and others like it are especially hazardous when the aim of using zkml is to keep the model and its training data private.</p>
+<p>There are several types of adversarial attacks on neural networks. <a href="https://paperswithcode.com/paper/asymmetric-heavy-tails-and-implicit-bias-in">Gaussian Noise Injection</a>, <a href="https://paperswithcode.com/task/data-poisoning">Data poisoning</a>, <a href="https://paperswithcode.com/paper/membership-inference-attacks-on-machine">Membership Inference Attacks</a> (MIAs), and more are attack vectors that adversaries can use to corrupt your outputs. MIAs and others like it are especially hazardous when the aim of using zkml is to keep the model and its training data private.</p>
 <p>Adversarial Training involves training your model with adversarial data so that edge cases are expected and accounted for. <a href="https://github.com/cleverhans-lab/cleverhans">CleverHans</a> is a useful tool for discovering potential vulnerabilities in your model. For best security results, have an idea of the overall threat model of your neural net and its potential inputs.</p>
 <doc-anchor-target id="zk-security">
     <h3>
@@ -190,14 +191,8 @@
     </h3>
 </doc-anchor-target>
 <p>The goal of zero knowledge proof systems is to construct complete, sound proofs. Completeness is the highly probable assurance that any valid proof will verify. Soundness is the quality of the verifier (or parties representing the verifier) knowing that if a proof passes, it is more than likely a true statement. In some cases, such as those in <a href="https://eprint.iacr.org/2023/512.pdf">underconstrained circuits</a>, bad proofs can be generated that fool the verifier into passing a false statement. In this case, the vulnerability is not in the machine learning model itself, but in the SNARK constructed by <code v-pre>ezkl</code>.</p>
-<p>In this case, we would deeply appreciate an <a href="https://github.com/zkonduit/ezkl/issues">issue</a> or <a href="https://github.com/zkonduit/ezkl/discussions">discussion</a> regarding the bad proof. We will respond with alacrity.</p>
-<doc-anchor-target id="ezkl-security-tooling">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#ezkl-security-tooling">#</doc-anchor-trigger>
-        <span>EZKL Security Tooling</span>
-    </h3>
-</doc-anchor-target>
-<p>We want to provide you with the best means of mitigating the potential of an attack on the SNARK of your model. This is why we are making security tools that allow you to test the robustness of your model.</p>
+<p><code v-pre>ezkl</code> is a compiler, so eventually should be less susceptible to such issues than a hand-written circuit, but it is still under active development.</p>
+<p>Please reach out directly to let us know of any soundess issues you encounter.</p>
 <doc-anchor-target id="fuzzing">
     <h6>
         <doc-anchor-trigger class="header-anchor-trigger" to="#fuzzing">#</doc-anchor-trigger>
@@ -209,7 +204,7 @@
 <pre class="language-bash"><code v-pre class="language-bash">ezkl fuzz -D input.json -M network.onnx --transcript=evm --num-runs 10</code></pre>
 </doc-codeblock></div>
 <p>Be sure to replace <code v-pre>num-runs</code> with the amount of fuzz testing rounds you want to do along with other parameters you are using to generate your circuit.</p>
-<p>Thank you for using <code v-pre>ezkl</code>; please contact us if you have any security resources that should be included in this documentation.</p>
+<p>Thank you for using <code v-pre>ezkl</code>; please contact us if you have any comments on this documentation.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -247,7 +242,7 @@
                                     <ul class="flex flex-wrap items-center text-sm">
                                     </ul>
                                 </div>
-                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright 2023. All rights reserved.</p></div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright Zkonduit Inc. 2023. All rights reserved.</p></div>
                             </footer>
                         </div>
                     </div>
