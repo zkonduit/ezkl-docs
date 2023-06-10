@@ -166,7 +166,7 @@ Now, we can aggregate the proofs:
 ezkl aggregate --logrows=23 --aggregation-snarks=model.proof --aggregation-snarks=model1.proof --aggregation-vk-paths vkconv.key --aggregation-vk-paths vkrelu.key --vk-path aggr.vk --proof-path aggr.proof --params-path=kzg23.params --circuit-params-paths=circuitconv.params --circuit-params-paths=circuitrelu.params
 ```
 
-This creates one proof that simultaneously proves borth our `conv` and `relu` circuits as long as we pass both proofs and verifying keys in.
+This creates one proof that simultaneously proves both our `conv` and `relu` circuits as long as we pass both proofs and verifying keys in. The bad news is that computing an aggregation takes a lot of memory and time right now; this proof will probably take about four or five minutes.
 
 ### VerifyAggr
 
