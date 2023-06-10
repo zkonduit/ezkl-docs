@@ -20,7 +20,7 @@ Some virtualenv management solutions for python includes `venv`, `pipenv`, `cond
 ### development
 Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin). 
 
-To test the development Python bindings you will need to install [Python3](https://realpython.com/installing-python/). `ezkl` only supports versions of python where `python >=3.7`.
+To test the development Python bindings you will need to install [Python3](https://realpython.com/installing-python/). 
 
 Note, `ezkl` is only supported for `Python>=3.7`, this installs the [pyezkl build](https://github.com/zkonduit/pyezkl) which contains Python specific functions that the [Rust bindings on the main ezkl repository do not implement](https://github.com/zkonduit/ezkl).
 
