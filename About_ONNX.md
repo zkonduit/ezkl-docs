@@ -15,7 +15,7 @@ ONNX is used for several reasons:
 
 **Portability**: ONNX provides a standardized format for deep learning models, making it easier to share models across different platforms and devices.
 
-**Optimization**: ONNX-compatible tools and libraries, such as ONNX Runtime, can provide optimizations for specific hardware, leading to improved performance.
+**Optimization**: ONNX-compatible tools and libraries, such as ONNX runtimes, can provide optimizations for specific hardware, leading to improved performance.
 
 **Ecosystem support**: Many popular deep learning frameworks and tools, like TensorFlow, PyTorch, and Microsoft's ONNX Runtime, support ONNX, providing a broad range of options for developers.
 
