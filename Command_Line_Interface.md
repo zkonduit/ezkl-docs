@@ -9,17 +9,23 @@ The `ezkl` cli provides a simple interface to load `.onnx` files, which represen
 
 You can easily create an `.onnx` file using `pytorch`. For samples of Onnx files see [here](https://github.com/onnx/models). For a tutorial on how to quickly generate Onnx files using python, check out [pyezkl](https://github.com/zkonduit/pyezkl). You'll also need an `input.json` file with sample inputs and outputs of your model (Note: input shape is no longer needed since this is now inferred by the library).
 
-Sample onnx files are also available in `./examples/onnx`. To generate a proof on one of the examples, first build `ezkl` (`cargo build --release`) and add it to your favourite `PATH` variables, then generate a structured reference string (SRS):
+Sample onnx files are also available in `./examples/onnx`. To generate a proof on one of the examples, first install `ezkl` 
+[!ref](/getting_started)
+then generate a structured reference string (SRS):
 ```bash
 ezkl gen-srs --logrows 17 --params-path=kzg.params
 ```
-We then set up the circuit to create a proving and verifying key for our circuit. You must provide the input.json (for proving and verifying) and network.onnx files. 
+Note that this SRS is for testing purposes only. We then set up the circuit to create a proving and verifying key for our circuit, using this SRS and your network.onnx file. 
 
 ```bash
-ezkl setup -M network.onnx -D input.json --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
+ezkl setup -M network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
+```
+This creates the verification key, proving key, and circuit params in the locations you specify. There are a lot of options during setup, which you can view by typing
+```bash
+ezkl setup 
 ```
 
-This command generates a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`, parameters that can be used for subsequent verification at `--params-path` and the verifier key at `--vk-path`:
+Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
 
 ```bash
 ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --params-path=kzg.params --circuit-params-path=circuit.params
@@ -94,13 +100,7 @@ Options:
           Print version
 ```
 
-`bits`, `scale`, and `tolerance` have default values. You can use tolerance to express a tolerance to a certain amount of quantization error on the output eg. if set to 2 the circuit will verify even if the generated output deviates by an absolute value of 2 on any dimension from the expected output. We also added percentage tolerance checks if you'd prefer to use a percent deviation of the output. Here's an examle of percent tolerance (we use -T for tolerance):
-
-```bash 
-ezkl setup -T 1.0  -D examples/onnx/1l_softmax/input.json -M examples/onnx/1l_softmax/network.onnx --params-path kzg.params --vk-path vksoftmax.key --pk-path pksoftmax.key --circuit-params-path circuitsoftmax.params
-```
-
-`prove` and `mock`, all require `-D` and `-M` parameters, which if not provided, the cli will query the user to manually enter the path(s).
+`prove` and `mock` both require `-D` and `-M` parameters, which if not provided, the cli will query the user to manually enter the path(s).
 
 ```bash
 

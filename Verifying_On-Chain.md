@@ -4,16 +4,22 @@ order: 7
 ---
 #### verifying with the EVM ◊
 
-Note that the above prove and verify stats can also be run with an EVM verifier. This can be done by generating a verifier smart contract after generating the proof
+Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.
 
 ```bash
-# gen proof
-ezkl prove --transcript=evm -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --params-path=kzg.params --circuit-params-path=circuit.params 
+# Set up a new circuit
+ezkl setup -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
 ```
+
 ```bash
 # gen evm verifier
 ezkl create-evm-verifier --deployment-code-path 1l_relu.code --params-path=kzg.params --vk-path vk.key --sol-code-path 1l_relu.sol --circuit-params-path=circuit.params
 ```
+
+```bash
+ezkl prove --transcript=evm -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --params-path=kzg.params --circuit-params-path=circuit.params 
+```
+
 ```bash
 # Verify (EVM)
 ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code
@@ -21,16 +27,16 @@ ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code
 
 Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function. Please read [this document](https://hackmd.io/QOHOPeryRsOraO7FUnG-tg) for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.
 
-The above pipeline can also be run using [proof aggregation](https://ethresear.ch/t/leveraging-snark-proof-aggregation-to-achieve-large-scale-pbft-based-consensus/11588) to reduce proof size and verifying times, so as to be more suitable for EVM deployment. A sample pipeline for doing so would be:
+The above pipeline can also be run using proof aggregation to reduce the final proof size and the size and execution cost of the on-chain verifier. A sample pipeline for doing so would be:
 
 ```bash
-# Generate a new SRS. We use 20 since aggregation requires larger circuits.
+# Generate a new SRS. We use 20 since aggregation requires larger circuits (more commonly 23+).
 ezkl gen-srs --logrows 20 --params-path=kzg.params
 ```
 
 ```bash
 # Set up a new circuit
-ezkl setup -D examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
+ezkl setup  -M examples/onnx/1l_relu/network.onnx --params-path=kzg.params --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.params
 ```
 
 ```bash
@@ -60,9 +66,9 @@ Install svm-rs:
 cargo install svm-rs
 ```
 
-Install a recent Solidity version (we use 0.8.17 in our implementation):
+Install a recent Solidity version (we use 0.8.20 in our implementation):
 ```bash
-svm install 0.8.17
+svm install 0.8.20
 ```
 
 Verify your Solidity version:

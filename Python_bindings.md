@@ -3,14 +3,24 @@ icon: plug
 order: 5
 ---
 
-Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin). This is done so to allow users of `ezkl` to leverage on the rich Data Science ecosystem that Python has instead of using Rust only. You can find the `ezkl` package on PyPI [here](https://pypi.org/project/ezkl/).
 
-### Using the library
+### using ezkl from Python
 
-#### 1. Install EZKL
+```bash
+pip install ezkl
+```
+lets you use `ezkl` directly from Python. It also contains an `export` function to generate `.onnx` and `.json` input files that can be ingested by the `ezkl` cli or from Python. [Here is colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) that shows how to produce and verify a proof from Python.
 
-Install `ezkl` with pip, you will want to use a virtualenv for this.
-Some virtualenv management solutions for python includes `venv`, `pipenv`, `conda`, `poetry`.
+These Python bindings are developed in [pyezkl](https://github.com/zkonduit/pyezkl).
+
+When installing `ezkl` with pip, you may want to use a virtualenv.
+Some virtualenv management solutions for python includes `venv`, `pipenv`, `conda`, and `poetry`.
+
+
+### development
+Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin). 
+
+To test the development Python bindings you will need to install [Python3](https://realpython.com/installing-python/). 
 
 Note, `ezkl` is only supported for `Python>=3.7`, this installs the [pyezkl build](https://github.com/zkonduit/pyezkl) which contains Python specific functions that the [Rust bindings on the main ezkl repository do not implement](https://github.com/zkonduit/ezkl).
 
@@ -48,7 +58,7 @@ Navigate to the [ezkl_demo.ipynb](https://github.com/zkonduit/pyezkl/blob/main/e
 
 ### Developmental python bindings
 
-Setting up the developmental python bindings can be an involved process.
+Setting up the development python bindings can be an involved process.
 
 #### ezkl repository
 In the event that you may want to use the developmental bindings on the main `ezkl` repository, you can clone and build the [main ezkl repository written in rust](https://github.com/zkonduit/ezkl) instead.
