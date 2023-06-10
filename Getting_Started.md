@@ -4,7 +4,16 @@ order: 9
 ---
 
 ### building the project 🔨
-Note that the library requires a nightly version of the rust toolchain. You can change the default toolchain by running:
+Ezkl is built in rust. First [install rust](https://www.rust-lang.org/tools/install), e.g. by 
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+then download the repo and enter the directory
+```bash
+git clone git@github.com:zkonduit/ezkl.git
+cd ezkl
+```
+We require a nightly version of the rust toolchain. You can change the default toolchain by running:
 ```bash
 rustup override set nightly
 ```
