@@ -181,3 +181,6 @@ This should return `verified: true`. You can learn more about aggregation [here]
 ### Fuzz
 
 You can learn more about `fuzz` in the Security section under **EZKL Security Tooling**. 
+
+### Flow chart
+![](../assets/ezkl_flow.png) 

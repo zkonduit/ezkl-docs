@@ -2,6 +2,7 @@
 icon: question
 order: -99999999
 ---
+![](../assets/copter.png) 
 # FAQ
 ### What programming languages and frameworks does ezkl support?
 `ezkl` is a command line tool, and a library that can be used from Rust or Python. You may want to use Python to create a neural network and export it. Though ezkl is built with Rust, you do not need to use Rust except possibly for installation. 
@@ -11,7 +12,7 @@ No, Rust is not a requirement to use the library. As long as you have the ONNX f
 
 
 # Technical
-### Why is the gen-srs step is stalling?
+### Why is the gen-srs step slow?
 Generating a structured reference string takes a considerable amount of time and memory. Make sure your machine has enough memory available and wait for the process to finish. Alternatively, download a pre-generated srs.
 
 ### Can I use ezkl with other machine learning frameworks like TensorFlow, PyTorch, or Scikit-learn?
