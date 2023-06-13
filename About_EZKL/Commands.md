@@ -75,6 +75,10 @@ This then produces **`circuitK23.json`:**
 }
 ```
 Notice `"logrows"` is now 23. You can do this for any other parameter for customized circuits.
+
+You can also set the `calibration-target` to **"accuracy"** if you want to optimize for numerical accuracy rather than CPU and memory performance. The default is set to **"resources"**. The largest tradeoff for these two is in the size of `"logrows"` and `"scale"`. With a higher scale, floating point numbers are interpreted more accurately. With a smaller logrows, a smaller, less memory-intensive circuit is generated. 
+
+> Note: You can still use the generic RunArgs for `mock` and `forward` (e.g. `ezkl mock --logrows=22 --bits=21` rather than `ezkl mock --circuit-params-path circuit.json`). However, `--circuit-params-path` takes priority.
 ### Setup
 
 Along with our SRS, we need three other elements to generate a proof: a proving key, a verifying key, and our circuit parameters. You will get all three by running `ezkl`'s `setup` command. We need our proving key to generate proofs; we need our verifying key to verify proofs from the corresponding proving key. Our circuit parameters collect some essential information about the setup needed by the prover and verifier. These include the `RunArgs` parameters we'll go over in the next section.
