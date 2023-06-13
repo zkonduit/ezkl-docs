@@ -168,7 +168,7 @@ python
 ```
 
 ### API Reference
-
+![](../assets/library.png) 
 This reference details function, modules, and objects included in both `ezkl` and `ezkl_lib`.
 Note that `ezkl` is a superset of `ezkl_lib` so functions contained within `ezkl_lib` will be contained in `ezkl`.
 

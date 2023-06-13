@@ -3,6 +3,8 @@ order: 3
 ---
 ## `ezkl` Commands
 
+![](../assets/ezkl_flow.png) 
+
 The `ezkl` CLI found in ezkl/src/commands is the gateway to `ezkl`. In this Tutorial, we will explain in-depth the core `ezkl` commands along with the other commands you can use to broaden your model SNARKing toolkit. Feel free to build `ezkl` on your own machine and follow along with the examples. For each of these, we will be using the `1l_sigmoid` example under `examples/onnx`.
 
 ### GenSRS
@@ -181,3 +183,4 @@ This should return `verified: true`. You can learn more about aggregation [here]
 ### Fuzz
 
 You can learn more about `fuzz` in the Security section under **EZKL Security Tooling**. 
+

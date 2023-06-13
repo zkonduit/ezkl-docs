@@ -2,7 +2,7 @@
 icon: code-square
 order: 8
 ---
-
+![](../assets/cli.png) 
 The `ezkl` cli provides a simple interface to load `.onnx` files, which represent graphs of operations (such as neural networks), convert them into a Halo2 circuit, then run a proof.
 
 ### python and cli tutorial 🐍
