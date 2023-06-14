@@ -6,9 +6,9 @@ order: 1
 
 Each command in the `ezkl` CLI requires certain parameters to execute. 
 
-### kzg.params
+### x.srs
 
-As discussed in the `Commands` section, we use `gen-srs` to create a polynomial commitment scheme parameters file `kzg.params`. These parameters are required in:
+As discussed in the `Commands` section, we use `gen-srs` to create a polynomial commitment scheme parameters file `x.srs` (where `x` is logrows). These parameters are required in:
 
 - `setup`
 - `prove`

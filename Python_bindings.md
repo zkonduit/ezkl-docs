@@ -776,7 +776,7 @@ model_path = os.path.join(
 
 pk_path = os.path.join(folder_path, '1l_relu.pk')
 vk_path = os.path.join(folder_path, '1l_relu.vk')
-circuit_params_path = os.path.join(folder_path, '1l_relu_circuit.params')
+circuit_params_path = os.path.join(folder_path, '1l_relu_circuit.json')
 
 ezkl_lib.setup(
     model_path,
