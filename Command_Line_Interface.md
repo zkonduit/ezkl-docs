@@ -122,7 +122,7 @@ Options:
           Print help
 ```
 
-`prove` and `mock` both require `-D` and `-M` parameters, which if not provided, the CLI will query the user to manually enter the path(s).
+`prove` and `mock` both require `-D` and `-M` parameters. 
 
 ```bash
 Usage: ezkl mock [OPTIONS]
