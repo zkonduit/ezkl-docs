@@ -122,7 +122,7 @@ mod genscript {
 ```
 From here, feel free to change the RunArgs as you please to make the best SNARK for your circuit. These are the arguments you see [here](https://docs.ezkl.xyz/command_line_interface/). After you run the main function with `cargo run --bin genscript`, you will have a file called `run_args.params`. You can use this as the second parameter for `gen_circuit_params_wasm`.
 
-We will use the `circuit` file generated in this step to pass to our `gen_pk_wasm` function along with our **commitment scheme parameters** (kzg.params) and **serialized circuit**.
+We will use the `circuit` file generated in this step to pass to our `gen_pk_wasm` function along with our **commitment scheme parameters** (x.srs) and **serialized circuit**.
 
 After this gives us our `pk.key` file, we will use that along with the **input data**(.json), **the serialized circuit**, **the serialized circuit parameters**, and our **commitment scheme paramenters** to trigger our `prove_wasm` function. 
 
@@ -406,7 +406,7 @@ When the `network.proof` file is created here, we will pass that along with the 
 
     The ordering for `Generate Proving Key` is:
     * `circuit_ser`: circuit (network.onnx)
-    * `params_ser`: commitment scheme parameters (kzg.params)
+    * `params_ser`: commitment scheme parameters (x.srs)
     * `circuit_params_ser`: circuit parameters (circuit file generated from the last step)
 
     The ordering for `Generate Verifying Key` is:
@@ -418,7 +418,7 @@ When the `network.proof` file is created here, we will pass that along with the 
     * `pk`: proving key (pk.key)
     * `circuit_ser`: circuit (network.onnx)
     * `circuit_params_ser`: circuit parameters (circuit)
-    * `params_ser`: commitment scheme parameters (kzg.params)
+    * `params_ser`: commitment scheme parameters (x.srs)
 
     This will prompt you to download a file called `network.proof`. `network.proof` is a binary file of the generated proof. Note that this step may take time. After `network.proof` has been downloaded, upload the file to the first value of the `Verify` function. 
 
@@ -427,7 +427,7 @@ When the `network.proof` file is created here, we will pass that along with the 
     * `proof_js`: proof (network.proof)
     * `vk`: verifier key (vk.key)
     * `circuit_params_ser`: circuit parameters (circuit)
-    * `params_ser`: commitment scheme parameters (kzg.params)
+    * `params_ser`: commitment scheme parameters (x.srs)
 
     `True` or `False` should appear as the result for the Verify function.
 
