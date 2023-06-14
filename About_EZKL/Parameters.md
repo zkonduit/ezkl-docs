@@ -26,15 +26,26 @@ The `input.json` file represents the model inputs and outputs. Previously, the m
 - `mock`
 - `forward`
 
-### circuit.params
+The data `.json` file is structured as follows:
 
-The circuit parameters are not at all related to the commitment scheme parameters. The circuit parameters are used to assist in the construction of a Model Circuit. They include the `RunArgs`, the `Visibility` parameters, the potential number of the constraints in the circuit, and more. The commands that require `circuit.params` are:
+```javascript
+{
+    "input_data": [[1.0, 22.2, 0.12 ...]], // 2D arrays of floats which represents the (private) inputs we run the proof on
+    "output_data": [[1.0, 5.0, 6.3 ...]], // 2D arrays of floats which represents the model outputs we want to constrain against (if any)
+}
+```
+
+### circuit.json
+
+The circuit parameters are not at all related to the commitment scheme parameters. The circuit parameters are generated with `gen-circuit-params` and are used to assist in the construction of a Model Circuit. They include the `RunArgs`, the `Visibility` parameters, the potential number of the constraints in the circuit, and more. The commands that require `circuit.json` are:
 
 - `setup` (just provide the path to write the circuit parameters to)
 - `prove`
 - `verify`
 - `aggregate` (all the params of the circuits you want to aggregate)
 - `create-evm-verifier`
+- `forward` (can also use generic RunArgs)
+- `mock` (can also use generic RunArgs)
 
 ### network.onnx
 

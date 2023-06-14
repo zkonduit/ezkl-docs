@@ -27,6 +27,7 @@ If you want to build manually with cargo build, be sure to use the release flag 
 ```bash
 cargo build --release --bin ezkl
 ```
+> Note: To render your model circuits, you'll need to compile `ezkl` with the `render` feature (`cargo build --features render --bin ezkl`). This enables the `render-circuit` command which can create `.png` representations of the compiled circuits. You'll also need to install the `libexpat1-dev` and `libfreetype6-dev` libraries on Debian systems (there are equivalents for MacOS as well).
 ---------
 ##### Rust docs 📖
 
