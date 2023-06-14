@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740072310711">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740075227754">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -32,12 +32,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.0.3.740072310711" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=3.0.3.740075227754" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.740072310711" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.740075227754" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.740072310711" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.740072310711" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.740075227754" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.740075227754" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -284,7 +284,7 @@ rustflags = [&quot;-C&quot;, &quot;target-feature=+atomics,+bulk-memory,+mutable
  </code></pre>
 </doc-codeblock></div>
 <p>From here, feel free to change the RunArgs as you please to make the best SNARK for your circuit. These are the arguments you see <a href="https://docs.ezkl.xyz/command_line_interface/">here</a>. After you run the main function with <code v-pre>cargo run --bin genscript</code>, you will have a file called <code v-pre>run_args.params</code>. You can use this as the second parameter for <code v-pre>gen_circuit_params_wasm</code>.</p>
-<p>We will use the <code v-pre>circuit</code> file generated in this step to pass to our <code v-pre>gen_pk_wasm</code> function along with our <strong>commitment scheme parameters</strong> (kzg.params) and <strong>serialized circuit</strong>.</p>
+<p>We will use the <code v-pre>circuit</code> file generated in this step to pass to our <code v-pre>gen_pk_wasm</code> function along with our <strong>commitment scheme parameters</strong> (x.srs) and <strong>serialized circuit</strong>.</p>
 <p>After this gives us our <code v-pre>pk.key</code> file, we will use that along with the <strong>input data</strong>(.json), <strong>the serialized circuit</strong>, <strong>the serialized circuit parameters</strong>, and our <strong>commitment scheme paramenters</strong> to trigger our <code v-pre>prove_wasm</code> function.</p>
 <p>When the <code v-pre>network.proof</code> file is created here, we will pass that along with the <strong>verify key</strong> and <strong>serialized circuit parameters</strong> to our <code v-pre>verify_wasm</code> function. It is important to note that you will have a lot of this information after you create a circuit with <code v-pre>ezkl</code>. Feel free to store them in your project (perhaps .gitignore-ing them). Now that we know what will happen, let&#x27;s begin with the frontend.</p>
 <ol>
@@ -567,7 +567,7 @@ rustflags = [&quot;-C&quot;, &quot;target-feature=+atomics,+bulk-memory,+mutable
 <p>The ordering for <code v-pre>Generate Proving Key</code> is:</p>
 <ul>
 <li><code v-pre>circuit_ser</code>: circuit (network.onnx)</li>
-<li><code v-pre>params_ser</code>: commitment scheme parameters (kzg.params)</li>
+<li><code v-pre>params_ser</code>: commitment scheme parameters (x.srs)</li>
 <li><code v-pre>circuit_params_ser</code>: circuit parameters (circuit file generated from the last step)</li>
 </ul>
 <p>The ordering for <code v-pre>Generate Verifying Key</code> is:</p>
@@ -581,7 +581,7 @@ rustflags = [&quot;-C&quot;, &quot;target-feature=+atomics,+bulk-memory,+mutable
 <li><code v-pre>pk</code>: proving key (pk.key)</li>
 <li><code v-pre>circuit_ser</code>: circuit (network.onnx)</li>
 <li><code v-pre>circuit_params_ser</code>: circuit parameters (circuit)</li>
-<li><code v-pre>params_ser</code>: commitment scheme parameters (kzg.params)</li>
+<li><code v-pre>params_ser</code>: commitment scheme parameters (x.srs)</li>
 </ul>
 <p>This will prompt you to download a file called <code v-pre>network.proof</code>. <code v-pre>network.proof</code> is a binary file of the generated proof. Note that this step may take time. After <code v-pre>network.proof</code> has been downloaded, upload the file to the first value of the <code v-pre>Verify</code> function.</p>
 <p>The ordering for <code v-pre>Verify</code> (from left to right) is:</p>
@@ -589,7 +589,7 @@ rustflags = [&quot;-C&quot;, &quot;target-feature=+atomics,+bulk-memory,+mutable
 <li><code v-pre>proof_js</code>: proof (network.proof)</li>
 <li><code v-pre>vk</code>: verifier key (vk.key)</li>
 <li><code v-pre>circuit_params_ser</code>: circuit parameters (circuit)</li>
-<li><code v-pre>params_ser</code>: commitment scheme parameters (kzg.params)</li>
+<li><code v-pre>params_ser</code>: commitment scheme parameters (x.srs)</li>
 </ul>
 <p><code v-pre>True</code> or <code v-pre>False</code> should appear as the result for the Verify function.</p>
 <p>At the end of the interaction, your screen should look something like:</p>
