@@ -5,7 +5,7 @@ branding:
   title: EZKL
   label: Docs
 links:
-- text: Getting Started
-  link: https://retype.com/guides/getting-started/
+- text: EZKL GitHub
+  link: https://github.com/zkonduit/ezkl 
 footer:
   copyright: "&copy; Copyright Zkonduit Inc. {{ year }}. All rights reserved."
