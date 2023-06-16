@@ -15,28 +15,36 @@ To generate a proof on one of the examples, first install `ezkl`
 [!ref](/getting_started)
 then generate a structured reference string (SRS):
 ```bash
-ezkl gen-srs --logrows 17 --srs-path=17.srs
+ezkl gen-srs --logrows 15 --srs-path=15.srs
 ```
 Note that this SRS is for testing purposes only. 
+
+Put a model file (`network.onnx`) and input file (`input.json`) into your working directory, e.g. with something like:
+```bash
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
+
+```
+
 
 #### Setting circuit parameters
 Our circuit is configured with the `settings.json` file. This is created with the `gen-settings` command (replace `network.onnx` with the relative path of one of the example's `.onnx` files):
 ```bash
-ezkl gen-settings -M network.onnx -O circuit.json
+ezkl gen-settings -M network.onnx
 ```
-This will produce a `circuit.json` file (default is `settings.json`) you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage. You can do this by passing your settings file (`.json`) to the `calibrate-settings` command:
+This will produce a `settings.json` file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the `calibrate-settings` command:
 ```bash
-ezkl calibrate-settings -M network.onnx -D input.json --target resources -O circuit.json
+ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ```
-In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `circuit.json`. You can customize this file and even change the way it's generated. Learn more about `gen-settings` & `calibrate-settings` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section.
+In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. You can customize this file and even change the way it's generated. Learn more about `gen-settings` & `calibrate-settings` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section.
 
 #### Creating the circuit
 Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS, our circuit params, and the .onnx file. 
 
 ```bash
-ezkl setup -M network.onnx --srs-path=17.srs --vk-path=vk.key --pk-path=pk.key --settings-path=circuit.json
+ezkl setup -M network.onnx --srs-path=15.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
 ```
-This creates the verification key, proving key, and circuit params in the locations you specify. There are a lot of options during setup, which you can view by typing
+This creates the verification key, proving key, and circuit params in the locations you specify. You can view the options associated to a subcommand like `setup` by typing
 ```bash
 ezkl setup 
 ```
@@ -45,20 +53,20 @@ ezkl setup
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
 
 ```bash
-ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --srs-path=17.srs --settings-path=circuit.json
+ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json
 ```
 
 #### Verification
 We can then verify our generated proof with the `verify` command:
 ```bash
-ezkl verify --proof-path=model.proof --settings-path=circuit.json --vk-path=vk.key --srs-path=17.srs
+ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=15.srs
 ```
 
 #### Visualizing our model
 To display a table of the loaded onnx nodes, their associated parameters, set `RUST_LOG=DEBUG` or run:
 
 ```bash
-ezkl table -M ./examples/onnx/1l_relu/network.onnx
+ezkl table -M network.onnx
 ```
 
 ## Using a pre-generated SRS
