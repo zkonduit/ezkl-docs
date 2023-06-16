@@ -16,7 +16,7 @@ order: 10
 
 > "I correctly ran this publicly available neural network on some public data and it produced this output"
 
-`ezkl` can be used directly from Python; [see this colab notebook](https://colab.research.google.com/drive/14t1rnzDVdEPVLHBUfQO-XRPQPpfw6aM5?usp=sharing) and the python bindings docs. [!ref](/python_bindings)
+`ezkl` can be used directly from Python; [see this colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) and the python bindings docs. [!ref](/python_bindings)
 
 The rust API is also sufficiently flexible to enable you to code up a computational graph and resulting circuit from scratch. For examples on how to do so see the **library examples** in the repo. In the backend we use [Halo2](https://github.com/privacy-scaling-explorations/halo2) as a proof system. For more details on how to use `ezkl`, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>!
 
