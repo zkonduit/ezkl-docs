@@ -6,33 +6,33 @@ order: 7
 
 Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.
 
+You can use the example from Commands, or create it by copying over a network and input file (assuming the ezkl repo is in your home directory):
 ```bash
-# Create new SRS
-ezkl gen-srs --logrows 17 --srs-path=17.srs
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
+```
+then create the setup
+```bash
+ezkl gen-srs --logrows 15 --srs-path=15.srs
+ezkl gen-settings -M network.onnx
+ezkl calibrate-settings -M network.onnx -D input.json --target resources
+ezkl setup -M network.onnx --srs-path=15.srs --settings-path=settings.json
 ```
 
-```bash
-# Create new circuit parameters
-ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_relu/network.onnx --settings-path circuit.json
-```
-
-```bash
-# Set up a new circuit
-ezkl setup -M examples/onnx/1l_relu/network.onnx --srs-path=17.srs --vk-path=vk.key --pk-path=pk.key --settings-path=circuit.json
-```
+Now we use the setup to create an EVM verifier, which would be deployed on-chain. 
 
 ```bash
 # gen evm verifier
-ezkl create-evm-verifier --deployment-code-path 1l_relu.code --srs-path=17.srs --vk-path vk.key --sol-code-path 1l_relu.sol --settings-path=circuit.json
+ezkl create-evm-verifier --deployment-code-path verif.code --srs-path=15.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
 ```
 
 ```bash
-ezkl prove --transcript=evm -D ./examples/onnx/1l_relu/input.json -M ./examples/onnx/1l_relu/network.onnx --proof-path 1l_relu.pf --pk-path pk.key --srs-path=17.srs --settings-path=circuit.json 
+ezkl prove --transcript=evm -D input.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=15.srs --settings-path=settings.json 
 ```
 
 ```bash
 # Verify (EVM)
-ezkl verify-evm --proof-path 1l_relu.pf --deployment-code-path 1l_relu.code
+ezkl verify-evm --proof-path model.pf --deployment-code-path verif.code
 ```
 
 Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function. Please read [this document](https://hackmd.io/QOHOPeryRsOraO7FUnG-tg) for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.
