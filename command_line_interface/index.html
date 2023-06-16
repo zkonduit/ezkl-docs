@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740092167383">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740199297117">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.740092167383" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.740199297117" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.740092167383" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.740199297117" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.740092167383" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.740092167383" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.740199297117" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.740199297117" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -207,20 +207,30 @@ The <code v-pre>ezkl</code> cli provides a simple interface to load <code v-pre>
 </div>
 then generate a structured reference string (SRS):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-srs --logrows 17 --params-path=17.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-srs --logrows 15 --srs-path=15.srs</code></pre>
 </doc-codeblock></div>
 <p>Note that this SRS is for testing purposes only.</p>
+<p>Put a model file (<code v-pre>network.onnx</code>) and input file (<code v-pre>input.json</code>) into your working directory, e.g. with something like:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
+</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="setting-circuit-parameters">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#setting-circuit-parameters">#</doc-anchor-trigger>
         <span>Setting circuit parameters</span>
     </h4>
 </doc-anchor-target>
-<p>We then set up the circuit parameters by calibrating our model with <code v-pre>gen-circuit-params</code>. This command generates a <code v-pre>.json</code> file of our circuit parameters for future use (replace <code v-pre>network.onnx</code> with the relative path of one of the example&#x27;s <code v-pre>.onnx</code> files):</p>
+<p>Our circuit is configured with the <code v-pre>settings.json</code> file. This is created with the <code v-pre>gen-settings</code> command (replace <code v-pre>network.onnx</code> with the relative path of one of the example&#x27;s <code v-pre>.onnx</code> files):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-circuit-params --calibration-target resources --model network.onnx --circuit-params-path circuit.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M network.onnx</code></pre>
 </doc-codeblock></div>
-<p>In this example, we will set the <code v-pre>calibration-target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>circuit.json</code>. You can customize this file and even change the way it&#x27;s generated. Learn more about <code v-pre>gen-circuit-params</code> in the <a href="https://docs.ezkl.xyz/about_ezkl/commands/">Commands</a> section.</p>
+<p>This will produce a <code v-pre>settings.json</code> file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the <code v-pre>calibrate-settings</code> command:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings -M network.onnx -D input.json --target resources</code></pre>
+</doc-codeblock></div>
+<p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>. You can customize this file and even change the way it&#x27;s generated. Learn more about <code v-pre>gen-settings</code> &amp; <code v-pre>calibrate-settings</code> in the <a href="https://docs.ezkl.xyz/about_ezkl/commands/">Commands</a> section.</p>
 <doc-anchor-target id="creating-the-circuit">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#creating-the-circuit">#</doc-anchor-trigger>
@@ -229,9 +239,9 @@ then generate a structured reference string (SRS):</p>
 </doc-anchor-target>
 <p>Now, we use <code v-pre>setup</code> to create a proving and verifying key for our circuit, using the SRS, our circuit params, and the .onnx file.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.onnx --params-path=17.srs --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.onnx --srs-path=15.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
-<p>This creates the verification key, proving key, and circuit params in the locations you specify. There are a lot of options during setup, which you can view by typing</p>
+<p>This creates the verification key, proving key, and circuit params in the locations you specify. You can view the options associated to a subcommand like <code v-pre>setup</code> by typing</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl setup </code></pre>
 </doc-codeblock></div>
@@ -243,7 +253,7 @@ then generate a structured reference string (SRS):</p>
 </doc-anchor-target>
 <p>Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by <code v-pre>--proof-path</code>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --params-path=17.srs --circuit-params-path=circuit.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="verification">
     <h4>
@@ -253,7 +263,7 @@ then generate a structured reference string (SRS):</p>
 </doc-anchor-target>
 <p>We can then verify our generated proof with the <code v-pre>verify</code> command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl verify --proof-path=model.proof --circuit-params-path=circuit.json --vk-path=vk.key --params-path=17.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=15.srs</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="visualizing-our-model">
     <h4>
@@ -263,7 +273,7 @@ then generate a structured reference string (SRS):</p>
 </doc-anchor-target>
 <p>To display a table of the loaded onnx nodes, their associated parameters, set <code v-pre>RUST_LOG=DEBUG</code> or run:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl table -M ./examples/onnx/1l_relu/network.onnx</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl table -M network.onnx</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="using-a-pre-generated-srs">
     <h2>
@@ -271,7 +281,7 @@ then generate a structured reference string (SRS):</p>
         <span>Using a pre-generated SRS</span>
     </h2>
 </doc-anchor-target>
-<p>Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the <code v-pre>pse/halo2</code> prover <code v-pre>ezkl</code> uses by leveraging <a href="https://github.com/han0110/halo2-kzg-srs">han0110/halo2-kzg-srs</a>. This repo also contains pre-converted SRS from large projects such as Hermez and the <a href="https://github.com/privacy-scaling-explorations/perpetualpowersoftau">perpetual powers of tau repo</a>. Simply download the pre-converted file locally and point <code v-pre>--params-path</code> to the file.</p>
+<p>Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the <code v-pre>pse/halo2</code> prover <code v-pre>ezkl</code> uses by leveraging <a href="https://github.com/han0110/halo2-kzg-srs">han0110/halo2-kzg-srs</a>. This repo also contains pre-converted SRS from large projects such as Hermez and the <a href="https://github.com/privacy-scaling-explorations/perpetualpowersoftau">perpetual powers of tau repo</a>. Simply download the pre-converted file locally and point <code v-pre>--srs-path</code> to the file.</p>
 <blockquote>
 <p>Note: Ensure you download the files in raw format. As this will be more performant and is the serialization format <code v-pre>ezkl</code> assumes.</p>
 </blockquote>
@@ -315,7 +325,8 @@ then generate a structured reference string (SRS):</p>
 Commands:
   table                     Loads model and prints model table
   forward                   Runs a vanilla forward pass, produces a quantized output, and saves it to a .json file
-  gen-circuit-params        Calibrates the proving hyperparameters, produces a quantized output from those hyperparameters, and saves it to a .json file. The circuit parameters are also saved to a file
+  gen-settings              Produces the proving hyperparameters, from run-args
+  calibrate-settings        Calibrates the proving scale, lookup bits and logrows from a circuit settings file
   gen-srs                   Generates a dummy SRS
   mock                      Loads model and input and runs mock prover (for testing)
   aggregate                 Aggregates proofs :)
@@ -355,7 +366,7 @@ Options:
           Base used to pack the public-inputs to the circuit. (value &gt; 1) to pack instances as a single int. Useful when verifying on the EVM. Note that this will often break for very long inputs. Use with caution, still experimental [default: 1]
       --allocated-constraints &lt;ALLOCATED_CONSTRAINTS&gt;
           the number of constraints the circuit might use. If not specified, this will be calculated using a 'dummy layout' pass
-      --circuit-params-path &lt;CIRCUIT_PARAMS_PATH&gt;
+      --settings-path &lt;SETTINGS_PATH&gt;
           optional circuit params path (overrides any run args set)
   -h, --help
           Print help</code></pre>
