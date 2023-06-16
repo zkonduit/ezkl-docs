@@ -12,7 +12,7 @@ The `ezkl` CLI is the gateway to `ezkl`. In this Tutorial, we will explain in-de
 In [PLONKish](https://zcash.github.io/halo2/concepts/arithmetization.html) proving systems such as those provided by halo2, a polynomial commitment scheme is necessary to evaluate polynomials at certain points without revealing the original function. In order to use a polynomial commitment scheme, we need to set up a structured reference string (SRS). `ezkl` enables you to create a SRS that will define the size of the circuit (number of rows in particular) and that you will use as public parameters to your SNARK (so that the prover and verifier can communicate clearly and honestly). Use this command to generate a [KZG](https://cypherpunks.ca/~iang/pubs/PolyCommit-AsiaCrypt.pdf) structured reference string with (for example) 17 rows. 
 
 ```bash
-ezkl gen-srs --logrows=17 --params-path=17.srs
+ezkl gen-srs --logrows=17 --srs-path=17.srs
 ```
 
 This sets up a SRS that the prover can use to commit and the verifier can use to evaluate in a file called `17.srs`.
@@ -21,13 +21,17 @@ This sets up a SRS that the prover can use to commit and the verifier can use to
 
 > **Note:** Downsizing an SRS is time consuming, so if you generate a logrows=20 SRS and the circuit uses logrows=17, the prove command will spend most of its time downsizing your 20.srs from 20 to 17. Once you know the logrows you need, use a file of that size for max speed.
 
-### Calibrate
-There are a lot of adjustable knobs (such as bits, scale, and logrows) in `ezkl` that let you trade off between prover and verifier resources, accuracy, and control other parts of the zkp. While you are free to choose these manually with cli parameters, we recommend starting with the automatic calibration provided by the `gen-circuit-params` command. This generates a `circuit.json` file with a suggested choice of circuit parameters. This file can also be manually edited to tweak the choices. For example, this is the file generated from our CLI tutorial example using sigmoid:
+### Generate Settings
+For `ezkl` to compute a snark, it needs some settings to determine how to create the circuit. You can create settings with the `gen-settings` command. 
+
+For example, this is the file generated from our CLI tutorial example using sigmoid:
 
 ```bash
-ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_sigmoid/network.onnx --circuit-params-path circuit.json
+ezkl gen-settings -M examples/onnx/1l_sigmoid/network.onnx
 ```
-**`circuit.json`:**
+By default the settings file will be called `settings.json`. 
+
+**`settings.json`:**
 ```javascript
 {
   "run_args": {
@@ -49,12 +53,12 @@ ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_
   "check_mode": "SAFE"
 }
 ```
-Let's say our circuit was much larger; we need to bump `"logrows"` to 23. We can add a flag to our original command to specifiy this:
+Let's say our circuit was much larger; we need to bump `"logrows"` to 23. We can add a flag to our original command to specifiy this (using `-O` to give the output a different name):
 
 ```bash
-ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_sigmoid/network.onnx --circuit-params-path circuitK23.json --logrows 23
+ezkl gen-settings -M examples/onnx/1l_sigmoid/network.onnx -O circuitK23.json --logrows 23
 ```
-This then produces **`circuitK23.json`:**
+This produces **`circuitK23.json`:**
 ```json
 {
   "run_args": {
@@ -76,11 +80,42 @@ This then produces **`circuitK23.json`:**
   "check_mode": "SAFE"
 }
 ```
-Notice `"logrows"` is now 23. You can do this for any other parameter for customized circuits.
+Notice `"logrows"` is now 23. You can do this for any other parameter for custom circuits. The `.json` file can also be manually edited to tweak the choices
+### Calibrate Settings
+There are a lot of adjustable knobs (such as bits, scale, and logrows) in `ezkl` that let you trade off between prover and verifier resources, accuracy, and control other parts of the zkp. While you are free to choose these manually with cli parameters passed to `gen-settings`, we recommend fine-tuning with the automatic calibration provided by the `calibrate-settings` command. This modifies your `settings.json` file with a suggested choice of circuit parameters: 
 
-You can also set the `calibration-target` to **"accuracy"** if you want to optimize for numerical accuracy rather than CPU and memory performance. The default is set to **"resources"**. The largest tradeoff for these two is in the size of `"logrows"` and `"scale"`. With a higher scale, floating point numbers are interpreted more accurately. With a smaller logrows, a smaller, less memory-intensive circuit is generated. 
+```bash
+ezkl calibrate-settings -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json --target resources
+```
 
-> Note: You can still use the generic RunArgs for `mock` and `forward` (e.g. `ezkl mock --logrows=22 --bits=21` rather than `ezkl mock --circuit-params-path circuit.json`). However, `--circuit-params-path` takes priority.
+You can also set the `--target` to **"accuracy"** if you want to optimize for numerical accuracy rather than CPU and memory performance. The default is set to **"resources"**. The largest tradeoff for these two is in the size of `"logrows"` and `"scale"`. With a higher scale, floating point numbers are interpreted more accurately. With a smaller logrows, a smaller, less memory-intensive circuit is generated. 
+
+For example, after running the same command with `--target` set to **accuracy**, we get a larger value for `scale` amongst other changes:
+
+**settings.json**:
+```javascript
+{
+  "run_args": {
+    "tolerance": { "Abs": { "val": 0 } },
+    "scale": 11,
+    "bits": 12,
+    "logrows": 13,
+    "batch_size": 1,
+    "input_visibility": "Private",
+    "output_visibility": "Public",
+    "param_visibility": "Private",
+    "pack_base": 1,
+    "allocated_constraints": null
+  },
+  "num_constraints": 6,
+  "model_instance_shapes": [[1, 3]],
+  "num_hashes": 0,
+  "required_lookups": [{ "Sigmoid": { "scales": [2048, 2048] } }],
+  "check_mode": "SAFE"
+}
+```
+
+> Note: You can still use the generic RunArgs for `mock` and `forward` (e.g. `ezkl mock --logrows=22 --bits=21` rather than `ezkl mock --settings-path circuit.json`). However, `--settings-path` takes priority.
 ### Setup
 
 Along with our SRS and circuit parameters, we need two other elements to generate a proof: a proving key and a verifying key. You will get both by running `ezkl`'s `setup` command. We need our proving key to generate proofs; we need our verifying key to verify proofs from the corresponding proving key.
@@ -88,10 +123,9 @@ Along with our SRS and circuit parameters, we need two other elements to generat
 Run this command to set up your proving and verifying keys:
 
 ```bash
-ezkl setup -M examples/onnx/1l_sigmoid/network.onnx --params-path=17.srs --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.json
+ezkl setup -M examples/onnx/1l_sigmoid/network.onnx --srs-path=17.srs  --settings-path=settings.json
 ```
-
-You should now have files called `vk.key` and `pk.key` in the root of your project.
+You should now have files called `vk.key` and `pk.key` in the root of your project. You can also specify different paths for these outputs with `--vk-path=altvk.key --pk-path=altpk.key`
 
 ### Prove
 
@@ -102,7 +136,7 @@ In a typical zk application, the proof will be generated by the client, then ver
 Here is the command for generating a proof:
 
 ```bash
-ezkl prove -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json --pk-path=pk.key --proof-path=model.proof --params-path=17.srs --circuit-params-path=circuit.json
+ezkl prove -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json --pk-path=pk.key --proof-path=model.proof --srs-path=17.srs --settings-path=settings.json
 ```
 
 This will create a proof file called `model.proof` that anyone can later use to verify your model was run correctly on the input.
@@ -112,7 +146,7 @@ This will create a proof file called `model.proof` that anyone can later use to 
 Verification can be done from the CLI, in WASM, or on a blockchain. Verification will require the commitment scheme parameters, the circuit parameters, the verifying key, and, of course, the proof. When verifying with a smart contract, however, the verifying key and circuit/commitment params are baked into the smart contract; this means only the public parameters will be passed as calldata along with the proof. The command for verifying from the CLI is:
 
 ```bash
-ezkl verify --proof-path=model.proof --circuit-params-path=circuit.json --vk-path=vk.key --params-path=17.srs
+ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=17.srs
 ```
 
 This will return whether your proof has successfully verified or not. Feel free to refer to the WASM tutorial to verify with WASM and the Verifying On-Chain section to verify with an EVM smart contract. 
@@ -197,46 +231,46 @@ This step is described briefly in the `Verifying On-Chain` section. Here, we'll 
 We can aggregate multiple proofs into one with the `aggregate` command. Let's make two new circuits: one that produces a proof called `model.proof` and another that produces a proof called `model1.proof`. In aggregation, we want to use a large circuit because we're dealing with multiple proofs. Let's set up a SRS of size `k=23` :
 
 ```bash
-ezkl gen-srs --logrows 23 --params-path=23.srs
+ezkl gen-srs --logrows 23 --srs-path=23.srs
 ```
 
 Now, let's say we want to aggregate a `conv` circuit and a `relu` circuit. We can set up the parameters for these different circuits with `gen-circuit-params`. For the sake of the example, let's set one to optimize for accuracy and another to optimize for resources:
 ```bash
-ezkl gen-circuit-params --calibration-target accuracy --model examples/onnx/1l_conv/network.onnx --circuit-params-path circuitconv.json
+ezkl gen-circuit-params --calibration-target accuracy --model examples/onnx/1l_conv/network.onnx --settings-path circuitconv.json
 ```
 and for RELU:
 ```bash
-ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_relu/network.onnx --circuit-params-path circuitrelu.json
+ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_relu/network.onnx --settings-path circuitrelu.json
 ```
 
 Now, we can create our proof keys with `setup` (Note: be sure to use the same KZG parameters for all the circuits you plan to aggregate):
 
 ```bash
 # Conv
-ezkl setup -M examples/onnx/1l_conv/network.onnx --params-path=23.srs --vk-path=vkconv.key --pk-path=pkconv.key --circuit-params-path=circuitconv.json
+ezkl setup -M examples/onnx/1l_conv/network.onnx --srs-path=23.srs --vk-path=vkconv.key --pk-path=pkconv.key --settings-path=circuitconv.json
 ```
 
 ```bash
 # Relu
-ezkl setup -M examples/onnx/1l_relu/network.onnx --params-path=23.srs --vk-path=vkrelu.key --pk-path=pkrelu.key --circuit-params-path=circuitrelu.json
+ezkl setup -M examples/onnx/1l_relu/network.onnx --srs-path=23.srs --vk-path=vkrelu.key --pk-path=pkrelu.key --settings-path=circuitrelu.json
 ```
 
 We then prove them (we'll run with `RUST_LOG=debug` to fetch our allocated constraints:
 
 ```bash
 # Conv
-RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_conv/input.json -M examples/onnx/1l_conv/network.onnx --proof-path model.proof --params-path=23.srs  --pk-path=pkconv.key --circuit-params-path=circuitconv.json
+RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_conv/input.json -M examples/onnx/1l_conv/network.onnx --proof-path model.proof --srs-path=23.srs  --pk-path=pkconv.key --settings-path=circuitconv.json
 ```
 
 ```bash
 # Relu
-RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --proof-path model1.proof --params-path=23.srs  --pk-path=pkrelu.key --circuit-params-path=circuitrelu.json
+RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum -D ./examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --proof-path model1.proof --srs-path=23.srs  --pk-path=pkrelu.key --settings-path=circuitrelu.json
 ```
 
 Now, we can aggregate the proofs:
 
 ```bash
-ezkl aggregate --logrows=23 --aggregation-snarks=model.proof --aggregation-snarks=model1.proof --aggregation-vk-paths vkconv.key --aggregation-vk-paths vkrelu.key --vk-path aggr.vk --proof-path aggr.proof --params-path=23.srs --circuit-params-paths=circuitconv.json --circuit-params-paths=circuitrelu.json
+ezkl aggregate --logrows=23 --aggregation-snarks=model.proof --aggregation-snarks=model1.proof --aggregation-vk-paths vkconv.key --aggregation-vk-paths vkrelu.key --vk-path aggr.vk --proof-path aggr.proof --srs-path=23.srs --settings-paths=circuitconv.json --settings-paths=circuitrelu.json
 ```
 
 This creates one proof that simultaneously proves both our `conv` and `relu` circuits as long as we pass both proofs and verifying keys in. The bad news is that computing an aggregation takes a lot of memory and time right now; this proof will probably take about four or five minutes.
@@ -246,7 +280,7 @@ This creates one proof that simultaneously proves both our `conv` and `relu` cir
 Now, we can verify our aggregated proof with:
 
 ```bash
-ezkl verify-aggr --logrows=23 --proof-path aggr.proof --params-path=23.srs --vk-path aggr.vk
+ezkl verify-aggr --logrows=23 --proof-path aggr.proof --srs-path=23.srs --vk-path aggr.vk
 ```
 
 This should return `verified: true`. You can learn more about aggregation [here](https://vitalik.ca/general/2021/11/05/halo.html).

@@ -2,7 +2,7 @@
 
 #### Getting Started
 
-It is useful to have a verifier on a blockchain. However, sometimes you just want to generate and verify proofs in the browser. Thankfully, ezkl supports a WASM environment that you can use to generate proofs and verify them in-browser. For those who are unfamiliar, [**here**](https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts) is a good resource on WASM and [**here**](https://github.com/zkonduit/ezkl/blob/main/src/wasm.rs) you can find the functions we define for ezkl's WASM interface. Let's get started!
+It's useful to have a verifier on a blockchain. However, sometimes you just want to generate and verify proofs in the browser. Thankfully, ezkl supports a WASM environment that you can use to generate proofs and verify them in-browser. For those who are unfamiliar, [**here**](https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts) is a good resource on WASM and [**here**](https://github.com/zkonduit/ezkl/blob/main/src/wasm.rs) you can find the functions we define for ezkl's WASM interface. Let's get started!
 
 First, we need to add the `wasm32-unknown-unknown` target to our rustup configuration.  `wasm32-unknown-unknown` is is a target for creating WebAssembly binaries. The `wasm32` part represents the platform (WASM 32 bit in our case). The first `unknown` specifies the operating system we are building on. We want to build on any operating system since we're just building on browser. The second `unknown` refers to the target's standard library (Rust/C++ `std`), but with WASM, we won't be using one. We add this as a target with:
 
@@ -93,9 +93,9 @@ mod genscript {
             bits: 16,
             logrows: 17,
             batch_size: 1,
-            public_inputs: false,
-            public_outputs: true,
-            public_params: false,
+            input_visibility: "private",
+            output_visibility: "public",
+            param_visibility: "private",
             pack_base: 1,
             allocated_constraints: Some(1000), // assuming an arbitrary value here for the sake of the example
         };

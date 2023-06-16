@@ -15,24 +15,36 @@ To generate a proof on one of the examples, first install `ezkl`
 [!ref](/getting_started)
 then generate a structured reference string (SRS):
 ```bash
-ezkl gen-srs --logrows 17 --params-path=17.srs
+ezkl gen-srs --logrows 15 --srs-path=15.srs
 ```
 Note that this SRS is for testing purposes only. 
 
-#### Setting circuit parameters
-We then set up the circuit parameters by calibrating our model with `gen-circuit-params`. This command generates a `.json` file of our circuit parameters for future use (replace `network.onnx` with the relative path of one of the example's `.onnx` files):
+Put a model file (`network.onnx`) and input file (`input.json`) into your working directory, e.g. with something like:
 ```bash
-ezkl gen-circuit-params --calibration-target resources --model network.onnx --circuit-params-path circuit.json
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
+
 ```
-In this example, we will set the `calibration-target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `circuit.json`. You can customize this file and even change the way it's generated. Learn more about `gen-circuit-params` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section. 
+
+
+#### Setting circuit parameters
+Our circuit is configured with the `settings.json` file. This is created with the `gen-settings` command (replace `network.onnx` with the relative path of one of the example's `.onnx` files):
+```bash
+ezkl gen-settings -M network.onnx
+```
+This will produce a `settings.json` file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the `calibrate-settings` command:
+```bash
+ezkl calibrate-settings -M network.onnx -D input.json --target resources
+```
+In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. You can customize this file and even change the way it's generated. Learn more about `gen-settings` & `calibrate-settings` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section.
 
 #### Creating the circuit
 Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS, our circuit params, and the .onnx file. 
 
 ```bash
-ezkl setup -M network.onnx --params-path=17.srs --vk-path=vk.key --pk-path=pk.key --circuit-params-path=circuit.json
+ezkl setup -M network.onnx --srs-path=15.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
 ```
-This creates the verification key, proving key, and circuit params in the locations you specify. There are a lot of options during setup, which you can view by typing
+This creates the verification key, proving key, and circuit params in the locations you specify. You can view the options associated to a subcommand like `setup` by typing
 ```bash
 ezkl setup 
 ```
@@ -41,25 +53,25 @@ ezkl setup
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
 
 ```bash
-ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --params-path=17.srs --circuit-params-path=circuit.json
+ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json
 ```
 
 #### Verification
 We can then verify our generated proof with the `verify` command:
 ```bash
-ezkl verify --proof-path=model.proof --circuit-params-path=circuit.json --vk-path=vk.key --params-path=17.srs
+ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=15.srs
 ```
 
 #### Visualizing our model
 To display a table of the loaded onnx nodes, their associated parameters, set `RUST_LOG=DEBUG` or run:
 
 ```bash
-ezkl table -M ./examples/onnx/1l_relu/network.onnx
+ezkl table -M network.onnx
 ```
 
 ## Using a pre-generated SRS
 
-Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the `pse/halo2` prover `ezkl` uses by leveraging [han0110/halo2-kzg-srs](https://github.com/han0110/halo2-kzg-srs). This repo also contains pre-converted SRS from large projects such as Hermez and the [perpetual powers of tau repo](https://github.com/privacy-scaling-explorations/perpetualpowersoftau). Simply download the pre-converted file locally and point `--params-path` to the file.
+Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the `pse/halo2` prover `ezkl` uses by leveraging [han0110/halo2-kzg-srs](https://github.com/han0110/halo2-kzg-srs). This repo also contains pre-converted SRS from large projects such as Hermez and the [perpetual powers of tau repo](https://github.com/privacy-scaling-explorations/perpetualpowersoftau). Simply download the pre-converted file locally and point `--srs-path` to the file.
 
 > Note: Ensure you download the files in raw format. As this will be more performant and is the serialization format `ezkl` assumes.
 
@@ -76,7 +88,8 @@ Usage: ezkl [OPTIONS] <COMMAND>
 Commands:
   table                     Loads model and prints model table
   forward                   Runs a vanilla forward pass, produces a quantized output, and saves it to a .json file
-  gen-circuit-params        Calibrates the proving hyperparameters, produces a quantized output from those hyperparameters, and saves it to a .json file. The circuit parameters are also saved to a file
+  gen-settings              Produces the proving hyperparameters, from run-args
+  calibrate-settings        Calibrates the proving scale, lookup bits and logrows from a circuit settings file
   gen-srs                   Generates a dummy SRS
   mock                      Loads model and input and runs mock prover (for testing)
   aggregate                 Aggregates proofs :)
@@ -116,7 +129,7 @@ Options:
           Base used to pack the public-inputs to the circuit. (value > 1) to pack instances as a single int. Useful when verifying on the EVM. Note that this will often break for very long inputs. Use with caution, still experimental [default: 1]
       --allocated-constraints <ALLOCATED_CONSTRAINTS>
           the number of constraints the circuit might use. If not specified, this will be calculated using a 'dummy layout' pass
-      --circuit-params-path <CIRCUIT_PARAMS_PATH>
+      --settings-path <SETTINGS_PATH>
           optional circuit params path (overrides any run args set)
   -h, --help
           Print help
