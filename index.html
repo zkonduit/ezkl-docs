@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740255260341">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740285572516">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,11 +30,11 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.0.3.740255260341" rel="stylesheet" />
+    <link href="resources/css/retype.css?v=3.0.3.740285572516" rel="stylesheet" />
 
-    <script type="text/javascript" src="resources/js/config.js?v=3.0.3.740255260341" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="resources/js/config.js?v=3.0.3.740285572516" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="resources/js/lunr.js?v=3.0.3.740255260341" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="resources/js/lunr.js?v=3.0.3.740285572516" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -179,9 +179,9 @@
 </doc-anchor-target>
 <p><code v-pre>ezkl</code> is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark. It enables the following workflow:</p>
 <ol>
-<li>Define a computational graph, for instance a neural network (but really any arbitrary set of operations), as you would normally in <a href="https://pytorch.org/docs/stable/index.html">pytorch</a>.</li>
-<li>Export the final graph of operations as an <a href="https://onnx.ai/">.onnx</a> file and some sample inputs to a <code v-pre>.json</code> file.</li>
-<li>Point <code v-pre>ezkl</code> to the <code v-pre>.onnx</code> and <code v-pre>.json</code> files to generate a ZK-SNARK circuit with which you can prove statements such as:</li>
+<li>Define a neural net or more general computational graph normally in <a href="https://pytorch.org/docs/stable/index.html">pytorch</a>.</li>
+<li>Export the graph of operations as an <a href="https://onnx.ai/">net.onnx</a> file and some sample inputs to an <code v-pre>input.json</code> file.</li>
+<li>Point <code v-pre>ezkl</code> to the <code v-pre>net.onnx</code> and <code v-pre>input.json</code> files to generate a ZK-SNARK circuit with which you can prove statements such as:</li>
 </ol>
 <blockquote>
 <p>&quot;I ran this publicly available neural network on some private data and it produced this output&quot;</p>
@@ -206,7 +206,8 @@
     <a href="python_bindings/" class="absolute block inset-0"></a>
 </div>
 </p>
-<p>The rust API is also sufficiently flexible to enable you to code up a computational graph and resulting circuit from scratch. For examples on how to do so see the <strong>library examples</strong> in the repo. In the backend we use <a href="https://github.com/privacy-scaling-explorations/halo2">Halo2</a> as a proof system. For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>!</p>
+<p><code v-pre>ezkl</code> can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify in WASM and on the EVM.
+The rust API is also sufficiently flexible to enable you to code up a computational graph and resulting circuit from scratch. For examples on how to do so see the <strong>library examples</strong> in the repo. In the backend we use <a href="https://github.com/privacy-scaling-explorations/halo2">Halo2</a> as a proof system.  For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>!</p>
 <hr />
 <doc-anchor-target id="the-life-cycle-of-a-proof">
     <h2>
@@ -225,14 +226,14 @@
 <p>The inputs to setup are:</p>
 <ul>
 <li>the model (as an onnx file)</li>
-<li>the &quot;params,&quot; (structured reference string) which are a common, public piece of cryptographic data shared among proofs of the same size</li>
+<li>the structured reference string which is a common, public piece of cryptographic data shared among proofs of the same size</li>
 <li>various flags, settings, and options for tuning and added functionality</li>
 </ul>
 <p>The outputs of setup are:</p>
 <ul>
 <li>the proving key</li>
-<li>the verification key</li>
-<li>the circuit params: serialized flags, settings, and options, and a few numbers that describe the shape of the resulting circuit</li>
+<li>the verification key, and</li>
+<li>the circuit settings: serialized flags, settings, and options, and a few numbers that describe the shape of the resulting circuit.</li>
 </ul>
 <doc-anchor-target id="prove">
     <h3>
@@ -246,12 +247,12 @@
 <li>the data (an <code v-pre>input.json</code> file) containing the claim: an input, output pair such that model(input) = output (this output can be produced using the <code v-pre>forward</code> command)</li>
 <li>the model (as an onnx file)</li>
 <li>the proving key</li>
-<li>the params (structured reference string)</li>
-<li>the circuit params</li>
+<li>the structured reference string, and</li>
+<li>the circuit settings.</li>
 </ul>
 <p>The outputs of prove are:</p>
 <ul>
-<li>the proof file</li>
+<li>the proof file.</li>
 </ul>
 <doc-anchor-target id="verify">
     <h3>
@@ -259,15 +260,15 @@
         <span>Verify</span>
     </h3>
 </doc-anchor-target>
-<p>Verify is invoked with <code v-pre>ezkl verify</code> at the cli, <code v-pre>ezkl.verify()</code> in Python, or from an Ethereum smart contract using the EVM verfier. It checks the correctness of the cryptographic proof produced by the prover.</p>
-<p>The inputs to verify are:</p>
+<p>Verify is invoked with <code v-pre>ezkl verify</code> at the cli, <code v-pre>ezkl.verify()</code> in Python, from an Ethereum smart contract using the EVM verfier, or with WASM. It checks the correctness of the cryptographic proof produced by the prover.</p>
+<p>Conceptually the inputs to verify are:</p>
 <ul>
 <li>the proof file</li>
 <li>the verification key</li>
-<li>the circuit params</li>
-<li>the params (structured reference string)</li>
+<li>the circuit settings, and</li>
+<li>the structured reference string</li>
 </ul>
-<p><code v-pre>ezkl</code> can also produce an EVM or wasm verifier which takes only the proof as input.</p>
+<p>but <code v-pre>ezkl</code> can also produce an EVM or wasm verifier which takes only the proof as input.</p>
 <hr />
 <doc-anchor-target id="contributing">
     <h2>

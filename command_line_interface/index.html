@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740255260341">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740285572516">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Command Line Interface</title>
     <meta name="title" content="Command Line Interface">
-    <meta name="description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them into a..." />
+    <meta name="description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them, and run a..." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/command_line_interface/" />
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/command_line_interface/">
     <meta property="og:title" content="Command Line Interface">
-    <meta property="og:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them into a...">
+    <meta property="og:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them, and run a...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/command_line_interface/">
     <meta property="twitter:title" content="Command Line Interface">
-    <meta property="twitter:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them into a...">
+    <meta property="twitter:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them, and run a...">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.740255260341" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.740285572516" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.740255260341" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.740285572516" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.740255260341" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.740255260341" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.740285572516" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.740285572516" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -177,7 +177,7 @@
     <img src="../assets/cli.png" alt="" />
     <figcaption class="caption"></figcaption>
 </figure>
-The <code v-pre>ezkl</code> cli provides a simple interface to load <code v-pre>.onnx</code> files, which represent graphs of operations (such as neural networks), convert them into a Halo2 circuit, then run a proof.</p>
+The <code v-pre>ezkl</code> cli provides a simple interface to load <code v-pre>.onnx</code> files, which represent graphs of operations (such as neural networks), convert them, and run a proof.</p>
 <doc-anchor-target id="cli-tutorial">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#cli-tutorial">#</doc-anchor-trigger>
@@ -222,7 +222,7 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
         <span>Setting circuit parameters</span>
     </h4>
 </doc-anchor-target>
-<p>Our circuit is configured with the <code v-pre>settings.json</code> file. This is created with the <code v-pre>gen-settings</code> command (replace <code v-pre>network.onnx</code> with the relative path of one of the example&#x27;s <code v-pre>.onnx</code> files):</p>
+<p>Our circuit is configured with the <code v-pre>settings.json</code> file. This is created with the <code v-pre>gen-settings</code> command.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M network.onnx</code></pre>
 </doc-codeblock></div>
@@ -230,21 +230,21 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings -M network.onnx -D input.json --target resources</code></pre>
 </doc-codeblock></div>
-<p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>. You can customize this file and even change the way it&#x27;s generated. Learn more about <code v-pre>gen-settings</code> &amp; <code v-pre>calibrate-settings</code> in the <a href="https://docs.ezkl.xyz/about_ezkl/commands/">Commands</a> section.</p>
+<p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>. You can pass a <code v-pre>--settings-path</code> to read from an existing settings file, and only modify the parts changed by calibration (e.g. leaving visibility or tolerance unchanged). You can customize this file and even change the way it is generated. Learn more about <code v-pre>gen-settings</code> and <code v-pre>calibrate-settings</code> in the <a href="https://docs.ezkl.xyz/about_ezkl/commands/">Commands</a> section.</p>
 <doc-anchor-target id="creating-the-circuit">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#creating-the-circuit">#</doc-anchor-trigger>
         <span>Creating the circuit</span>
     </h4>
 </doc-anchor-target>
-<p>Now, we use <code v-pre>setup</code> to create a proving and verifying key for our circuit, using the SRS, our circuit params, and the .onnx file.</p>
+<p>Now, we use <code v-pre>setup</code> to create a proving and verifying key for our circuit, using the SRS, our circuit settings, and the .onnx file.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.onnx --srs-path=15.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
-<p>This creates the verification key, proving key, and circuit params in the locations you specify. You can view the options associated to a subcommand like <code v-pre>setup</code> by typing</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl setup </code></pre>
-</doc-codeblock></div>
+<p>This creates the verification key, proving key, and circuit settings in the locations you specify.</p>
+<blockquote>
+<p>Note: You can view the options associated to a subcommand such as <code v-pre>setup</code> by typing <code v-pre>ezkl setup</code> with no parameters.</p>
+</blockquote>
 <doc-anchor-target id="making-a-proof">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#making-a-proof">#</doc-anchor-trigger>
@@ -362,12 +362,10 @@ Options:
           Flags whether outputs are public, private, hashed [default: public]
       --param-visibility &lt;PARAM_VISIBILITY&gt;
           Flags whether params are public, private, hashed [default: private]
-      --pack-base &lt;PACK_BASE&gt;
-          Base used to pack the public-inputs to the circuit. (value &gt; 1) to pack instances as a single int. Useful when verifying on the EVM. Note that this will often break for very long inputs. Use with caution, still experimental [default: 1]
       --allocated-constraints &lt;ALLOCATED_CONSTRAINTS&gt;
           the number of constraints the circuit might use. If not specified, this will be calculated using a 'dummy layout' pass
       --settings-path &lt;SETTINGS_PATH&gt;
-          optional circuit params path (overrides any run args set)
+          optional circuit settings path (overrides any run args set)
   -h, --help
           Print help</code></pre>
 </doc-codeblock></div>
