@@ -3,7 +3,7 @@ icon: code-square
 order: 8
 ---
 ![](../assets/cli.png) 
-The `ezkl` cli provides a simple interface to load `.onnx` files, which represent graphs of operations (such as neural networks), convert them into a Halo2 circuit, then run a proof.
+The `ezkl` cli provides a simple interface to load `.onnx` files, which represent graphs of operations (such as neural networks), convert them, and run a proof.
 
 ## CLI tutorial 👾
 
@@ -28,7 +28,7 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 
 
 #### Setting circuit parameters
-Our circuit is configured with the `settings.json` file. This is created with the `gen-settings` command (replace `network.onnx` with the relative path of one of the example's `.onnx` files):
+Our circuit is configured with the `settings.json` file. This is created with the `gen-settings` command. 
 ```bash
 ezkl gen-settings -M network.onnx
 ```
@@ -36,18 +36,17 @@ This will produce a `settings.json` file you can use for your circuit. However, 
 ```bash
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ```
-In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. You can customize this file and even change the way it's generated. Learn more about `gen-settings` & `calibrate-settings` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section.
+In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. You can pass a `--settings-path` to read from an existing settings file, and only modify the parts changed by calibration (e.g. leaving visibility or tolerance unchanged). You can customize this file and even change the way it is generated. Learn more about `gen-settings` and `calibrate-settings` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section.
 
 #### Creating the circuit
-Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS, our circuit params, and the .onnx file. 
+Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS, our circuit settings, and the .onnx file. 
 
 ```bash
 ezkl setup -M network.onnx --srs-path=15.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
 ```
-This creates the verification key, proving key, and circuit params in the locations you specify. You can view the options associated to a subcommand like `setup` by typing
-```bash
-ezkl setup 
-```
+This creates the verification key, proving key, and circuit settings in the locations you specify. 
+
+> Note: You can view the options associated to a subcommand such as `setup` by typing `ezkl setup` with no parameters.
 
 #### Making a proof
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
@@ -125,12 +124,10 @@ Options:
           Flags whether outputs are public, private, hashed [default: public]
       --param-visibility <PARAM_VISIBILITY>
           Flags whether params are public, private, hashed [default: private]
-      --pack-base <PACK_BASE>
-          Base used to pack the public-inputs to the circuit. (value > 1) to pack instances as a single int. Useful when verifying on the EVM. Note that this will often break for very long inputs. Use with caution, still experimental [default: 1]
       --allocated-constraints <ALLOCATED_CONSTRAINTS>
           the number of constraints the circuit might use. If not specified, this will be calculated using a 'dummy layout' pass
       --settings-path <SETTINGS_PATH>
-          optional circuit params path (overrides any run args set)
+          optional circuit settings path (overrides any run args set)
   -h, --help
           Print help
 ```
