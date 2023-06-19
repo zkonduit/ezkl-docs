@@ -81,7 +81,7 @@ This is a comprehensive list of the commands and flags you can use with `ezkl`. 
 And the flags (RunArgs) here:
 [!ref](/About_EZKL/RunArgs)
 
-```bash
+```
 Usage: ezkl [OPTIONS] <COMMAND>
 
 Commands:
@@ -134,7 +134,7 @@ Options:
 
 `prove` and `mock` both require `-D` and `-M` parameters. 
 
-```bash
+```
 Usage: ezkl mock [OPTIONS]
 
 Options:
