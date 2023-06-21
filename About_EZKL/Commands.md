@@ -115,7 +115,7 @@ For example, after running the same command with `--target` set to **accuracy**,
 }
 ```
 
-> Note: You can still use the generic RunArgs for `mock` and `forward` (e.g. `ezkl mock --logrows=22 --bits=21` rather than `ezkl mock --settings-path circuit.json`). However, `--settings-path` takes priority.
+> Note: You can still use the generic RunArgs for `mock` and `gen-witness` (e.g. `ezkl mock --logrows=22 --bits=21` rather than `ezkl mock --settings-path circuit.json`). However, `--settings-path` takes priority.
 ### Setup
 
 Along with our SRS and circuit parameters, we need two other elements to generate a proof: a proving key and a verifying key. You will get both by running `ezkl`'s `setup` command. We need our proving key to generate proofs; we need our verifying key to verify proofs from the corresponding proving key.
@@ -165,15 +165,15 @@ ezkl mock -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/i
 
 Mock is basically checking that constraints that your model has been translated into are satisfied, without doing any of the subsequent cryptographic heavy lifting to produce a proof. 
 
-### Forward
+### Generate Witness
 
-Sometimes you want to run a forward pass of `ezkl`'s quantized version of your model on some input data to generate the outputs it will be able to prove. `ezkl` also supports a forward pass function called `forward`:
+The `gen-witness` function generates a witness for a given model and input data for a neural net or computational graph. A witness in the context of Zero Knowledge Proofs is a piece of information that allows you to quickly verify whether some statement is true. This function gives you outputs of your neural network or computation graph in a form that is usable as a Zero Knowledge Proof.
+
+The function has additional configurable settings, including a ONNX model file path, an input data file path, an output file path, an optional scale, and an optional batch size. More details on the optional scale and optional batch size can be found in [RunArgs](./RunArgs.md).
 
 ```bash
-ezkl forward -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json -O examples/onnx/1l_sigmoid/new_input.json
+ezkl gen-witness -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json -O examples/onnx/1l_sigmoid/witness.json
 ```
-
-This produces a file called `new_input` in our `examples/onnx/1l_sigmoid` directory. It is the provided input model, with the outputs replaced by what the quantized model will produce after a forward pass. You may need it for example if the original `input.json` file you produced was a dummy file that did not have correct outputs. We run it automatically in the `export` function in the Python version of `ezkl`.
 
 ### Table
 
