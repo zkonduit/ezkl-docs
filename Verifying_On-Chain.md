@@ -27,7 +27,7 @@ ezkl create-evm-verifier --deployment-code-path verif.code --srs-path=15.srs --v
 ```
 
 ```bash
-ezkl prove --transcript=evm -D input.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=15.srs --settings-path=settings.json 
+ezkl prove --transcript=evm --witness input.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=15.srs --settings-path=settings.json 
 ```
 
 ```bash
