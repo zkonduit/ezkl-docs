@@ -167,9 +167,9 @@ Mock is basically checking that constraints that your model has been translated 
 
 ### Generate Witness
 
-The `gen-witness` function generates a witness for a given model and input data for a neural net or computational graph. A witness in the context of Zero Knowledge Proofs is a piece of information that allows you to quickly verify whether some statement is true. This function gives you outputs of your neural network or computation graph in a form that is usable as a Zero Knowledge Proof.
+The `gen-witness` function generates a witness for a given model and input data for a neural net or computational graph. A witness in the context of Zero Knowledge Proofs is a computational trace that allows a proof to be generated.  The `gen-witness` function doesn't record all the intermediate values of the trace (such as the activations of inner layers in a neural network), but does write the final outputs of your neural network or computation graph in a form that is usable in the prove command, and human readable.
 
-The function has additional configurable settings, including a ONNX model file path, an input data file path, an output file path, an optional scale, and an optional batch size. More details on the optional scale and optional batch size can be found in [RunArgs](./RunArgs.md).
+The function has additional configurable settings, including an ONNX model file path, an input data file path, an output file path, an optional scale, and an optional batch size. More details on the optional scale and optional batch size can be found in [RunArgs](./RunArgs.md).
 
 ```bash
 ezkl gen-witness -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json -O examples/onnx/1l_sigmoid/witness.json
