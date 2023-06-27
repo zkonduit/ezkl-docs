@@ -1,6 +1,6 @@
 ---
 icon: code-square
-order: 8
+order: 93
 ---
 ![](../assets/cli.png) 
 The `ezkl` cli provides a simple interface to load `.onnx` files, which represent graphs of operations (such as neural networks), convert them, and run a proof.
