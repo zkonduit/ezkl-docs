@@ -27,7 +27,7 @@ ezkl create-evm-verifier --deployment-code-path verif.code --srs-path=15.srs --v
 ```
 
 ```bash
-ezkl prove --transcript=evm -D input.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=15.srs --settings-path=settings.json 
+ezkl prove --transcript=evm --witness input.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=15.srs --settings-path=settings.json 
 ```
 
 ```bash
@@ -74,7 +74,7 @@ ezkl create-evm-verifier-aggr --deployment-code-path aggr_1l_relu.code --srs-pat
 ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --srs-path=20.srs --vk-path aggr_1l_relu.vk
 ```
 
-Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation, and that aggregated proof verification in Solidity is not currently supported. You can follow the SolidityLang instructions linked above, or you can use [svm-rs](https://github.com/alloy-rs/svm-rs) to install solc. Here's how:
+Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation. You can follow the SolidityLang instructions linked above, or you can use [svm-rs](https://github.com/alloy-rs/svm-rs) to install solc. Here's how:
 
 Install svm-rs:
 ```bash

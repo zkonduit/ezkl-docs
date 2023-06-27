@@ -10,10 +10,11 @@ order: -9
 
 [![](../assets/edconthumb.png)](https://www.youtube.com/watch?v=b8WwlHFBXfs)
 
-<!-- ![](../assets/edconthumb.png) -->
 [Jason Morton - What Is Unlocked by Practical Zero-Knowledge Proofs? | EDCON 2023 Montenegro](https://www.youtube.com/watch?v=b8WwlHFBXfs)
 
-Zuzalu talks and panel - coming soon
+Zuzalu [ZKML 101](https://zuzalu.streameth.org/session/707) and [panel](https://zuzalu.streameth.org/session/753).
+
+Empower - coming soon
 
 ETH Denver talks - coming soon
 

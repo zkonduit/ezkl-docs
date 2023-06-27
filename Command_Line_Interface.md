@@ -52,7 +52,7 @@ This creates the verification key, proving key, and circuit settings in the loca
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
 
 ```bash
-ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json
+ezkl prove -M network.onnx --witness input.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json
 ```
 
 #### Verification
@@ -86,7 +86,7 @@ Usage: ezkl [OPTIONS] <COMMAND>
 
 Commands:
   table                     Loads model and prints model table
-  forward                   Runs a vanilla forward pass, produces a quantized output, and saves it to a .json file
+  gen-witness               Generates the witness from an input file 
   gen-settings              Produces the proving hyperparameters, from run-args
   calibrate-settings        Calibrates the proving scale, lookup bits and logrows from a circuit settings file
   gen-srs                   Generates a dummy SRS
