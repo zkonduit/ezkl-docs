@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.740506374821">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741192844385">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.740506374821" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.741192844385" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.740506374821" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.740506374821" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.740506374821" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.741192844385" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -253,7 +253,7 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 </doc-anchor-target>
 <p>Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by <code v-pre>--proof-path</code>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.onnx -D input.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.onnx --witness input.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="verification">
     <h4>
@@ -324,7 +324,7 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 
 Commands:
   table                     Loads model and prints model table
-  forward                   Runs a vanilla forward pass, produces a quantized output, and saves it to a .json file
+  gen-witness               Generates the witness from an input file 
   gen-settings              Produces the proving hyperparameters, from run-args
   calibrate-settings        Calibrates the proving scale, lookup bits and logrows from a circuit settings file
   gen-srs                   Generates a dummy SRS

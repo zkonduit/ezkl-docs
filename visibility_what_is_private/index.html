@@ -9,32 +9,32 @@
     <meta name="generator" content="Retype 3.0.3">
 
     <!-- Primary Meta Tags -->
-    <title>What is EZKL?</title>
-    <meta name="title" content="What is EZKL?">
-    <meta name="description" content="ezkl is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark." />
+    <title>Visibility: What is Private?</title>
+    <meta name="title" content="Visibility: What is Private?">
+    <meta name="description" content="In ezkl there are four choices for Visibility: private, public, hashed, or encrypted, and three parts to chose these for: the model input, the model..." />
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://docs.ezkl.xyz/" />
+    <link rel="canonical" href="https://docs.ezkl.xyz/visibility_what_is_private/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.ezkl.xyz/">
-    <meta property="og:title" content="What is EZKL?">
-    <meta property="og:description" content="ezkl is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark.">
+    <meta property="og:url" content="https://docs.ezkl.xyz/visibility_what_is_private/">
+    <meta property="og:title" content="Visibility: What is Private?">
+    <meta property="og:description" content="In ezkl there are four choices for Visibility: private, public, hashed, or encrypted, and three parts to chose these for: the model input, the model...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.ezkl.xyz/">
-    <meta property="twitter:title" content="What is EZKL?">
-    <meta property="twitter:description" content="ezkl is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark.">
+    <meta property="twitter:url" content="https://docs.ezkl.xyz/visibility_what_is_private/">
+    <meta property="twitter:title" content="Visibility: What is Private?">
+    <meta property="twitter:description" content="In ezkl there are four choices for Visibility: private, public, hashed, or encrypted, and three parts to chose these for: the model input, the model...">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.0.3.741192844385" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.741192844385" rel="stylesheet" />
 
-    <script type="text/javascript" src="resources/js/config.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
-    <script type="text/javascript" src="resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="resources/js/lunr.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -49,7 +49,7 @@
                 <!-- Logo -->
                 <div class="flex items-center justify-between h-full py-2 md:w-75">
                     <div class="flex items-center px-2 md:px-6">
-                        <a id="docs-site-logo" href="" class="flex items-center leading-snug text-2xl">
+                        <a id="docs-site-logo" href="../" class="flex items-center leading-snug text-2xl">
                             <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">EZKL</span>
                         </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
                     </div>
@@ -166,125 +166,66 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<p><figure class="content-center">
-    <img src="../assets/thethumbnail.jpg" alt="" />
-    <figcaption class="caption"></figcaption>
-</figure>
-</p>
-<doc-anchor-target id="what-is-ezkl" class="break-words">
+<doc-anchor-target id="visibility-what-is-private" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#what-is-ezkl">#</doc-anchor-trigger>
-        <span>What is EZKL?</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#visibility-what-is-private">#</doc-anchor-trigger>
+        <span>Visibility: What is Private?</span>
     </h1>
 </doc-anchor-target>
-<p><code v-pre>ezkl</code> is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark. It enables the following workflow:</p>
-<ol>
-<li>Define a neural net or more general computational graph normally in <a href="https://pytorch.org/docs/stable/index.html">pytorch</a>.</li>
-<li>Export the graph of operations as an <a href="https://onnx.ai/">net.onnx</a> file and some sample inputs to an <code v-pre>input.json</code> file.</li>
-<li>Point <code v-pre>ezkl</code> to the <code v-pre>net.onnx</code> and <code v-pre>input.json</code> files to generate a ZK-SNARK circuit with which you can prove statements such as:</li>
-</ol>
-<blockquote>
-<p>&quot;I ran this publicly available neural network on some private data and it produced this output&quot;</p>
-</blockquote>
-<blockquote>
-<p>&quot;I ran my private neural network on some public data and it produced this output&quot;</p>
-</blockquote>
-<blockquote>
-<p>&quot;I correctly ran this publicly available neural network on some public data and it produced this output&quot;</p>
-</blockquote>
-<p><code v-pre>ezkl</code> can be used directly from Python; <a href="https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing">see this colab notebook</a> and the python bindings docs. 
-<div class="mb-6 px-5 py-4 flex justify-between relative border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded transition-colors duration-150">
-    <div class="flex items-center text-blue-500 dark:text-blue-400">
-        <span class="inline-block mb-px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
-        </span>
-        <span class="inline-block font-medium ml-2">Python bindings</span>
-    </div>
-    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>python_bindings/</span>
-    </div>
-    <a href="python_bindings/" class="absolute block inset-0"></a>
-</div>
-</p>
-<p><code v-pre>ezkl</code> can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify in WASM and on the EVM.
-The rust API is also sufficiently flexible to enable you to code up a computational graph and resulting circuit from scratch. For examples on how to do so see the <strong>library examples</strong> in the repo. In the backend we use <a href="https://github.com/privacy-scaling-explorations/halo2">Halo2</a> as a proof system.  For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>!</p>
-<hr />
-<doc-anchor-target id="the-life-cycle-of-a-proof">
+<doc-anchor-target id="visibility">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#the-life-cycle-of-a-proof">#</doc-anchor-trigger>
-        <span>The life cycle of a proof</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#visibility">#</doc-anchor-trigger>
+        <span>Visibility</span>
     </h2>
 </doc-anchor-target>
-<p>There are three steps in the life of an ezkl proof: Setup, Prove, and Verify. Each step is generally performed by a different party.</p>
-<doc-anchor-target id="setup">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#setup">#</doc-anchor-trigger>
-        <span>Setup</span>
-    </h3>
-</doc-anchor-target>
-<p>Setup is invoked with <code v-pre>ezkl setup</code> at the cli or <code v-pre>ezkl.setup()</code> in Python. It defines what consitutes a proof and how that proof will be verified, setting the rules of the game. Setup is performed by the application developer, who then deploys the resulting artifacts to production.</p>
-<p>The inputs to setup are:</p>
-<ul>
-<li>the model (as an onnx file)</li>
-<li>the structured reference string which is a common, public piece of cryptographic data shared among proofs of the same size</li>
-<li>various flags, settings, and options for tuning and added functionality</li>
-</ul>
-<p>The outputs of setup are:</p>
-<ul>
-<li>the proving key</li>
-<li>the verification key, and</li>
-<li>the circuit settings: serialized flags, settings, and options, and a few numbers that describe the shape of the resulting circuit.</li>
-</ul>
-<doc-anchor-target id="prove">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#prove">#</doc-anchor-trigger>
-        <span>Prove</span>
-    </h3>
-</doc-anchor-target>
-<p>Prove, invoked with <code v-pre>ezkl prove</code> at the cli or <code v-pre>ezkl.prove()</code> in Python, is called by the prover, often on the client. The prover is making a claim that it knows some inputs (which might include model parameters), such that when the model (chosen during setup) is run on them, produces certain outputs. The prove function computes a cryptographic proof of that claim, which can then be believed by any verifier.</p>
-<p>The inputs to prove are:</p>
-<ul>
-<li>the data (an <code v-pre>input.json</code> file) containing the claim: an input, output pair such that model(input) = output (this output can be produced using the <code v-pre>forward</code> command)</li>
-<li>the model (as an onnx file)</li>
-<li>the proving key</li>
-<li>the structured reference string, and</li>
-<li>the circuit settings.</li>
-</ul>
-<p>The outputs of prove are:</p>
-<ul>
-<li>the proof file.</li>
-</ul>
-<doc-anchor-target id="verify">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#verify">#</doc-anchor-trigger>
-        <span>Verify</span>
-    </h3>
-</doc-anchor-target>
-<p>Verify is invoked with <code v-pre>ezkl verify</code> at the cli, <code v-pre>ezkl.verify()</code> in Python, from an Ethereum smart contract using the EVM verfier, or with WASM. It checks the correctness of the cryptographic proof produced by the prover.</p>
-<p>Conceptually the inputs to verify are:</p>
-<ul>
-<li>the proof file</li>
-<li>the verification key</li>
-<li>the circuit settings, and</li>
-<li>the structured reference string</li>
-</ul>
-<p>but <code v-pre>ezkl</code> can also produce an EVM or wasm verifier which takes only the proof as input.</p>
-<hr />
-<doc-anchor-target id="contributing">
+<p>In <code v-pre>ezkl</code> there are four choices for Visibility: private, public, hashed, or encrypted, and three parts to chose these for: the model input, the model weights, and the model output (for 64 possible choices). The default setting is <code v-pre>private</code> input, <code v-pre>public</code> output, and <code v-pre>private</code> weights.</p>
+<p>The question of what is private is very much related to the question of what we are proving. These questions tend to be a bit subtle and are really about designing the overall cryptosystem, of which your ezkl proof is a part. We provide these options to enable many different constructions. It can take some thought to determine which is right for you use case.</p>
+<p>At a high level, mark those things <code v-pre>private</code> that you want to be secret to the prover, and allow the prover to change freely. Mark things <code v-pre>public</code> if you want them to be baked into the setup, and generally available (although see the comments about weight visibility below). Setting a part to <code v-pre>hashed</code> is a way to commit to it, and also a way to build bridges between proofs, making sure that a piece of data (input, weights, or output) is the same in multiple proofs. Hashed parts are also useful to reduce calldata size for smart contracts, and to allow something to be signed. Finally making a part <code v-pre>encrypted</code> proves encryption inside the circuit, which is useful for some constructions such as marketplaces with escrow contracts.</p>
+<doc-anchor-target id="data-provenance-signatures-and-linking-data">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#contributing">#</doc-anchor-trigger>
-        <span>Contributing <span class="docs-emoji">&#x1F30E;</span></span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#data-provenance-signatures-and-linking-data">#</doc-anchor-trigger>
+        <span>Data provenance, signatures, and linking data</span>
     </h2>
 </doc-anchor-target>
-<p>If you&#x27;re interested in contributing and are unsure where to start, reach out to one of the maintainers on our <a href="https://t.me/+QRzaRvTPIthlYWMx">Telegram group</a>.</p>
-<p>More broadly:</p>
+<p>A digital signature is a kind of zero knowledge proof. Ezkl can prove that a certain model says an image contains a cat, but you also have to think about whether that image is real (if that is important for your application). One technique to solve this <em>data provenance</em> problem is to use hashed visibility for the input image, and have a data source which separately signs the hash. Then the verifier can check the signature separately.</p>
+<p>Putting it together, you would have two proofs. One, that Alice signed the (hash of the) image, using any signature algorithm on the Poseidon hash of the image. This can be computed and verified outside ezkl. Two, that the image with the given Poseidon hash contains a picture of a cat.</p>
+<p>Then a verifier or verifier contract checks both the signature and the ezkl proof, and since the hash is the same, can be confident that the signature and the proof are &quot;talking about&quot; the same image.</p>
+<doc-anchor-target id="weight-visibility">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#weight-visibility">#</doc-anchor-trigger>
+        <span>Weight visibility</span>
+    </h2>
+</doc-anchor-target>
+<p>When a model&#x27;s weights are marked <code v-pre>public</code>, the weights are fixed at setup (circuit definition time). These weights are extractable from the proving key or the onnx file, but they can be kept private from the verifier as they are not part of the verifying key, proof, settings, or srs. Proofs can only be produced against the specific weights used at setup, so the verifier itself serves as a kind of implicit commitment to the weights. If you want to make an explicit commitment to the weights, for example to tie them to another model or sign them, use the hashed Visibility.</p>
 <ul>
-<li><p>Feel free to open up a <a href="https://github.com/zkonduit/ezkl/discussions">discussion topic</a> to ask questions.</p>
-</li>
-<li><p>See currently open issues for ideas on how to contribute.</p>
-</li>
-<li><p>For PRs we use the <a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commits</a> naming convention.</p>
-</li>
+<li>Private: The weights are private to the prover, and can be chosen freely by the prover.</li>
+<li>Public: The weights are fixed by the setup, visible in the proving key, but not visible in the verifying key or verifier (although be aware of dictionary attacks).</li>
+<li>Hashed: The weights are private, but the hash of the weights is in the proof file, preventing the prover from changing the weights.</li>
+<li>Encrypted: The encrypted weights are in the proof file, and part of the proof is that this encryption is correct.</li>
+</ul>
+<doc-anchor-target id="input-visibility">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#input-visibility">#</doc-anchor-trigger>
+        <span>Input visibility</span>
+    </h2>
+</doc-anchor-target>
+<ul>
+<li>Private: The input is private to the prover, and can be chosen freely by the prover.</li>
+<li>Public: The input is part of the proof file, shared with the verifier.</li>
+<li>Hashed: The input is not sent in the proof file, but a Poseidon hash of the input is sent instead. The input is chosen by the prover, but it has to match the hash. The verifier cannot determine the input from the hash alone (although beware of dictionary attacks).</li>
+<li>Encrypted: The proof contains the encryption of the input, and part of the proof is that this encryption is correct.</li>
+</ul>
+<doc-anchor-target id="output-visibility">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#output-visibility">#</doc-anchor-trigger>
+        <span>Output visibility</span>
+    </h2>
+</doc-anchor-target>
+<ul>
+<li>Private: The model output is private to the prover, and can be chosen freely by the prover.</li>
+<li>Public: The model output is part of the proof file, shared with the verifier.</li>
+<li>Hashed: The model output is not sent in the proof file, but a Poseidon hash of the output is sent instead. The verifier cannot determine the output from the hash alone (although beware of dictionary attacks).</li>
+<li>Encrypted: The proof contains the encryption of the output, and part of the proof is that this encryption is correct.</li>
 </ul>
 
                                 
@@ -295,13 +236,20 @@ The rust API is also sufficiently flexible to enable you to code up a computatio
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../verifying_on-chain/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
+                                                <span class="block mt-1">Verifying On-​Chain</span>
+                                            </span>
+                                        </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l rounded-r-lg transition-colors duration-150 relative hover:z-5" href="getting_started/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../examples/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Getting Started</span>
+                                                <span class="block mt-1">Examples</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -345,6 +293,6 @@ The rust API is also sufficiently flexible to enable you to code up a computatio
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "What is EZKL?", isRoot: true, level: 0, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Visibility: What is Private?", level: 1, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
