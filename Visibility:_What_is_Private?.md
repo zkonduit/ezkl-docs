@@ -6,9 +6,13 @@ order: 7
 
 In `ezkl` there are four choices for Visibility: private, public, hashed, or encrypted, and three parts to chose these for: the model input, the model weights, and the model output (for 64 possible choices). The default setting is `private` input, `public` output, and `private` weights.
 
+Visibility is controlled in the circuit settings (`settings.json` file), and is determined at setup time.
+
 The question of what is private is very much related to the question of what we are proving. These questions tend to be a bit subtle and are really about designing the overall cryptosystem, of which your ezkl proof is a part. We provide these options to enable many different constructions. It can take some thought to determine which is right for you use case.
 
 At a high level, mark those things `private` that you want to be secret to the prover, and allow the prover to change freely. Mark things `public` if you want them to be baked into the setup, and generally available (although see the comments about weight visibility below). Setting a part to `hashed` is a way to commit to it, and also a way to build bridges between proofs, making sure that a piece of data (input, weights, or output) is the same in multiple proofs. Hashed parts are also useful to reduce calldata size for smart contracts, and to allow something to be signed. Finally making a part `encrypted` proves encryption inside the circuit, which is useful for some constructions such as marketplaces with escrow contracts.
+
+Note that the proof file contains both the instance data (e.g. a hash of the model input and the actual output of the model) and the bytes of the cryptographic proof. These parts (instance data, proof bytes) are analogous to the message hash and signature in a digital signature.
 
 ## Data provenance, signatures, and linking data
 A digital signature is a kind of zero knowledge proof. Ezkl can prove that a certain model says an image contains a cat, but you also have to think about whether that image is real (if that is important for your application). One technique to solve this *data provenance* problem is to use hashed visibility for the input image, and have a data source which separately signs the hash. Then the verifier can check the signature separately.

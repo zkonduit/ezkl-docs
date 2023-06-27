@@ -7,5 +7,7 @@ branding:
 links:
 - text: EZKL GitHub
   link: https://github.com/zkonduit/ezkl 
+- text: EZKL Telegram
+  link: https://t.me/+76OjHb5CwJtkMTBh
 footer:
   copyright: "&copy; Copyright Zkonduit Inc. {{ year }}. All rights reserved."
