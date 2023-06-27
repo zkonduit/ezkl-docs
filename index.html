@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741192844385">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741212713455">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>What is EZKL?</title>
     <meta name="title" content="What is EZKL?">
-    <meta name="description" content="ezkl is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark." />
+    <meta name="description" content="ezkl takes a high-level description of your program and sets up a zero-knowledge prover and verifier. Our focus is on programs that are expressed as " />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/" />
@@ -20,21 +20,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/">
     <meta property="og:title" content="What is EZKL?">
-    <meta property="og:description" content="ezkl is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark.">
+    <meta property="og:description" content="ezkl takes a high-level description of your program and sets up a zero-knowledge prover and verifier. Our focus is on programs that are expressed as ">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/">
     <meta property="twitter:title" content="What is EZKL?">
-    <meta property="twitter:description" content="ezkl is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark.">
+    <meta property="twitter:description" content="ezkl takes a high-level description of your program and sets up a zero-knowledge prover and verifier. Our focus is on programs that are expressed as ">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.0.3.741192844385" rel="stylesheet" />
+    <link href="resources/css/retype.css?v=3.0.3.741212713455" rel="stylesheet" />
 
-    <script type="text/javascript" src="resources/js/config.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="resources/js/config.js?v=3.0.3.741212713455" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="resources/js/lunr.js?v=3.0.3.741192844385" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="resources/js/lunr.js?v=3.0.3.741212713455" data-turbo-eval="false" defer></script>
+    <link href="resources/css/katex.css?v=3.0.3" rel="stylesheet" />
+    <script id="katex-js" type="text/javascript" src="resources/js/katex.js?v=3.0.3" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -63,6 +65,9 @@
                         <ul class="flex flex-col mb-4 md:pl-16 md:mb-0 md:flex-row md:items-center">
                             <li class="mr-6">
                                 <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://github.com/zkonduit/ezkl">EZKL GitHub</a>
+                            </li>
+                            <li class="mr-6">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://t.me/+76OjHb5CwJtkMTBh">EZKL Telegram</a>
                             </li>
         
                         </ul>
@@ -143,6 +148,9 @@
                                     <li class="mr-6">
                                         <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://github.com/zkonduit/ezkl">EZKL GitHub</a>
                                     </li>
+                                    <li class="mr-6">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://t.me/+76OjHb5CwJtkMTBh">EZKL Telegram</a>
+                                    </li>
             
                                 </ul>
                             </nav>
@@ -166,23 +174,19 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<p><figure class="content-center">
-    <img src="../assets/thethumbnail.jpg" alt="" />
-    <figcaption class="caption"></figcaption>
-</figure>
-</p>
 <doc-anchor-target id="what-is-ezkl" class="break-words">
     <h1>
         <doc-anchor-trigger class="header-anchor-trigger" to="#what-is-ezkl">#</doc-anchor-trigger>
         <span>What is EZKL?</span>
     </h1>
 </doc-anchor-target>
-<p><code v-pre>ezkl</code> is a library and command-line tool for doing inference for deep learning models and other computational graphs in a zk-snark. It enables the following workflow:</p>
-<ol>
-<li>Define a neural net or more general computational graph normally in <a href="https://pytorch.org/docs/stable/index.html">pytorch</a>.</li>
-<li>Export the graph of operations as an <a href="https://onnx.ai/">net.onnx</a> file and some sample inputs to an <code v-pre>input.json</code> file.</li>
-<li>Point <code v-pre>ezkl</code> to the <code v-pre>net.onnx</code> and <code v-pre>input.json</code> files to generate a ZK-SNARK circuit with which you can prove statements such as:</li>
-</ol>
+<doc-anchor-target id="ezkl-makes-zero-knowledge-easier">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#ezkl-makes-zero-knowledge-easier">#</doc-anchor-trigger>
+        <span>EZKL makes zero-knowledge easier</span>
+    </h2>
+</doc-anchor-target>
+<p><code v-pre>ezkl</code> takes a high-level description of your program and sets up a zero-knowledge prover and verifier. Our focus is on programs that are expressed as <a href="https://pytorch.org/docs/stable/index.html">pytorch</a> AI/ML models and other computational graphs. After setup, the prover can prove statements such as the following.</p>
 <blockquote>
 <p>&quot;I ran this publicly available neural network on some private data and it produced this output&quot;</p>
 </blockquote>
@@ -192,7 +196,7 @@
 <blockquote>
 <p>&quot;I correctly ran this publicly available neural network on some public data and it produced this output&quot;</p>
 </blockquote>
-<p><code v-pre>ezkl</code> can be used directly from Python; <a href="https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing">see this colab notebook</a> and the python bindings docs. 
+<p><code v-pre>ezkl</code> can be used as a command-line tool, or directly from Python; <a href="https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing">see this colab notebook</a> and the python bindings docs. 
 <div class="mb-6 px-5 py-4 flex justify-between relative border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded transition-colors duration-150">
     <div class="flex items-center text-blue-500 dark:text-blue-400">
         <span class="inline-block mb-px">
@@ -206,9 +210,26 @@
     <a href="python_bindings/" class="absolute block inset-0"></a>
 </div>
 </p>
-<p><code v-pre>ezkl</code> can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify in WASM and on the EVM.
-The rust API is also sufficiently flexible to enable you to code up a computational graph and resulting circuit from scratch. For examples on how to do so see the <strong>library examples</strong> in the repo. In the backend we use <a href="https://github.com/privacy-scaling-explorations/halo2">Halo2</a> as a proof system.  For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>!</p>
+<p><code v-pre>ezkl</code> can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify on the Ethereum Virtual Machine (or on the command line, or in the browser using wasm).</p>
+<p>For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>!</p>
 <hr />
+<doc-anchor-target id="zero-knowledge-proofs">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#zero-knowledge-proofs">#</doc-anchor-trigger>
+        <span>Zero-knowledge proofs</span>
+    </h2>
+</doc-anchor-target>
+<p>A zero-knowledge proof is a programmable digital signature. In a normal digital signature scheme, we have a secret key, a public message, and a signature algorithm that was set up in advance and everyone knows. These are applied to the inputs to produce a signature and a public message, which is then verified by a counterparty (such as a blockchain).
+<figure class="content-center">
+    <img src="../assets/before.png" alt="" />
+    <figcaption class="caption"></figcaption>
+</figure>
+A zero-knowledge proof allows us to replace the secret key and public message with arbitrary private and public inputs, and it lets us run any program we like on them, not just a fixed signature algorithm.</p>
+<p><figure class="content-center">
+    <img src="../assets/after.png" alt="" />
+    <figcaption class="caption"></figcaption>
+</figure>
+Just as with a digital signature, there are three parties: one to define the setup, one to prove, and one to verify.</p>
 <doc-anchor-target id="the-life-cycle-of-a-proof">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#the-life-cycle-of-a-proof">#</doc-anchor-trigger>
@@ -241,10 +262,10 @@ The rust API is also sufficiently flexible to enable you to code up a computatio
         <span>Prove</span>
     </h3>
 </doc-anchor-target>
-<p>Prove, invoked with <code v-pre>ezkl prove</code> at the cli or <code v-pre>ezkl.prove()</code> in Python, is called by the prover, often on the client. The prover is making a claim that it knows some inputs (which might include model parameters), such that when the model (chosen during setup) is run on them, produces certain outputs. The prove function computes a cryptographic proof of that claim, which can then be believed by any verifier.</p>
+<p>Prove, invoked with <code v-pre>ezkl prove</code> at the cli or <code v-pre>ezkl.prove()</code> in Python, is called by the prover, often on the client. The prover is making a claim that it knows some inputs (which might include model parameters), such that when the model (chosen during setup) is run on them, produces certain outputs. The prove command computes a cryptographic proof of that claim, which can then be believed by any verifier.</p>
 <p>The inputs to prove are:</p>
 <ul>
-<li>the data (an <code v-pre>input.json</code> file) containing the claim: an input, output pair such that model(input) = output (this output can be produced using the <code v-pre>forward</code> command)</li>
+<li>the witness data for the claim: an (input, output) pair <span class="math">(x,y)</span> such that model(input) = output (this pair can be produced from <span class="math">x</span> using the <code v-pre>gen-witness</code> command)</li>
 <li>the model (as an onnx file)</li>
 <li>the proving key</li>
 <li>the structured reference string, and</li>
@@ -268,7 +289,7 @@ The rust API is also sufficiently flexible to enable you to code up a computatio
 <li>the circuit settings, and</li>
 <li>the structured reference string</li>
 </ul>
-<p>but <code v-pre>ezkl</code> can also produce an EVM or wasm verifier which takes only the proof as input.</p>
+<p>but <code v-pre>ezkl</code> can produce an EVM verifier which takes only the proof as input, and this is the normal use case.</p>
 <hr />
 <doc-anchor-target id="contributing">
     <h2>
@@ -345,6 +366,6 @@ The rust API is also sufficiently flexible to enable you to code up a computatio
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "What is EZKL?", isRoot: true, level: 0, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "What is EZKL?", isRoot: true, level: 0, icon: "file", hasPrism: false, hasMermaid: false, hasMath: true }</script>
 </body>
 </html>
