@@ -78,47 +78,24 @@ rustflags = ["-C", "target-feature=+atomics,+bulk-memory,+mutable-globals"]
 
 Now that we have the wasm-pack package, we can build a simple frontend that uses its exports to prove and verify models (we would love to see projects using this in more intricate ways). Here's what we'll do step-by-step:
 
-We'll be using the `ezkl` library to pass in the **serialized circuit**(.onnx) and **runargs** to our `gen_circuit_params_wasm` function. In order to generate a serialized `runargs` file, you'll need to generate it. You can do this by adding a new Rust file to `ezkl/src/bin` (feel free to call it `genscript.rs`). Paste this code there:
-```rust
-mod genscript {
-    use ezkl_lib::commands::RunArgs;
-    use std::fs::File;
-    use std::io::Write;
-    use ezkl_lib::circuit::Tolerance;
- 
-    pub fn gen_run_args() {
-        let run_args = RunArgs {
-            tolerance: Tolerance::default(),
-            scale: 7,
-            bits: 16,
-            logrows: 17,
-            batch_size: 1,
-            input_visibility: "private",
-            output_visibility: "public",
-            param_visibility: "private",
-            pack_base: 1,
-            allocated_constraints: Some(1000), // assuming an arbitrary value here for the sake of the example
-        };
- 
- 
-        let serialized_run_args =
-            bincode::serialize(&run_args).expect("Failed to serialize RunArgs");
- 
- 
-        // Write the serialized runargs to a file.
-        let mut rafile = File::create("run_args.params").expect("Failed to create file");
-        rafile
-            .write_all(&serialized_run_args)
-            .expect("Failed to write data to file");
-    }
- }
- 
- 
- fn main() {
-    genscript::gen_run_args();
- }
- 
- 
+We'll be using the `ezkl` library to pass in the **serialized circuit**(.onnx) and **runargs** to our `gen_circuit_params_wasm` function. Copy the following into `runargs.params`:
+```json
+{ "tolerance": {
+            "val": 0.0,
+            "scales": [
+                1,
+                1
+            ]
+        },
+        "scale": 0,
+        "bits": 5,
+        "logrows": 7,
+        "batch_size": 1,
+        "input_visibility": "Private",
+        "output_visibility": "Public",
+        "param_visibility": "Private",
+        "allocated_constraints": 1000
+}
 ```
 From here, feel free to change the RunArgs as you please to make the best SNARK for your circuit. These are the arguments you see [here](https://docs.ezkl.xyz/command_line_interface/). After you run the main function with `cargo run --bin genscript`, you will have a file called `run_args.params`. You can use this as the second parameter for `gen_circuit_params_wasm`.
 
