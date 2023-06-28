@@ -45,3 +45,32 @@ When a model's weights are marked `public`, the weights are fixed at setup (circ
 - Hashed: The model output is not sent in the proof file, but a Poseidon hash of the output is sent instead. The verifier cannot determine the output from the hash alone (although beware of dictionary attacks).
 - Encrypted: The proof contains the encryption of the output, and part of the proof is that this encryption is correct.
 
+--------------------
+
+## Visibility Examples
+
+This section can safely be skipped but might provide more clarity on some common options for visibility. Consider a function $f$ which given inputs $x,y$ and weight $c$ computes $f(x,y) = cx+y$. 
+
+```python
+class Model(nn.Module):
+    def __init__(self, inplace=False):
+        self.c = 3
+
+    def forward(self, x, y):
+        z = self.c * x + y
+        return z
+```
+
+Notice that weights "$c$" are different from the inputs $x,y$ and output $z$. Weights are defined as part of the model (and will appear in the onnx). 
+
+Suppose we set input public, weights fixed ("public"), and output public. This means that $c$ will be baked into the verifier and cannot be changed for this verifier. The witness data that will become part of the proof is $(x,y,z)$. The prover is proving that $cx+y = z$, and the verifier sees $x,y,$ and $z$, but not $c$. The setter-upper and the prover know $c$.
+
+If we set input private, weights fixed ("public"), and output public, the witness data in the proof is $(z)$. The prover is proving that it knows secret $x,y$ such that $cx+y = z$. The setter-upper and the prover know $c$; the prover knows $x,y$; the verifier learns only $z$.
+
+If we set input private, weights private, and output public, the witness data in the proof is $(z)$. The prover is proving that it knows secret $x,y,c$ such that $cx+y = z$ (practically the prover might set $c$ by changing a provided onnx file). The setter-upper does not know $c$, the prover knows $c,x,y$. The verifier learns only $z$.
+
+If we set input private, weights hashed ($h = H(c)$), and output public, the witness data in the proof is $(h,z)$. The prover is proving that it knows secret $x,y,c$ such that $cx+y = z$ and $h=H(c)$. The setter-upper does not know $c$, the prover knows $c,x,y$. The verifier learns only $z$ and $h$. However, if $h$ was previously committed to, the prover can no longer freely choose the weight $c$.
+
+Hashed weights and fixed ("public") weights are similar in that they both constrain the weights that the prover can use. They differ in that fixed weights bake the weights into the circuit at setup, whereas hashed weights can be determined at proof time. One consequence is that for fixed weights, to change the weights a new verifier would need to be deployed, whereas for hashed weights we could simply require a different hash target. However, we pay a performance penalty for the flexiblity of using the "dynamic" hashed weights rather than the "compiled" fixed weights.
+
+
