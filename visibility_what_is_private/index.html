@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741212713455">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741280249565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,11 +30,14 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.741212713455" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.741280249565" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.741212713455" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.741280249565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.741212713455" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.741280249565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.741280249565" defer></script>
+    <link href="../resources/css/katex.css?v=3.0.3" rel="stylesheet" />
+    <script id="katex-js" type="text/javascript" src="../resources/js/katex.js?v=3.0.3" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -235,6 +238,29 @@
 <li>Hashed: The model output is not sent in the proof file, but a Poseidon hash of the output is sent instead. The verifier cannot determine the output from the hash alone (although beware of dictionary attacks).</li>
 <li>Encrypted: The proof contains the encryption of the output, and part of the proof is that this encryption is correct.</li>
 </ul>
+<hr />
+<doc-anchor-target id="visibility-examples">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#visibility-examples">#</doc-anchor-trigger>
+        <span>Visibility Examples</span>
+    </h2>
+</doc-anchor-target>
+<p>This section can safely be skipped but might provide more clarity on some common options for visibility. Consider a function <span class="math">f</span> which given inputs <span class="math">x,y</span> and weight <span class="math">c</span> computes <span class="math">f(x,y) = cx+y</span>.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">class Model(nn.Module):
+    def __init__(self, inplace=False):
+        self.c = 3
+
+    def forward(self, x, y):
+        z = self.c * x + y
+        return z</code></pre>
+</doc-codeblock></div>
+<p>Notice that weights &quot;<span class="math">c</span>&quot; are different from the inputs <span class="math">x,y</span> and output <span class="math">z</span>. Weights are defined as part of the model (and will appear in the onnx).</p>
+<p>Suppose we set input public, weights fixed (&quot;public&quot;), and output public. This means that <span class="math">c</span> will be baked into the verifier and cannot be changed for this verifier. The witness data that will become part of the proof is <span class="math">(x,y,z)</span>. The prover is proving that <span class="math">cx+y = z</span>, and the verifier sees <span class="math">x,y,</span> and <span class="math">z</span>, but not <span class="math">c</span>. The setter-upper and the prover know <span class="math">c</span>.</p>
+<p>If we set input private, weights fixed (&quot;public&quot;), and output public, the witness data in the proof is <span class="math">(z)</span>. The prover is proving that it knows secret <span class="math">x,y</span> such that <span class="math">cx+y = z</span>. The setter-upper and the prover know <span class="math">c</span>; the prover knows <span class="math">x,y</span>; the verifier learns only <span class="math">z</span>.</p>
+<p>If we set input private, weights private, and output public, the witness data in the proof is <span class="math">(z)</span>. The prover is proving that it knows secret <span class="math">x,y,c</span> such that <span class="math">cx+y = z</span> (practically the prover might set <span class="math">c</span> by changing a provided onnx file). The setter-upper does not know <span class="math">c</span>, the prover knows <span class="math">c,x,y</span>. The verifier learns only <span class="math">z</span>.</p>
+<p>If we set input private, weights hashed (<span class="math">h = H(c)</span>), and output public, the witness data in the proof is <span class="math">(h,z)</span>. The prover is proving that it knows secret <span class="math">x,y,c</span> such that <span class="math">cx+y = z</span> and <span class="math">h=H(c)</span>. The setter-upper does not know <span class="math">c</span>, the prover knows <span class="math">c,x,y</span>. The verifier learns only <span class="math">z</span> and <span class="math">h</span>. However, if <span class="math">h</span> was previously committed to, the prover can no longer freely choose the weight <span class="math">c</span>.</p>
+<p>Hashed weights and fixed (&quot;public&quot;) weights are similar in that they both constrain the weights that the prover can use. They differ in that fixed weights bake the weights into the circuit at setup, whereas hashed weights can be determined at proof time. One consequence is that for fixed weights, to change the weights a new verifier would need to be deployed, whereas for hashed weights we could simply require a different hash target. However, we pay a performance penalty for the flexiblity of using the &quot;dynamic&quot; hashed weights rather than the &quot;compiled&quot; fixed weights.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -301,6 +327,6 @@
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Visibility: What is Private?", level: 1, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Visibility: What is Private?", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: true }</script>
 </body>
 </html>
