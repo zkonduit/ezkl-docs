@@ -13,21 +13,22 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 ```
 then create the setup
 ```bash
-ezkl gen-srs --logrows 15 --srs-path=15.srs
+ezkl gen-srs --logrows 16 --srs-path=16.srs
 ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
-ezkl setup -M network.onnx --srs-path=15.srs --settings-path=settings.json
+ezkl setup -M network.onnx --srs-path=16.srs --settings-path=settings.json
 ```
 
 Now we use the setup to create an EVM verifier, which would be deployed on-chain. 
 
 ```bash
 # gen evm verifier
-ezkl create-evm-verifier --deployment-code-path verif.code --srs-path=15.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
+ezkl create-evm-verifier --srs-path=16.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
 ```
 
 ```bash
-ezkl prove --transcript=evm --witness input.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=15.srs --settings-path=settings.json 
+ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
+ezkl prove --transcript=evm --witness witness.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=16.srs --settings-path=settings.json 
 ```
 
 ```bash
