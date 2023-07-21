@@ -12,12 +12,11 @@ order: 2
 > - Input Visibility: `--input-visibility`
 > - Output Visibility: `--output-visibility`
 > - Param Visibility: `--param-visibility`
-> - Pack Base: `--pack-base`
 > - Allocated Constraints: `--allocated-constraints`
 
-Let's go over each in detail with examples. Again, we'll be using the `1l_sigmoid` example under `examples/onnx`. 
+Let's go over each in detail with examples. 
 
-> Note: We use "computational graph" and "neural network" interchangeably. This is due to the fact that `ezkl` can be used for making SNARKs of any computational graph including neural networks. You can think of "computational graph" as your model in .onnx format.
+> Note:  `ezkl` can be used with any computational graph with supported operations, including neural networks. You can think of "computational graph" as your model in .onnx format.
 
 ### Tolerance
 
@@ -63,7 +62,7 @@ ezkl setup --logrows=22 -M examples/onnx/1l_sigmoid/network.onnx --srs-path 23.s
 
 ### Batch Size
 
-Typically in machine learning, models are trained and tested on batches of data. Perhaps you want to prove that a model was run on a batch of data rather than a single input batch. You can do this with the `--batch-size` flag (default is 1). 
+Perhaps you want to prove that a model was run on a batch of data rather than a single input. You can do this with the `--batch-size` flag (default is 1). 
 
 ### Input Visibility
 
@@ -77,18 +76,8 @@ Set this flag to `private` with `--public-outputs=private` (default `public`) if
 
 Set this flag to `public` (default `private`) with `--public-params=public` if you want your circuit parameters to be public. You can also hash these by using `hashed`. These will give you the opportunity to prove you're using certain parameters to certain individuals, but not the public.
 
-### Pack Base
-
-Sometimes, especially when verifying with the EVM, we want our outputs to take as little space as possible.  `--pack-base` allows you to set a base to pack a tensor into an integer using powers of that base, like writing $[1,2,3]$ as 321 in base 10. 
 
 ### Strategy
 
 In the `Commands` section, we used an example of proof aggregation to aggregate two proofs into one. You'll notice that the `--strategy` we used is called `accum`. The other option for `--strategy` is `single` (the default). These are used to specify the proving strategy. If we are proving a single circuit, we can leave this alone. If we are proving with `aggregate`, use the `accum` strategy.
 
-### Allocated Constraints
-
-Let's say you know the number of constraints from your model because you've generated a proof from it before. To save a bit of compute, you can use `--allocated-constraints` to specify how many constraints your circuit uses so that `ezkl` doesn't have to calculate this. For example, let's say my model uses 5 constraints. By setting `--allocated-constraints` to 5, I save my prover compute and time by not having to run the dummy layout pass to compute this with each proof generation. It could be very useful for in-production SNARKs that need to shave off every second of proof generation time.
-
-By running `ezkl prove`, you can find the number of constraints your circuit has in `INFO`:
-
-![img](../assets/constraints.png)
