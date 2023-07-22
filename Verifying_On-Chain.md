@@ -90,7 +90,7 @@ ezkl aggregate --logrows=20 --aggregation-snarks=first.pf --srs-path=20.srs
 
 ```bash
 # Generate aggregate evm verifier
-ezkl create-evm-verifier-aggr --sol-code-path verif.sol --srs-path=20.srs --vk-path vk_aggr.key --aggregation-settings=circuit.json
+ezkl create-evm-verifier-aggr --sol-code-path verif.sol --srs-path=20.srs --vk-path vk_aggr.key --aggregation-settings=settings.json
 ```
 
 ```bash
@@ -105,7 +105,7 @@ ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --
 
 ```bash
 # verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
-ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030
+ezkl verify-evm --proof-path proof_aggr.proof --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030
 ```
 
 Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation. You can follow the SolidityLang instructions linked above, or you can use [svm-rs](https://github.com/alloy-rs/svm-rs) to install solc. Here's how:
