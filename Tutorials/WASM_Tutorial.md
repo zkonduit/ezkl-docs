@@ -21,8 +21,6 @@ sudo apt install llvm
 sudo apt install clang-12
 ```
 
-
-
 *Mac*: You can use Homebrew to install llvm. This library comes with `clang`, which we'll also need.
 
 ```bash
@@ -48,8 +46,16 @@ cargo install wasm-server-runner
 
 With this, we're finally able to compile our .wasm file! You can do that with this command:
 
+*Linux*
+
 ```bash
 AR=/opt/llvm/bin/llvm-ar  CC=/opt/llvm/bin/clang wasm-pack build --target web . -- -Z build-std="panic_abort,std"
+```
+
+*Mac*
+
+```bash
+AR=/opt/homebrew/opt/llvm/bin/llvm-ar CC=/opt/homebrew/opt/llvm/bin/clang wasm-pack build --target web . -- -Z build-std="panic_abort,std"
 ```
 
 Make sure that you supply the correct paths for llvm-ar and clang (AR and CC). You can use `brew info llvm` on Mac or `dpkg -L llvm` for Linux. 
