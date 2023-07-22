@@ -3,7 +3,12 @@ icon: gear
 order: 95
 ---
 
-### building the project 🔨
+### Installing EZKL
+You may want to download a release binary from the GitHub, or use `ezkl` from Python with `pip install ezkl`. If you want the latest build, you can also install from source. 
+
+`ezkl` uses your system `solc` Solidity compiler, so you may need to tweak it using svm-rs or solc-select, particularly if you are targeting a specific hardfork.
+
+### Building from source 🔨
 Ezkl is built in rust. First [install rust](https://www.rust-lang.org/tools/install), e.g. by 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -32,8 +37,3 @@ cargo build --release --bin ezkl
 ##### Rust docs 📖
 
 Use `cargo doc --open` to compile and open the Rust documentation for `ezkl` in your default browser.
-
-### Things to consider
-This section is meant to give our users some warnings and precautions about using `ezkl`. 
-##### Quantization
-In order to create a SNARK of a neural network, we must quantize the model parameters by multiplying by a number such as 128 and rounding. In ML, parameters are almost always floating point numbers. In ezkl, we transform these to field elements so that we can use the zero knowledge proving system appropriately. Though we preserve as much precision as possible with our `--scale` flag and auto calibration (discussed more under the `Commands` section), outputs may still differ from the floating point reference. 

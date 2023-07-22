@@ -13,9 +13,7 @@ python
 
 >>> import ezkl
 ```
-lets you use `ezkl` directly from Python. It also contains an `export` function to generate `.onnx` and `.json` input files that can be ingested by the `ezkl` cli or from Python. [Here is a colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) that shows how to produce and verify a proof from Python.
-
-These Python bindings are developed in [pyezkl](https://github.com/zkonduit/pyezkl).
+lets you use `ezkl` directly from Python.  [Here is a colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) that shows how to produce and verify a proof from Python.
 
 When installing `ezkl` with pip, you may want to use a virtualenv.
 Some virtualenv management solutions for python includes `venv`, `pipenv`, `conda`, and `poetry`.

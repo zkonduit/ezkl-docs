@@ -13,26 +13,42 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 ```
 then create the setup
 ```bash
-ezkl gen-srs --logrows 15 --srs-path=15.srs
+ezkl gen-srs --logrows 16 --srs-path=16.srs
 ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
-ezkl setup -M network.onnx --srs-path=15.srs --settings-path=settings.json
+ezkl setup -M network.onnx --srs-path=16.srs --settings-path=settings.json
 ```
 
-Now we use the setup to create an EVM verifier, which would be deployed on-chain. 
+Now we use the setup to create an EVM verifier, which would be deployed on-chain.
 
 ```bash
 # gen evm verifier
-ezkl create-evm-verifier --deployment-code-path verif.code --srs-path=15.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
+ezkl create-evm-verifier --srs-path=16.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
 ```
 
 ```bash
-ezkl prove --transcript=evm --witness input.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=15.srs --settings-path=settings.json 
+ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
+ezkl prove --transcript=evm --witness witness.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=16.srs --settings-path=settings.json 
 ```
 
 ```bash
-# Verify (EVM)
-ezkl verify-evm --proof-path model.pf --deployment-code-path verif.code
+# install anvil if you haven't already
+cargo install --git https://github.com/foundry-rs/foundry --profile local --locked foundry-cli anvil
+```
+
+```bash
+# spin up a local EVM through anvil 
+anvil -p 3030
+```
+
+```bash
+# deploy evm verifier
+ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --sol-code-path verif.sol 
+```
+
+```bash
+# verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
+ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc_url=http://127.0.0.1:3030
 ```
 
 Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function. Please read [this document](https://hackmd.io/QOHOPeryRsOraO7FUnG-tg) for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.
@@ -65,13 +81,23 @@ ezkl aggregate --logrows=20 --aggregation-snarks=1l_relu.pf --aggregation-vk-pat
 ```
 
 ```bash
-# Generate verifier code -> create the EVM verifier code
-ezkl create-evm-verifier-aggr --deployment-code-path aggr_1l_relu.code --srs-path=20.srs --vk-path aggr_1l_relu.vk
+# Generate aggregate evm verifier
+ezkl create-evm-verifier-aggr --sol-code-path aggr_1l_relu.sol --srs-path=20.srs --vk-path aggr_1l_relu.vk --aggregation-settings=circuit.json
 ```
 
 ```bash
-# Verify (EVM) ->
-ezkl verify-aggr --logrows=20 --proof-path aggr_1l_relu.pf --srs-path=20.srs --vk-path aggr_1l_relu.vk
+# Spin up a local EVM through anvil 
+anvil -p 3030
+```
+
+```bash
+# deploy evm verifier
+ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --sol-code-path verif.sol 
+```
+
+```bash
+# verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
+ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc_url=http://127.0.0.1:3030
 ```
 
 Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation. You can follow the SolidityLang instructions linked above, or you can use [svm-rs](https://github.com/alloy-rs/svm-rs) to install solc. Here's how:

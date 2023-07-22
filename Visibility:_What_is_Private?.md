@@ -1,5 +1,5 @@
 ---
-icon: workflow
+icon: shield
 order: 7
 ---
 ## Visibility
@@ -8,7 +8,7 @@ In `ezkl` there are four choices for Visibility: private, public, hashed, or enc
 
 Visibility is controlled in the circuit settings (`settings.json` file), and is determined at setup time.
 
-The question of what is private is very much related to the question of what we are proving. These questions tend to be a bit subtle and are really about designing the overall cryptosystem, of which your ezkl proof is a part. We provide these options to enable many different constructions. It can take some thought to determine which is right for you use case.
+The question of what is private is very much related to the question of what we are proving. These questions tend to be a bit subtle and are really about designing the overall cryptosystem, of which your ezkl proof is a part. We provide these options to enable many different constructions. It can take some thought to determine which is right for your use case.
 
 At a high level, mark those things `private` that you want to be secret to the prover, and allow the prover to change freely. Mark things `public` if you want them to be baked into the setup, and generally available (although see the comments about weight visibility below). Setting a part to `hashed` is a way to commit to it, and also a way to build bridges between proofs, making sure that a piece of data (input, weights, or output) is the same in multiple proofs. Hashed parts are also useful to reduce calldata size for smart contracts, and to allow something to be signed. Finally making a part `encrypted` proves encryption inside the circuit, which is useful for some constructions such as marketplaces with escrow contracts.
 
