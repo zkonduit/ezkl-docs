@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741288398763">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.743317433565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.0.3.741288398763" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=3.0.3.743317433565" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.741288398763" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.743317433565" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -212,6 +212,7 @@
 <li><code v-pre>prove</code></li>
 <li><code v-pre>mock</code></li>
 <li><code v-pre>forward</code></li>
+<li><code v-pre>gen-witness</code></li>
 </ul>
 <p>The data <code v-pre>.json</code> file is structured as follows:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -220,20 +221,20 @@
     &quot;output_data&quot;: [[1.0, 5.0, 6.3 ...]], // 2D arrays of floats which represents the model outputs we want to constrain against (if any)
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="circuitjson">
+<doc-anchor-target id="settingsjson">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#circuitjson">#</doc-anchor-trigger>
-        <span>circuit.json</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#settingsjson">#</doc-anchor-trigger>
+        <span>settings.json</span>
     </h3>
 </doc-anchor-target>
-<p>The circuit parameters are not at all related to the commitment scheme parameters. The circuit parameters are generated with <code v-pre>gen-circuit-params</code> and are used to assist in the construction of a Model Circuit. They include the <code v-pre>RunArgs</code>, the <code v-pre>Visibility</code> parameters, the potential number of the constraints in the circuit, and more. The commands that require <code v-pre>circuit.json</code> are:</p>
+<p>Generated with <code v-pre>gen-settings</code> and used to assist in the construction of a Model Circuit. They include the <code v-pre>RunArgs</code>, the <code v-pre>Visibility</code> parameters, the potential number of the constraints in the circuit, and more. The commands that require <code v-pre>settings.json</code> are:</p>
 <ul>
 <li><code v-pre>setup</code> (just provide the path to write the circuit parameters to)</li>
 <li><code v-pre>prove</code></li>
 <li><code v-pre>verify</code></li>
 <li><code v-pre>aggregate</code> (all the params of the circuits you want to aggregate)</li>
 <li><code v-pre>create-evm-verifier</code></li>
-<li><code v-pre>forward</code> (can also use generic RunArgs)</li>
+<li><code v-pre>gen-witness</code> (can also use generic RunArgs)</li>
 <li><code v-pre>mock</code> (can also use generic RunArgs)</li>
 </ul>
 <doc-anchor-target id="networkonnx">
@@ -256,6 +257,7 @@
 <li><code v-pre>setup</code></li>
 <li><code v-pre>prove</code></li>
 <li><code v-pre>mock</code></li>
+<li><code v-pre>gen-witness</code></li>
 <li><code v-pre>forward</code></li>
 <li><code v-pre>table</code></li>
 <li><code v-pre>render</code></li>
@@ -286,13 +288,13 @@
 <li><code v-pre>verify-aggr</code></li>
 <li><code v-pre>create-evm-verifier</code></li>
 </ul>
-<doc-anchor-target id="modelproof">
+<doc-anchor-target id="modelpf">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#modelproof">#</doc-anchor-trigger>
-        <span>model.proof</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#modelpf">#</doc-anchor-trigger>
+        <span>model.pf</span>
     </h3>
 </doc-anchor-target>
-<p>The proof that is generated for a circuit might be called <code v-pre>model.proof</code> or <code v-pre>network.pf</code>. It is the actual proof that your verifier will use to verify proofs of your circuit. Typically this proof is generated by the client and verified by a blockchain, server, or another client. <code v-pre>ezkl</code> provides you with an assortment of tools for verifying the proofs you generate. Please submit an issue if you have any ideas for more platforms we should be looking to build verifiers on! Here are the commands that require a proof (or path to it):</p>
+<p>The proof that is generated for a circuit might be called <code v-pre>model.pf</code> or <code v-pre>network.pf</code>. It is the actual proof that your verifier will use to verify proofs of your circuit. Typically this proof is generated by the client and verified by a blockchain, server, or another client. <code v-pre>ezkl</code> provides you with an assortment of tools for verifying the proofs you generate. Please submit an issue if you have any ideas for more platforms we should be looking to build verifiers on! Here are the commands that require a proof (or path to it):</p>
 <ul>
 <li><code v-pre>prove</code> (path to write it to)</li>
 <li><code v-pre>aggregate</code></li>

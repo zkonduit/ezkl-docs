@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741288398763">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.743317433565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,11 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.0.3.741288398763" rel="stylesheet" />
+    <link href="resources/css/retype.css?v=3.0.3.743317433565" rel="stylesheet" />
 
-    <script type="text/javascript" src="resources/js/config.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="resources/js/config.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="resources/js/lunr.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="resources/js/lunr.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="resources/js/prism.js?v=3.0.3.743317433565" defer></script>
     <link href="resources/css/katex.css?v=3.0.3" rel="stylesheet" />
     <script id="katex-js" type="text/javascript" src="resources/js/katex.js?v=3.0.3" defer></script>
 </head>
@@ -211,7 +212,8 @@
 </div>
 </p>
 <p><code v-pre>ezkl</code> can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify it on the Ethereum Virtual Machine (or on the command line, or in the browser using wasm).</p>
-<p>For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>!</p>
+<p>You can install the Python version with <code v-pre>pip install ezkl</code>.</p>
+<p>For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>, especially the <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank">notebooks.</a></p>
 <hr />
 <doc-anchor-target id="zero-knowledge-proofs">
     <h2>
@@ -219,7 +221,7 @@
         <span>Zero-knowledge proofs</span>
     </h2>
 </doc-anchor-target>
-<p>A zero-knowledge proof is a programmable digital signature. In a normal digital signature scheme, we have a secret key, a public message, and a signature algorithm that was set up in advance and everyone knows. These are applied to the inputs to produce a signature and a public message, which is then verified by a counterparty (such as a blockchain).
+<p>A zero-knowledge proof is a programmable digital signature. In a traditional digital signature scheme, we have a secret key, a public message, and a signature algorithm that was set up in advance and everyone knows. These are applied to the inputs to produce a signature and a public message, which is then verified by a counterparty (such as a blockchain).
 <figure class="content-center">
     <img src="../assets/before.png" alt="" />
     <figcaption class="caption"></figcaption>
@@ -247,7 +249,7 @@ Just as with a digital signature, there are three parties: one to define the set
 <p>The inputs to setup are:</p>
 <ul>
 <li>the model (as an onnx file)</li>
-<li>the structured reference string which is a common, public piece of cryptographic data shared among proofs of the same size</li>
+<li>the structured reference string which is a common, public piece of cryptographic data shared among proof setups of the same size</li>
 <li>various flags, settings, and options for tuning and added functionality</li>
 </ul>
 <p>The outputs of setup are:</p>
@@ -256,6 +258,19 @@ Just as with a digital signature, there are three parties: one to define the set
 <li>the verification key, and</li>
 <li>the circuit settings: serialized flags, settings, and options, and a few numbers that describe the shape of the resulting circuit.</li>
 </ul>
+<p>Before setup can run, the settings need to be generated with <code v-pre>gen-settings</code> and optionally <code v-pre>calibrate-settings</code>.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">ezkl.gen_settings(onnx_filename, settings_filename)
+ezkl.calibrate_settings(
+    input_filename, onnx_filename, settings_filename, &quot;resources&quot;)
+res = ezkl.setup(
+        onnx_filename,
+        vk_path,
+        pk_path,
+        params_path,
+        settings_filename,
+    )</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="prove">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#prove">#</doc-anchor-trigger>
@@ -275,21 +290,57 @@ Just as with a digital signature, there are three parties: one to define the set
 <ul>
 <li>the proof file.</li>
 </ul>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">res = ezkl.gen_witness(input_filename, onnx_filename, witness_path, settings_path = settings_filename)
+
+proof = ezkl.prove(
+        witness_path,
+        onnx_filename,
+        pk_path,
+        proof_path,
+        params_path,
+        &quot;evm&quot;,
+        &quot;single&quot;,
+        settings_filename,
+    )</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="verify">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#verify">#</doc-anchor-trigger>
         <span>Verify</span>
     </h3>
 </doc-anchor-target>
-<p>Verify is invoked with <code v-pre>ezkl verify</code> at the cli, <code v-pre>ezkl.verify()</code> in Python, from an Ethereum smart contract using the EVM verfier, or with WASM. It checks the correctness of the cryptographic proof produced by the prover.</p>
-<p>Conceptually the inputs to verify are:</p>
+<p><code v-pre>ezkl</code> can produce an EVM verifier contract which takes only the proof as input, and this is the normal use case.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-python"><code v-pre class="language-python">res = ezkl.create_evm_verifier(
+        vk_path,
+        params_path,
+        settings_filename,
+        sol_code_path,
+        abi_path,
+    )
+
+# assuming anvil is running
+res = ezkl.deploy_evm(
+    address_path,
+    sol_code_path,
+    'http://127.0.0.1:3030'
+)
+
+res = ezkl.verify_evm(
+    proof_path,
+    addr,
+    &quot;http://127.0.0.1:3030&quot;
+)</code></pre>
+</doc-codeblock></div>
+<p>Verification can also be invoked with <code v-pre>ezkl verify</code> at the cli, <code v-pre>ezkl.verify()</code> in Python, or with WASM. It checks the correctness of the cryptographic proof produced by the prover.</p>
+<p>The inputs to (non-EVM) verify are:</p>
 <ul>
 <li>the proof file</li>
 <li>the verification key</li>
 <li>the circuit settings, and</li>
 <li>the structured reference string</li>
 </ul>
-<p>but <code v-pre>ezkl</code> can produce an EVM verifier which takes only the proof as input, and this is the normal use case.</p>
 <hr />
 <doc-anchor-target id="contributing">
     <h2>
@@ -366,6 +417,6 @@ Just as with a digital signature, there are three parties: one to define the set
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "What is EZKL?", isRoot: true, level: 0, icon: "file", hasPrism: false, hasMermaid: false, hasMath: true }</script>
+    <script>window.__DOCS__ = { "title": "What is EZKL?", isRoot: true, level: 0, icon: "file", hasPrism: true, hasMermaid: false, hasMath: true }</script>
 </body>
 </html>

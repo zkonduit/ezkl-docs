@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741288398763">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.743317433565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -21,23 +21,21 @@
     <meta property="og:url" content="https://docs.ezkl.xyz/about_ezkl/runargs/">
     <meta property="og:title" content="RunArgs">
     <meta property="og:description" content="RunArgs are the fine-tuning parameters that give you more control over various aspects of ezkl.">
-    <meta property="og:image" content="https://docs.ezkl.xyz/assets/constraints.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/about_ezkl/runargs/">
     <meta property="twitter:title" content="RunArgs">
     <meta property="twitter:description" content="RunArgs are the fine-tuning parameters that give you more control over various aspects of ezkl.">
-    <meta property="twitter:image" content="https://docs.ezkl.xyz/assets/constraints.png">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.0.3.741288398763" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=3.0.3.743317433565" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.741288398763" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.743317433565" defer></script>
     <link href="../../resources/css/katex.css?v=3.0.3" rel="stylesheet" />
     <script id="katex-js" type="text/javascript" src="../../resources/js/katex.js?v=3.0.3" defer></script>
 </head>
@@ -194,13 +192,12 @@
 <li>Input Visibility: <code v-pre>--input-visibility</code></li>
 <li>Output Visibility: <code v-pre>--output-visibility</code></li>
 <li>Param Visibility: <code v-pre>--param-visibility</code></li>
-<li>Pack Base: <code v-pre>--pack-base</code></li>
 <li>Allocated Constraints: <code v-pre>--allocated-constraints</code></li>
 </ul>
 </blockquote>
-<p>Let&#x27;s go over each in detail with examples. Again, we&#x27;ll be using the <code v-pre>1l_sigmoid</code> example under <code v-pre>examples/onnx</code>.</p>
+<p>Let&#x27;s go over each in detail with examples.</p>
 <blockquote>
-<p>Note: We use &quot;computational graph&quot; and &quot;neural network&quot; interchangeably. This is due to the fact that <code v-pre>ezkl</code> can be used for making SNARKs of any computational graph including neural networks. You can think of &quot;computational graph&quot; as your model in .onnx format.</p>
+<p>Note:  <code v-pre>ezkl</code> can be used with any computational graph with supported operations, including neural networks. You can think of &quot;computational graph&quot; as your model in .onnx format.</p>
 </blockquote>
 <doc-anchor-target id="tolerance">
     <h3>
@@ -254,7 +251,7 @@
         <span>Batch Size</span>
     </h3>
 </doc-anchor-target>
-<p>Typically in machine learning, models are trained and tested on batches of data. Perhaps you want to prove that a model was run on a batch of data rather than a single input batch. You can do this with the <code v-pre>--batch-size</code> flag (default is 1).</p>
+<p>Perhaps you want to prove that a model was run on a batch of data rather than a single input. You can do this with the <code v-pre>--batch-size</code> flag (default is 1).</p>
 <doc-anchor-target id="input-visibility">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#input-visibility">#</doc-anchor-trigger>
@@ -276,13 +273,6 @@
     </h3>
 </doc-anchor-target>
 <p>Set this flag to <code v-pre>public</code> (default <code v-pre>private</code>) with <code v-pre>--public-params=public</code> if you want your circuit parameters to be public. You can also hash these by using <code v-pre>hashed</code>. These will give you the opportunity to prove you&#x27;re using certain parameters to certain individuals, but not the public.</p>
-<doc-anchor-target id="pack-base">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#pack-base">#</doc-anchor-trigger>
-        <span>Pack Base</span>
-    </h3>
-</doc-anchor-target>
-<p>Sometimes, especially when verifying with the EVM, we want our outputs to take as little space as possible.  <code v-pre>--pack-base</code> allows you to set a base to pack a tensor into an integer using powers of that base, like writing <span class="math">[1,2,3]</span> as 321 in base 10.</p>
 <doc-anchor-target id="strategy">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#strategy">#</doc-anchor-trigger>
@@ -290,19 +280,6 @@
     </h3>
 </doc-anchor-target>
 <p>In the <code v-pre>Commands</code> section, we used an example of proof aggregation to aggregate two proofs into one. You&#x27;ll notice that the <code v-pre>--strategy</code> we used is called <code v-pre>accum</code>. The other option for <code v-pre>--strategy</code> is <code v-pre>single</code> (the default). These are used to specify the proving strategy. If we are proving a single circuit, we can leave this alone. If we are proving with <code v-pre>aggregate</code>, use the <code v-pre>accum</code> strategy.</p>
-<doc-anchor-target id="allocated-constraints">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#allocated-constraints">#</doc-anchor-trigger>
-        <span>Allocated Constraints</span>
-    </h3>
-</doc-anchor-target>
-<p>Let&#x27;s say you know the number of constraints from your model because you&#x27;ve generated a proof from it before. To save a bit of compute, you can use <code v-pre>--allocated-constraints</code> to specify how many constraints your circuit uses so that <code v-pre>ezkl</code> doesn&#x27;t have to calculate this. For example, let&#x27;s say my model uses 5 constraints. By setting <code v-pre>--allocated-constraints</code> to 5, I save my prover compute and time by not having to run the dummy layout pass to compute this with each proof generation. It could be very useful for in-production SNARKs that need to shave off every second of proof generation time.</p>
-<p>By running <code v-pre>ezkl prove</code>, you can find the number of constraints your circuit has in <code v-pre>INFO</code>:</p>
-<p><figure class="content-center">
-    <img src="../../assets/constraints.png" alt="img" />
-    <figcaption class="caption">img</figcaption>
-</figure>
-</p>
 
                                 
                                 <!-- Required only on API pages -->

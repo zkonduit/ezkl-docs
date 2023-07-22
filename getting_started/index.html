@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741288398763">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.743317433565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Getting Started</title>
     <meta name="title" content="Getting Started">
-    <meta name="description" content="Ezkl is built in rust. First install rust, e.g. by" />
+    <meta name="description" content="You may want to download a release binary from the GitHub, or use ezkl from Python with pip install ezkl" />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/getting_started/" />
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/getting_started/">
     <meta property="og:title" content="Getting Started">
-    <meta property="og:description" content="Ezkl is built in rust. First install rust, e.g. by">
+    <meta property="og:description" content="You may want to download a release binary from the GitHub, or use ezkl from Python with pip install ezkl">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/getting_started/">
     <meta property="twitter:title" content="Getting Started">
-    <meta property="twitter:description" content="Ezkl is built in rust. First install rust, e.g. by">
+    <meta property="twitter:description" content="You may want to download a release binary from the GitHub, or use ezkl from Python with pip install ezkl">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.741288398763" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.743317433565" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.741288398763" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.743317433565" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -179,10 +179,18 @@
         <span>Getting Started</span>
     </h1>
 </doc-anchor-target>
-<doc-anchor-target id="building-the-project">
+<doc-anchor-target id="installing-ezkl">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#building-the-project">#</doc-anchor-trigger>
-        <span>building the project <span class="docs-emoji">&#x1F528;</span></span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#installing-ezkl">#</doc-anchor-trigger>
+        <span>Installing EZKL</span>
+    </h3>
+</doc-anchor-target>
+<p>You may want to download a release binary from the GitHub, or use <code v-pre>ezkl</code> from Python with <code v-pre>pip install ezkl</code>. If you want the latest build, you can also install from source.</p>
+<p><code v-pre>ezkl</code> uses your system <code v-pre>solc</code> Solidity compiler, so you may need to tweak it using svm-rs or solc-select, particularly if you are targeting a specific hardfork.</p>
+<doc-anchor-target id="building-from-source">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#building-from-source">#</doc-anchor-trigger>
+        <span>Building from source <span class="docs-emoji">&#x1F528;</span></span>
     </h3>
 </doc-anchor-target>
 <p>Ezkl is built in rust. First <a href="https://www.rust-lang.org/tools/install">install rust</a>, e.g. by</p>
@@ -217,20 +225,6 @@ cd ezkl</code></pre>
     </h5>
 </doc-anchor-target>
 <p>Use <code v-pre>cargo doc --open</code> to compile and open the Rust documentation for <code v-pre>ezkl</code> in your default browser.</p>
-<doc-anchor-target id="things-to-consider">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#things-to-consider">#</doc-anchor-trigger>
-        <span>Things to consider</span>
-    </h3>
-</doc-anchor-target>
-<p>This section is meant to give our users some warnings and precautions about using <code v-pre>ezkl</code>.</p>
-<doc-anchor-target id="quantization">
-    <h5>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#quantization">#</doc-anchor-trigger>
-        <span>Quantization</span>
-    </h5>
-</doc-anchor-target>
-<p>In order to create a SNARK of a neural network, we must quantize the model parameters by multiplying by a number such as 128 and rounding. In ML, parameters are almost always floating point numbers. In ezkl, we transform these to field elements so that we can use the zero knowledge proving system appropriately. Though we preserve as much precision as possible with our <code v-pre>--scale</code> flag and auto calibration (discussed more under the <code v-pre>Commands</code> section), outputs may still differ from the floating point reference.</p>
 
                                 
                                 <!-- Required only on API pages -->

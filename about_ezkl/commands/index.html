@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741288398763">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.743317433565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Commands</title>
     <meta name="title" content="Commands">
-    <meta name="description" content="The ezkl CLI is the gateway to ezkl. In this Tutorial, we will explain in-depth the core ezkl commands along with the other commands you can use to..." />
+    <meta name="description" content="Here is some more detail on ezkl commands." />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/about_ezkl/commands/" />
@@ -20,24 +20,24 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/about_ezkl/commands/">
     <meta property="og:title" content="Commands">
-    <meta property="og:description" content="The ezkl CLI is the gateway to ezkl. In this Tutorial, we will explain in-depth the core ezkl commands along with the other commands you can use to...">
+    <meta property="og:description" content="Here is some more detail on ezkl commands.">
     <meta property="og:image" content="https://docs.ezkl.xyz/assets/ezkl_flow.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/about_ezkl/commands/">
     <meta property="twitter:title" content="Commands">
-    <meta property="twitter:description" content="The ezkl CLI is the gateway to ezkl. In this Tutorial, we will explain in-depth the core ezkl commands along with the other commands you can use to...">
+    <meta property="twitter:description" content="Here is some more detail on ezkl commands.">
     <meta property="twitter:image" content="https://docs.ezkl.xyz/assets/ezkl_flow.png">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.0.3.741288398763" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=3.0.3.743317433565" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.741288398763" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../../resources/js/prism.js?v=3.0.3.743317433565" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -192,23 +192,23 @@
     <figcaption class="caption"></figcaption>
 </figure>
 </p>
-<p>The <code v-pre>ezkl</code> CLI is the gateway to <code v-pre>ezkl</code>. In this Tutorial, we will explain in-depth the core <code v-pre>ezkl</code> commands along with the other commands you can use to broaden your model SNARKing toolkit. Feel free to build <code v-pre>ezkl</code> on your own machine and follow along with the examples. For each of these, we will be using the <code v-pre>1l_sigmoid</code> example under <code v-pre>examples/onnx</code>.</p>
+<p>Here is some more detail on <code v-pre>ezkl</code> commands.</p>
 <doc-anchor-target id="gensrs">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#gensrs">#</doc-anchor-trigger>
         <span>GenSRS</span>
     </h3>
 </doc-anchor-target>
-<p>In <a href="https://zcash.github.io/halo2/concepts/arithmetization.html">PLONKish</a> proving systems such as those provided by halo2, a polynomial commitment scheme is necessary to evaluate polynomials at certain points without revealing the original function. In order to use a polynomial commitment scheme, we need to set up a structured reference string (SRS). <code v-pre>ezkl</code> enables you to create a SRS that will define the size of the circuit (number of rows in particular) and that you will use as public parameters to your SNARK (so that the prover and verifier can communicate clearly and honestly). Use this command to generate a <a href="https://cypherpunks.ca/%7Eiang/pubs/PolyCommit-AsiaCrypt.pdf">KZG</a> structured reference string with (for example) 17 rows.</p>
+<p><code v-pre>ezkl</code> uses KZG commitments, which in turn require a structured reference string (SRS). You can download a <a href="https://cypherpunks.ca/%7Eiang/pubs/PolyCommit-AsiaCrypt.pdf">KZG</a> structured reference string with (for example) 17 rows as follows.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-srs --logrows=17 --srs-path=17.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs --logrows=17 --srs-path=17.srs</code></pre>
 </doc-codeblock></div>
 <p>This sets up a SRS that the prover can use to commit and the verifier can use to evaluate in a file called <code v-pre>17.srs</code>.</p>
 <blockquote>
-<p><strong>Note:</strong> The SRS generated by gen-srs is not meant to be used in production. For production usage, use a pre-generated SRS from a ceremony such as those at <a href="https://github.com/han0110/halo2-kzg-srs">han0110/halo2-kzg-srs</a>, or the Ethereum <a href="https://ceremony.ethereum.org/">proto-danksharding ceremony</a>. You can download these in raw format (not canonical format) and use it with <code v-pre>ezkl</code> <a href="https://github.com/han0110/halo2-kzg-srs">here</a>.</p>
+<p><strong>Note:</strong> <code v-pre>ezkl</code> has a command <code v-pre>gen-srs</code> to generate an SRS for testing purposes when bandwidth is scarce. The SRS generated by <code v-pre>gen-srs</code> is not meant to be used in production.</p>
 </blockquote>
 <blockquote>
-<p><strong>Note:</strong> Downsizing an SRS is time consuming, so if you generate a logrows=20 SRS and the circuit uses logrows=17, the prove command will spend most of its time downsizing your 20.srs from 20 to 17. Once you know the logrows you need, use a file of that size for max speed.</p>
+<p><strong>Note:</strong> Downsizing an SRS is time consuming, so if you obtain a logrows=20 SRS and the circuit uses logrows=17, the prove command will spend most of its time downsizing your 20.srs from 20 to 17. Once you know the logrows you need, use a file of that size for max speed.</p>
 </blockquote>
 <doc-anchor-target id="generate-settings">
     <h3>
@@ -217,93 +217,44 @@
     </h3>
 </doc-anchor-target>
 <p>For <code v-pre>ezkl</code> to compute a snark, it needs some settings to determine how to create the circuit. You can create settings with the <code v-pre>gen-settings</code> command.</p>
-<p>For example, this is the file generated from our CLI tutorial example using sigmoid:</p>
+<p>For example, this is the file generated from our CLI tutorial example:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M examples/onnx/1l_sigmoid/network.onnx</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M examples/onnx/4l_relu_conv_fc/network.onnx</code></pre>
 </doc-codeblock></div>
 <p>By default the settings file will be called <code v-pre>settings.json</code>.</p>
 <p><strong><code v-pre>settings.json</code>:</strong></p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-javascript"><code v-pre class="language-javascript">{
-  &quot;run_args&quot;: {
-    &quot;tolerance&quot;: { &quot;Abs&quot;: { &quot;val&quot;: 0 } },
-    &quot;scale&quot;: 7,
-    &quot;bits&quot;: 16,
-    &quot;logrows&quot;: 17,
-    &quot;batch_size&quot;: 1,
-    &quot;input_visibility&quot;: &quot;Private&quot;,
-    &quot;output_visibility&quot;: &quot;Public&quot;,
-    &quot;param_visibility&quot;: &quot;Private&quot;,
-    &quot;pack_base&quot;: 1,
-    &quot;allocated_constraints&quot;: null
-  },
-  &quot;num_constraints&quot;: 6,
-  &quot;model_instance_shapes&quot;: [[1, 3]],
-  &quot;num_hashes&quot;: 0,
-  &quot;required_lookups&quot;: [{ &quot;Sigmoid&quot;: { &quot;scales&quot;: [128, 128] } }],
-  &quot;check_mode&quot;: &quot;SAFE&quot;
-}</code></pre>
+<pre class="language-javascript"><code v-pre class="language-javascript">{&quot;run_args&quot;:{
+  &quot;tolerance&quot;:{&quot;val&quot;:0.0,&quot;scales&quot;:[1,1]},&quot;scale&quot;:7,&quot;bits&quot;:16,&quot;logrows&quot;:17,&quot;batch_size&quot;:1,
+  &quot;input_visibility&quot;:&quot;Private&quot;,&quot;output_visibility&quot;:&quot;Public&quot;,&quot;param_visibility&quot;:&quot;Private&quot;,&quot;allocated_constraints&quot;:null},
+  &quot;num_constraints&quot;:13172,&quot;model_instance_shapes&quot;:[[1,10]],&quot;model_output_scales&quot;:[14],&quot;module_sizes&quot;:{&quot;poseidon&quot;:[0,[0]],&quot;elgamal&quot;:[0,[0,0,0]]},
+  &quot;required_lookups&quot;:[{&quot;ReLU&quot;:{&quot;scale&quot;:128}}],
+  &quot;check_mode&quot;:&quot;SAFE&quot;
+  }</code></pre>
 </doc-codeblock></div>
 <p>Let&#x27;s say our circuit was much larger; we need to bump <code v-pre>&quot;logrows&quot;</code> to 23. We can add a flag to our original command to specifiy this (using <code v-pre>-O</code> to give the output a different name):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M examples/onnx/1l_sigmoid/network.onnx -O circuitK23.json --logrows 23</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M examples/onnx/4l_relu_conv_fc/network.onnx -O circuitK23.json --logrows 23</code></pre>
 </doc-codeblock></div>
-<p>This produces <strong><code v-pre>circuitK23.json</code>:</strong></p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-json"><code v-pre class="language-json">{
-  &quot;run_args&quot;: {
-    &quot;tolerance&quot;: { &quot;Abs&quot;: { &quot;val&quot;: 0 } },
-    &quot;scale&quot;: 7,
-    &quot;bits&quot;: 16,
-    &quot;logrows&quot;: 23,
-    &quot;batch_size&quot;: 1,
-    &quot;input_visibility&quot;: &quot;Private&quot;,
-    &quot;output_visibility&quot;: &quot;Public&quot;,
-    &quot;param_visibility&quot;: &quot;Private&quot;,
-    &quot;pack_base&quot;: 1,
-    &quot;allocated_constraints&quot;: null
-  },
-  &quot;num_constraints&quot;: 6,
-  &quot;model_instance_shapes&quot;: [[1, 3]],
-  &quot;num_hashes&quot;: 0,
-  &quot;required_lookups&quot;: [{ &quot;Sigmoid&quot;: { &quot;scales&quot;: [128, 128] } }],
-  &quot;check_mode&quot;: &quot;SAFE&quot;
-}</code></pre>
-</doc-codeblock></div>
-<p>Notice <code v-pre>&quot;logrows&quot;</code> is now 23. You can do this for any other parameter for custom circuits. The <code v-pre>.json</code> file can also be manually edited to tweak the choices</p>
+<p>This produces <strong><code v-pre>circuitK23.json</code>:</strong> which is the same as the <code v-pre>settings.json</code> above, but with <code v-pre>&quot;logrows&quot;</code> now 23. You can do this for any other parameter for custom circuits. The <code v-pre>.json</code> file can also be manually edited to tweak the choices.</p>
 <doc-anchor-target id="calibrate-settings">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#calibrate-settings">#</doc-anchor-trigger>
         <span>Calibrate Settings</span>
     </h3>
 </doc-anchor-target>
-<p>There are a lot of adjustable knobs (such as bits, scale, and logrows) in <code v-pre>ezkl</code> that let you trade off between prover and verifier resources, accuracy, and control other parts of the zkp. While you are free to choose these manually with cli parameters passed to <code v-pre>gen-settings</code>, we recommend fine-tuning with the automatic calibration provided by the <code v-pre>calibrate-settings</code> command. This modifies your <code v-pre>settings.json</code> file with a suggested choice of circuit parameters:</p>
+<p>There are a lot of adjustable knobs (such as bits, scale, and logrows) in <code v-pre>ezkl</code> that let you trade off between prover and verifier resources, accuracy, and control other parts of the zkp setup. While you are free to choose these manually with cli parameters passed to <code v-pre>gen-settings</code>, we recommend fine-tuning with the automatic calibration provided by the <code v-pre>calibrate-settings</code> command. This modifies your <code v-pre>settings.json</code> file with a suggested choice of circuit parameters:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json --target resources</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings -M examples/onnx/4l_relu_conv_fc/network.onnx -D examples/onnx/4l_relu_conv_fc/input.json --target resources</code></pre>
 </doc-codeblock></div>
 <p>You can also set the <code v-pre>--target</code> to <strong>&quot;accuracy&quot;</strong> if you want to optimize for numerical accuracy rather than CPU and memory performance. The default is set to <strong>&quot;resources&quot;</strong>. The largest tradeoff for these two is in the size of <code v-pre>&quot;logrows&quot;</code> and <code v-pre>&quot;scale&quot;</code>. With a higher scale, floating point numbers are interpreted more accurately. With a smaller logrows, a smaller, less memory-intensive circuit is generated.</p>
 <p>For example, after running the same command with <code v-pre>--target</code> set to <strong>accuracy</strong>, we get a larger value for <code v-pre>scale</code> amongst other changes:</p>
 <p><strong>settings.json</strong>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-javascript"><code v-pre class="language-javascript">{
-  &quot;run_args&quot;: {
-    &quot;tolerance&quot;: { &quot;Abs&quot;: { &quot;val&quot;: 0 } },
-    &quot;scale&quot;: 11,
-    &quot;bits&quot;: 12,
-    &quot;logrows&quot;: 13,
-    &quot;batch_size&quot;: 1,
-    &quot;input_visibility&quot;: &quot;Private&quot;,
-    &quot;output_visibility&quot;: &quot;Public&quot;,
-    &quot;param_visibility&quot;: &quot;Private&quot;,
-    &quot;pack_base&quot;: 1,
-    &quot;allocated_constraints&quot;: null
-  },
-  &quot;num_constraints&quot;: 6,
-  &quot;model_instance_shapes&quot;: [[1, 3]],
-  &quot;num_hashes&quot;: 0,
-  &quot;required_lookups&quot;: [{ &quot;Sigmoid&quot;: { &quot;scales&quot;: [2048, 2048] } }],
-  &quot;check_mode&quot;: &quot;SAFE&quot;
-}</code></pre>
+<pre class="language-javascript"><code v-pre class="language-javascript">{&quot;run_args&quot;:{&quot;tolerance&quot;:{&quot;val&quot;:0.0,&quot;scales&quot;:[1,1]},&quot;scale&quot;:11,&quot;bits&quot;:21,&quot;logrows&quot;:22,&quot;batch_size&quot;:1,&quot;input_visibility&quot;:&quot;Private&quot;,&quot;output_visibility&quot;:&quot;Public&quot;,&quot;param_visibility&quot;:&quot;Private&quot;,&quot;allocated_constraints&quot;:null},
+&quot;num_constraints&quot;:13172,&quot;model_instance_shapes&quot;:[[1,10]],&quot;model_output_scales&quot;:[22],&quot;module_sizes&quot;:{&quot;poseidon&quot;:[0,[0]],&quot;elgamal&quot;:[0,[0,0,0]]},
+&quot;required_lookups&quot;:[{&quot;ReLU&quot;:{&quot;scale&quot;:2048}}],
+&quot;check_mode&quot;:&quot;SAFE&quot;}</code></pre>
 </doc-codeblock></div>
 <blockquote>
 <p>Note: You can still use the generic RunArgs for <code v-pre>mock</code> and <code v-pre>gen-witness</code> (e.g. <code v-pre>ezkl mock --logrows=22 --bits=21</code> rather than <code v-pre>ezkl mock --settings-path circuit.json</code>). However, <code v-pre>--settings-path</code> takes priority.</p>
@@ -314,23 +265,34 @@
         <span>Setup</span>
     </h3>
 </doc-anchor-target>
-<p>Along with our SRS and circuit parameters, we need two other elements to generate a proof: a proving key and a verifying key. You will get both by running <code v-pre>ezkl</code>&#x27;s <code v-pre>setup</code> command. We need our proving key to generate proofs; we need our verifying key to verify proofs from the corresponding proving key.</p>
+<p>Along with our SRS and circuit parameters, we need two other elements to generate a proof: a proving key and a verifying key. You will get both by running <code v-pre>ezkl</code>&#x27;s <code v-pre>setup</code> command. We need our proving key to generate proofs; we need our verifying key to verify proofs from the corresponding proving key, or to generate an EVM verifier.</p>
 <p>Run this command to set up your proving and verifying keys:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M examples/onnx/1l_sigmoid/network.onnx --srs-path=17.srs  --settings-path=settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M examples/onnx/4l_relu_conv_fc/network.onnx --srs-path=17.srs  --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <p>You should now have files called <code v-pre>vk.key</code> and <code v-pre>pk.key</code> in the root of your project. You can also specify different paths for these outputs with <code v-pre>--vk-path=altvk.key --pk-path=altpk.key</code></p>
+<doc-anchor-target id="generate-witness">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#generate-witness">#</doc-anchor-trigger>
+        <span>Generate witness</span>
+    </h3>
+</doc-anchor-target>
+<p>Now we take the input data, quantize it, and run it through the quantized model, performing any hashing or encryption, to obtain the input and output that we will be proving.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -M examples/onnx/4l_relu_conv_fc/network.onnx -D examples/onnx/4l_relu_conv_fc/input.json  --settings-path settings.json</code></pre>
+</doc-codeblock></div>
+<p>The default output file is <code v-pre>witness.json</code>.</p>
 <doc-anchor-target id="prove">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#prove">#</doc-anchor-trigger>
         <span>Prove</span>
     </h3>
 </doc-anchor-target>
-<p>Now that we have all the parameters, it&#x27;s time to generate our proof! The proof will likely take the longest to generate. This is because most of the heavy work of setting constraints and lookups takes place here.</p>
-<p>In a typical zk application, the proof will be generated by the client, then verified on a blockchain or server. To make this easier, <code v-pre>ezkl</code> provides WASM bindings for <code v-pre>prove</code> that you can use to generate proofs in-browser. You can check out our <a href="https://docs.ezkl.xyz/tutorials/wasm_tutorial/">WASM tutorial</a> to see how.</p>
-<p>Here is the command for generating a proof:</p>
+<p>Now that we have all the parameters, we can generate our proof.</p>
+<p>In a typical zk application, the proof will be generated by or on behalf of the client, then verified on a blockchain or server. <code v-pre>ezkl</code> provides WASM bindings for <code v-pre>prove</code> that you can use to generate proofs in-browser.</p>
+<p>Here is the command for generating a proof from the cli:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M examples/onnx/1l_sigmoid/network.onnx --witness examples/onnx/1l_sigmoid/input.json --pk-path=pk.key --proof-path=model.proof --srs-path=17.srs --settings-path=settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M examples/onnx/4l_relu_conv_fc/network.onnx --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <p>This will create a proof file called <code v-pre>model.proof</code> that anyone can later use to verify your model was run correctly on the input.</p>
 <doc-anchor-target id="verify">
@@ -341,9 +303,23 @@
 </doc-anchor-target>
 <p>Verification can be done from the CLI, in WASM, or on a blockchain. Verification will require the commitment scheme parameters, the circuit parameters, the verifying key, and, of course, the proof. When verifying with a smart contract, however, the verifying key and circuit/commitment params are baked into the smart contract; this means only the public parameters will be passed as calldata along with the proof. The command for verifying from the CLI is:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=17.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=15.srs</code></pre>
 </doc-codeblock></div>
-<p>This will return whether your proof has successfully verified or not. Feel free to refer to the WASM tutorial to verify with WASM and the Verifying On-Chain section to verify with an EVM smart contract.</p>
+<p>This will return whether your proof has successfully verified or not. Refer to Verifying On-Chain section to verify with an EVM smart contract.</p>
+<p>
+<div class="mb-6 px-5 py-4 flex justify-between relative border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded transition-colors duration-150">
+    <div class="flex items-center text-blue-500 dark:text-blue-400">
+        <span class="inline-block mb-px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
+        </span>
+        <span class="inline-block font-medium ml-2">Verifying On-Chain</span>
+    </div>
+    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
+        <span>../../verifying_on-chain/</span>
+    </div>
+    <a href="../../verifying_on-chain/" class="absolute block inset-0"></a>
+</div>
+</p>
 <hr />
 <p>Note that these are not the only operations that can be performed by <code v-pre>ezkl</code>. You can also run a <code v-pre>Mock</code> proof to see if a proof will verify, or run the <code v-pre>Table</code> command to see a table of all your onnx operations that your SNARK will consist of. The table command is helpful in determining if <code v-pre>ezkl</code> knows how to snark your model. You can also run <code v-pre>Fuzz</code> to fuzz test your SNARK on random inputs. Even our EVM commands can take in <code v-pre>RunArgs</code> to specify how an evm verifier will be created. Let&#x27;s look into the rest of these in detail.</p>
 <doc-anchor-target id="mock">
@@ -357,9 +333,9 @@
 <pre class="language-bash"><code v-pre class="language-bash">ezkl mock -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json</code></pre>
 </doc-codeblock></div>
 <p>Mock is basically checking that constraints that your model has been translated into are satisfied, without doing any of the subsequent cryptographic heavy lifting to produce a proof.</p>
-<doc-anchor-target id="generate-witness">
+<doc-anchor-target id="generate-witness-1">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#generate-witness">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#generate-witness-1">#</doc-anchor-trigger>
         <span>Generate Witness</span>
     </h3>
 </doc-anchor-target>

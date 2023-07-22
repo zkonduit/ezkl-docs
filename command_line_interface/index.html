@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741288398763">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.743317433565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.741288398763" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.743317433565" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.741288398763" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.743317433565" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -211,16 +211,19 @@ The <code v-pre>ezkl</code> cli provides a simple interface to load <code v-pre>
     </div>
     <a href="../getting_started/" class="absolute block inset-0"></a>
 </div>
-then generate a structured reference string (SRS):</p>
+then download a structured reference string (SRS):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-srs --logrows 15 --srs-path=15.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs --logrows 15 --srs-path=15.srs</code></pre>
 </doc-codeblock></div>
-<p>Note that this SRS is for testing purposes only.</p>
 <p>Put a model file (<code v-pre>network.onnx</code>) and input file (<code v-pre>input.json</code>) into your working directory, e.g. with something like:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
 cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 </code></pre>
+</doc-codeblock></div>
+<p>To display <code v-pre>ezkl</code>&#x27;s understanding of the model, run:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl table -M network.onnx</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="setting-circuit-parameters">
     <h4>
@@ -249,7 +252,7 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 </doc-codeblock></div>
 <p>This creates the verification key, proving key, and circuit settings in the locations you specify.</p>
 <blockquote>
-<p>Note: You can view the options associated to a subcommand such as <code v-pre>setup</code> by typing <code v-pre>ezkl setup</code> with no parameters.</p>
+<p>Note: You can view the options associated to a subcommand such as <code v-pre>setup</code> by typing <code v-pre>ezkl setup</code> with no parameters. If you provide some but not all required parameters, <code v-pre>ezkl</code> will tell you what else it needs.</p>
 </blockquote>
 <doc-anchor-target id="making-a-proof">
     <h4>
@@ -271,121 +274,6 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=15.srs</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="visualizing-our-model">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#visualizing-our-model">#</doc-anchor-trigger>
-        <span>Visualizing our model</span>
-    </h4>
-</doc-anchor-target>
-<p>To display a table of the loaded onnx nodes, their associated parameters, set <code v-pre>RUST_LOG=DEBUG</code> or run:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl table -M network.onnx</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="using-a-pre-generated-srs">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#using-a-pre-generated-srs">#</doc-anchor-trigger>
-        <span>Using a pre-generated SRS</span>
-    </h2>
-</doc-anchor-target>
-<p>Note that you can use pre-generated KZG SRS. These SRS can be converted to a format that is ingestable by the <code v-pre>pse/halo2</code> prover <code v-pre>ezkl</code> uses by leveraging <a href="https://github.com/han0110/halo2-kzg-srs">han0110/halo2-kzg-srs</a>. This repo also contains pre-converted SRS from large projects such as Hermez and the <a href="https://github.com/privacy-scaling-explorations/perpetualpowersoftau">perpetual powers of tau repo</a>. Simply download the pre-converted file locally and point <code v-pre>--srs-path</code> to the file.</p>
-<blockquote>
-<p>Note: Ensure you download the files in raw format. As this will be more performant and is the serialization format <code v-pre>ezkl</code> assumes.</p>
-</blockquote>
-<doc-anchor-target id="general-usage">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#general-usage">#</doc-anchor-trigger>
-        <span>General usage <span class="docs-emoji">&#x1F527;</span></span>
-    </h2>
-</doc-anchor-target>
-<p>This is a comprehensive list of the commands and flags you can use with <code v-pre>ezkl</code>. Learn more about the Commands here:
-<div class="mb-6 px-5 py-4 flex justify-between relative border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded transition-colors duration-150">
-    <div class="flex items-center text-blue-500 dark:text-blue-400">
-        <span class="inline-block mb-px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
-        </span>
-        <span class="inline-block font-medium ml-2">Commands</span>
-    </div>
-    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>../about_ezkl/commands/</span>
-    </div>
-    <a href="../about_ezkl/commands/" class="absolute block inset-0"></a>
-</div>
-</p>
-<p>And the flags (RunArgs) here:
-<div class="mb-6 px-5 py-4 flex justify-between relative border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded transition-colors duration-150">
-    <div class="flex items-center text-blue-500 dark:text-blue-400">
-        <span class="inline-block mb-px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
-        </span>
-        <span class="inline-block font-medium ml-2">RunArgs</span>
-    </div>
-    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>../about_ezkl/runargs/</span>
-    </div>
-    <a href="../about_ezkl/runargs/" class="absolute block inset-0"></a>
-</div>
-</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">Usage: ezkl [OPTIONS] &lt;COMMAND&gt;
-
-Commands:
-  table                     Loads model and prints model table
-  gen-witness               Generates the witness from an input file 
-  gen-settings              Produces the proving hyperparameters, from run-args
-  calibrate-settings        Calibrates the proving scale, lookup bits and logrows from a circuit settings file
-  gen-srs                   Generates a dummy SRS
-  mock                      Loads model and input and runs mock prover (for testing)
-  aggregate                 Aggregates proofs :)
-  setup                     Creates pk and vk and circuit params
-  fuzz                      Fuzzes the proof pipeline with random inputs, random parameters, and random keys
-  prove                     Loads model, data, and creates proof
-  create-evm-verifier       Creates an EVM verifier for a single proof
-  create-evm-verifier-aggr  Creates an EVM verifier for an aggregate proof
-  verify                    Verifies a proof, returning accept or reject
-  verify-aggr               Verifies an aggregate proof, returning accept or reject
-  verify-evm                Verifies a proof using a local EVM executor, returning accept or reject
-  print-proof-hex           Print the proof in hexadecimal
-  help                      Print this message or the help of the given subcommand(s)
-
-Options:
-  -D, --data &lt;DATA&gt;
-          The path to the .json data file
-  -M, --model &lt;MODEL&gt;
-          The path to the .onnx model file
-  -T, --tolerance &lt;TOLERANCE&gt;
-          The tolerance for error on model outputs [default: 0]
-  -S, --scale &lt;SCALE&gt;
-          The denominator in the fixed point representation used when quantizing [default: 7]
-  -B, --bits &lt;BITS&gt;
-          The number of bits used in lookup tables [default: 16]
-  -K, --logrows &lt;LOGROWS&gt;
-          The log_2 number of rows [default: 17]
-      --batch-size &lt;BATCH_SIZE&gt;
-          The number of batches to split the input data into [default: 1]
-      --input-visibility &lt;INPUT_VISIBILITY&gt;
-          Flags whether inputs are public, private, hashed [default: private]
-      --output-visibility &lt;OUTPUT_VISIBILITY&gt;
-          Flags whether outputs are public, private, hashed [default: public]
-      --param-visibility &lt;PARAM_VISIBILITY&gt;
-          Flags whether params are public, private, hashed [default: private]
-      --allocated-constraints &lt;ALLOCATED_CONSTRAINTS&gt;
-          the number of constraints the circuit might use. If not specified, this will be calculated using a 'dummy layout' pass
-      --settings-path &lt;SETTINGS_PATH&gt;
-          optional circuit settings path (overrides any run args set)
-  -h, --help
-          Print help</code></pre>
-</doc-codeblock></div>
-<p><code v-pre>prove</code> and <code v-pre>mock</code> both require <code v-pre>-D</code> and <code v-pre>-M</code> parameters.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">Usage: ezkl mock [OPTIONS]
-
-Options:
-  -D, --data &lt;DATA&gt;    The path to the .json data file [default: ]
-  -M, --model &lt;MODEL&gt;  The path to the .onnx model file [default: ]
-</code></pre>
-</doc-codeblock></div>
-<p>The <code v-pre>.onnx</code> file can be generated using pytorch or tensorflow.</p>
-<p>For examples of such files see <code v-pre>examples/onnx_models</code>.</p>
 
                                 
                                 <!-- Required only on API pages -->

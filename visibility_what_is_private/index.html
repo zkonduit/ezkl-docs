@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.741288398763">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.0.3.743317433565">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.0.3">
@@ -30,12 +30,12 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.0.3.741288398763" rel="stylesheet" />
+    <link href="../resources/css/retype.css?v=3.0.3.743317433565" rel="stylesheet" />
 
-    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../resources/js/config.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../resources/js/retype.js?v=3.0.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.741288398763" data-turbo-eval="false" defer></script>
-    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.741288398763" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../resources/js/lunr.js?v=3.0.3.743317433565" data-turbo-eval="false" defer></script>
+    <script id="prism-js" type="text/javascript" src="../resources/js/prism.js?v=3.0.3.743317433565" defer></script>
     <link href="../resources/css/katex.css?v=3.0.3" rel="stylesheet" />
     <script id="katex-js" type="text/javascript" src="../resources/js/katex.js?v=3.0.3" defer></script>
 </head>
@@ -189,7 +189,7 @@
 </doc-anchor-target>
 <p>In <code v-pre>ezkl</code> there are four choices for Visibility: private, public, hashed, or encrypted, and three parts to chose these for: the model input, the model weights, and the model output (for 64 possible choices). The default setting is <code v-pre>private</code> input, <code v-pre>public</code> output, and <code v-pre>private</code> weights.</p>
 <p>Visibility is controlled in the circuit settings (<code v-pre>settings.json</code> file), and is determined at setup time.</p>
-<p>The question of what is private is very much related to the question of what we are proving. These questions tend to be a bit subtle and are really about designing the overall cryptosystem, of which your ezkl proof is a part. We provide these options to enable many different constructions. It can take some thought to determine which is right for you use case.</p>
+<p>The question of what is private is very much related to the question of what we are proving. These questions tend to be a bit subtle and are really about designing the overall cryptosystem, of which your ezkl proof is a part. We provide these options to enable many different constructions. It can take some thought to determine which is right for your use case.</p>
 <p>At a high level, mark those things <code v-pre>private</code> that you want to be secret to the prover, and allow the prover to change freely. Mark things <code v-pre>public</code> if you want them to be baked into the setup, and generally available (although see the comments about weight visibility below). Setting a part to <code v-pre>hashed</code> is a way to commit to it, and also a way to build bridges between proofs, making sure that a piece of data (input, weights, or output) is the same in multiple proofs. Hashed parts are also useful to reduce calldata size for smart contracts, and to allow something to be signed. Finally making a part <code v-pre>encrypted</code> proves encryption inside the circuit, which is useful for some constructions such as marketplaces with escrow contracts.</p>
 <p>Note that the proof file contains both the instance data (e.g. a hash of the model input and the actual output of the model) and the bytes of the cryptographic proof. These parts (instance data, proof bytes) are analogous to the message hash and signature in a digital signature.</p>
 <doc-anchor-target id="data-provenance-signatures-and-linking-data">
