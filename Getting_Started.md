@@ -18,9 +18,9 @@ then download the repo and enter the directory
 git clone git@github.com:zkonduit/ezkl.git
 cd ezkl
 ```
-We require a nightly version of the rust toolchain. You can change the default toolchain by running:
+We require a specific nightly version of the rust toolchain. You can change the default toolchain by running:
 ```bash
-rustup override set nightly
+rustup override set nightly-2023-04-16
 ```
 
 After which you may build and install the library
