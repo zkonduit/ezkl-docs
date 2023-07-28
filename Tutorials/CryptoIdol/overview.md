@@ -6,6 +6,9 @@ order: 5
 
 # **Building a Voice Emotion Classifier and Verifier with PyTorch, EZKL, and Ethereum Smart Contracts**
 
+
+This is part 1 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app.
+
 ## Background Knowledge
 
 This article assumes prior rudimentary knowledge on the [EVM](https://ethereum.org/en/developers/docs/evm/), [PyTorch](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html) and [zero knowledge proof cryptography](https://en.wikipedia.org/wiki/Zero-knowledge_proof).  If you are unfamiliar with one, a few or all of these technologies/methods (or you just want a refresher), check out the linked articles as needed. 

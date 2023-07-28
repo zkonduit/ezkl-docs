@@ -4,6 +4,9 @@ order: 2
 
 # Idol Backend Tutorial
 
+
+This is part 3 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app.
+
 # Overview
 
 So you have trained the model and obtained the public key and verifier key. There’s a new problem: how are you going to serve the proofs to your users? 

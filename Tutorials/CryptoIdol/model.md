@@ -5,6 +5,7 @@ order: 3
 
 # Idol Model Tutorial
 
+This is part 2 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app.
 
 ### Background Knowledge
 
