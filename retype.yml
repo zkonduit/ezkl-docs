@@ -6,8 +6,10 @@ branding:
   label: Docs
 links:
 - text: EZKL GitHub
-  link: https://github.com/zkonduit/ezkl 
+  link: https://github.com/zkonduit/ezkl
+- text: EZKL Discord
+  link: https://discord.gg/mqgdwdSgzA
 - text: EZKL Telegram
-  link: https://t.me/+76OjHb5CwJtkMTBh
+  link: https://t.me/+QRzaRvTPIthlYWMx
 footer:
   copyright: "&copy; Copyright Zkonduit Inc. {{ year }}. All rights reserved."
