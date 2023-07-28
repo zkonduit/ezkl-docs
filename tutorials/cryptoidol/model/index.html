@@ -9,33 +9,32 @@
     <meta name="generator" content="Retype 3.1.0">
 
     <!-- Primary Meta Tags -->
-    <title>Verifying On-Chain</title>
-    <meta name="title" content="Verifying On-Chain">
-    <meta name="description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
+    <title>Idol Model Tutorial</title>
+    <meta name="title" content="Idol Model Tutorial">
+    <meta name="description" content="This is part 2 of our tutorial on building the Cryptoidol demo app.">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://docs.ezkl.xyz/verifying_on-chain/">
+    <link rel="canonical" href="https://docs.ezkl.xyz/tutorials/cryptoidol/model/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
-    <meta property="og:title" content="Verifying On-Chain">
-    <meta property="og:description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
+    <meta property="og:url" content="https://docs.ezkl.xyz/tutorials/cryptoidol/model/">
+    <meta property="og:title" content="Idol Model Tutorial">
+    <meta property="og:description" content="This is part 2 of our tutorial on building the Cryptoidol demo app.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
-    <meta property="twitter:title" content="Verifying On-Chain">
-    <meta property="twitter:description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
+    <meta property="twitter:url" content="https://docs.ezkl.xyz/tutorials/cryptoidol/model/">
+    <meta property="twitter:title" content="Idol Model Tutorial">
+    <meta property="twitter:description" content="This is part 2 of our tutorial on building the Cryptoidol demo app.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.1.0.743830887328" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.1.0.743830887328" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.1.0.743830887328" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../resources/js/retype.js?v=3.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.1.0.743830887328" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.1.0.743830887328" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.1.0.743830887328" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.1.0.743830887328" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -50,7 +49,7 @@
                 <!-- Logo -->
                 <div class="flex items-center justify-between h-full py-2 md:w-75">
                     <div class="flex items-center px-2 md:px-6">
-                        <a id="docs-site-logo" href="../" class="flex items-center leading-snug text-2xl">
+                        <a id="docs-site-logo" href="../../../" class="flex items-center leading-snug text-2xl">
                             <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">EZKL</span>
                         </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
                     </div>
@@ -171,114 +170,80 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="verifying-on-chain" class="break-words">
+<doc-anchor-target id="idol-model-tutorial" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#verifying-on-chain">#</doc-anchor-trigger>
-        <span>Verifying On-Chain</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#idol-model-tutorial">#</doc-anchor-trigger>
+        <span>Idol Model Tutorial</span>
     </h1>
 </doc-anchor-target>
-<doc-anchor-target id="verifying-with-the-evm-">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#verifying-with-the-evm-">#</doc-anchor-trigger>
-        <span>verifying with the EVM ◊</span>
-    </h4>
+<p>This is part 2 of our tutorial on building the <a href="https://cryptoidol.tech">Cryptoidol</a> demo app.</p>
+<doc-anchor-target id="background-knowledge">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#background-knowledge">#</doc-anchor-trigger>
+        <span>Background Knowledge</span>
+    </h3>
 </doc-anchor-target>
-<p>Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.</p>
-<p>You can use the example from Commands, or create it by copying over a network and input file (assuming the ezkl repo is in your home directory):</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
-cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./</code></pre>
-</doc-codeblock></div>
-<p>then create the setup</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-srs --logrows 16 --srs-path=16.srs
-ezkl gen-settings -M network.onnx
-ezkl calibrate-settings -M network.onnx -D input.json --target resources
-ezkl setup -M network.onnx --srs-path=16.srs --settings-path=settings.json</code></pre>
-</doc-codeblock></div>
-<p>Now we use the setup to create an EVM verifier, which would be deployed on-chain.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># gen evm verifier
-ezkl create-evm-verifier --srs-path=16.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
-ezkl prove --transcript=evm --witness witness.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=16.srs --settings-path=settings.json </code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># install anvil if you haven't already
-cargo install --git https://github.com/foundry-rs/foundry --profile local --locked foundry-cli anvil</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># spin up a local EVM through anvil 
-anvil -p 3030</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># deploy evm verifier
-ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --sol-code-path verif.sol </code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
-ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030</code></pre>
-</doc-codeblock></div>
-<p>Note that the <code v-pre>.sol</code> file above can be deployed and composed with other Solidity contracts, via a <code v-pre>verify()</code> function. Please read <a href="https://hackmd.io/QOHOPeryRsOraO7FUnG-tg">this document</a> for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.</p>
-<p>The above pipeline can also be run using proof aggregation to reduce the final proof size and the size and execution cost of the on-chain verifier. A sample pipeline for doing so would be as follows.</p>
-<p>Grab a smaller model.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">cp ~/ezkl/examples/onnx/1l_relu/network.onnx ./
-cp ~/ezkl/examples/onnx/1l_relu/input.json ./</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Generate a new SRS. We use 20 since aggregation requires larger circuits (more commonly 23+).
-ezkl gen-srs --logrows 20 --srs-path=20.srs</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Create new circuit parameters
-ezkl gen-settings -M network.onnx
-ezkl calibrate-settings -M network.onnx -D input.json --target resources</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Set up a new circuit
-ezkl setup  -M network.onnx --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Single proof -&gt; single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
-ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
-ezkl prove --transcript=poseidon --strategy=accum -W witness.json -M network.onnx --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key --settings-path=settings.json</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Aggregate -&gt; generates aggregate proof
-ezkl aggregate --logrows=20 --aggregation-snarks=first.pf --srs-path=20.srs </code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Generate aggregate evm verifier
-ezkl create-evm-verifier-aggr --sol-code-path verif.sol --srs-path=20.srs --vk-path vk_aggr.key --aggregation-settings=settings.json</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># Spin up a local EVM through anvil 
-anvil -p 3030</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># deploy evm verifier
-ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --sol-code-path verif.sol </code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
-ezkl verify-evm --proof-path proof_aggr.proof --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030</code></pre>
-</doc-codeblock></div>
-<p>Also note that this may require a local <a href="https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html">solc</a> installation. You can follow the SolidityLang instructions linked above, or you can use <a href="https://github.com/alloy-rs/svm-rs">svm-rs</a> to install solc. Here&#x27;s how:</p>
-<p>Install svm-rs:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">cargo install svm-rs</code></pre>
-</doc-codeblock></div>
-<p>Install a recent Solidity version (we use 0.8.20 in our implementation):</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">svm install 0.8.20</code></pre>
-</doc-codeblock></div>
-<p>Verify your Solidity version:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">solc --version</code></pre>
-</doc-codeblock></div>
+<p>Check out these links for some useful knowledge on:</p>
+<ul>
+<li><a href="https://ethereum.org/en/developers/docs/evm/">EVM</a>,</li>
+<li><a href="https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html">PyTorch</a>, and</li>
+<li><a href="https://en.wikipedia.org/wiki/Zero-knowledge_proof">zero knowledge proof cryptography</a>.</li>
+</ul>
+<doc-anchor-target id="voice-data">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#voice-data">#</doc-anchor-trigger>
+        <span>Voice data</span>
+    </h3>
+</doc-anchor-target>
+<p>The voice datasets we will use are labeled using the same emotion and tone labeling standard and consist of 8 emotions: neutral, calm, happy, sad, angry, fear, disgust, surprise. The datasets are obtained from <code v-pre>Kaggle</code> and include the <code v-pre>TESS, RAVDESS SONG, RAVDESS SPEECH, CREMA</code>, and <code v-pre>SAVEE</code> datasets.</p>
+<p>Here we showcase a full-end-to-end flow of:</p>
+<ol>
+<li>training a model for a specific task (judging voices)</li>
+<li>creating a proof of judgment</li>
+<li>creating and deploying an evm verifier</li>
+<li>verifying the proof of judgment using the verifier</li>
+</ol>
+<p>First we download a few voice related datasets from kaggle, which are all labelled using the same emotion and tone labelling standard.</p>
+<p>We have 8 emotions in both speaking and singing datasets: neutral, calm, happy, sad, angry, fear, disgust, surprise.</p>
+<p>To download the dataset make sure you have the kaggle cli installed in your local env <code v-pre>pip install kaggle</code>. Make sure you set up your <code v-pre>kaggle.json</code> file as detailed <a href="https://www.kaggle.com/docs/api#getting-started-installation-&amp;-authentication">here</a>. Then run the associated <code v-pre>voice_data.sh</code> <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/voice_data.sh">data download</a> script: <code v-pre>sh voice_data.sh</code></p>
+<p>Make sure you set the <code v-pre>VOICE_DATA_DIR</code> variables to point to the directory the <code v-pre>voice_data.sh</code> script has downloaded to. This script also accepts an argument to download to a specific directory: <code v-pre>sh voice_data.sh /path/to/voice/data</code>.</p>
+<doc-anchor-target id="training">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#training">#</doc-anchor-trigger>
+        <span>Training</span>
+    </h3>
+</doc-anchor-target>
+<p>During training we convert all audio files into 2D frequency-domain spectrograms so that we can leverage convolutional neural networks, which tend to be more efficient than time-series model like RNNs or LSTMs. We thus:</p>
+<ol>
+<li>Extract the mel spectrogram from each of the audio recordings.</li>
+<li>Rescale each of these to the decibel (DB) scale.</li>
+<li>Define the model as the following model:
+<code v-pre>(x) -&gt; (conv) -&gt; (relu) -&gt; (linear) -&gt; (y)</code></li>
+</ol>
+<p>You may notice that we introduce a second computational graph <code v-pre>(key) -&gt; (key)</code>. The reasons for this are to prevent someone else from stealing your submission, and if you are not interested you can skip the following paragraph.</p>
+<doc-anchor-target id="mev-prevention">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#mev-prevention">#</doc-anchor-trigger>
+        <span>MEV prevention</span>
+    </h3>
+</doc-anchor-target>
+<p>Let&#x27;s say that obtaining a high score from the judge and then submitting said score to the EVM verifier could result in the issuance of a reward (financial or otherwise). There is an incentive then for MEV bots to scalp any issued valid proof and submit a duplicate transaction with the same proof to the verifier contract in the hopes of obtaining the reward before the original issuer. Here we add <code v-pre>(key) -&gt; (key)</code> such that the transaction creator&#x27;s public key / address is both a private input AND a public input to the proof. As such the on-chain verification only succeeds if the key passed in during proof time is also passed in as a public input to the contract. The reward issued by the contract can then be irrevocably tied to that key such that even if the proof is submitted by another actor, the reward would STILL go to the original singer / transaction issuer.</p>
+<p>We leverage the often-used Adam optimizer, coupled with 0.001 weight decay so as to regularize the model. The weight decay (a.k.a L2 regularization) can also help on the zk-circuit end of things in that it prevents inputs to Halo2 lookup tables from falling out of range (lookup tables are how we represent non-linearities like ReLU and Sigmoid inside our circuits).</p>
+<p>To encode the judge’s “preferences”, we convert labels to a number between 0 and 1 where 1 is pleasantly surprised and 0 is disgust and the rest are floats in between. The model loves pleasantly surprised voices and hates disgust ;) .</p>
+<doc-anchor-target id="exporting-and-verifying-the-model">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#exporting-and-verifying-the-model">#</doc-anchor-trigger>
+        <span><strong>Exporting and Verifying the Model</strong></span>
+    </h3>
+</doc-anchor-target>
+<p>After training the model, we export it to the ONNX format, which is a platform-agnostic format for machine learning models. We also save a sample input to a JSON file for later use.</p>
+<p>Next, we generate a settings file for our model using the <strong><code v-pre>gen_settings</code></strong> and <strong><code v-pre>calibrate_settings</code></strong> functions from the EZKL library. This settings file basically instantiates a bunch of parameters that determine the circuit shape, size . We use recommend also running <strong><code v-pre>calibrate_settings</code></strong> because of the way we represent nonlinearities in the circuit (using Halo2&#x27;s <a href="https://zcash.github.io/halo2/design/proving-system/lookup.html">lookup tables</a>), it is often best to <em>calibrate</em> this settings file as some data can fall out of range of these lookups.</p>
+<p>As we use Halo2 with KZG-commitments we need an SRS string from (preferably) a multi-party trusted setup ceremony. For an overview of the procedures for such a ceremony check out <a href="https://blog.ethereum.org/2023/01/16/announcing-kzg-ceremony">this page</a>. The<code v-pre>get_srs</code> command retrieves a correctly sized SRS given the calibrated settings file from <a href="https://github.com/han0110/halo2-kzg-srs">here</a>.</p>
+<p>We then generate a witness for our model, which are the model outputs when feeding the previously saved input through the model. After that, we run a mock proof to check that all the constraints are valid.</p>
+<p>Next, we set up the proving and verifying keys for our model and generate a full proof. We then verify the proof as a sanity check.</p>
+<p><strong>Deploying and Verifying the EVM Verifier</strong></p>
+<p>Finally, we create an Ethereum Smart Contract that acts as a verifier for our model. We deploy the contract (using <code v-pre>deploy-verifier</code>) to a local Ethereum node using the <a href="https://github.com/foundry-rs/foundry/blob/master/anvil/README.md">Anvil Ethereum node simulator</a> running on port <code v-pre>3030</code>. In a separate terminal window (or using the notebook bash tooling <code v-pre>!</code>) run <code v-pre>anvil -p 3030</code> to start the node.</p>
+<p>After deploying the contract, we obtain its address which we will use to interact with  and we can then verify the proof using the deployed contract by calling the <strong><code v-pre>verify_evm</code></strong> function from the EZKL library and passing the proof and the contract&#x27;s address. If everything is set up correctly, the proof should be verified successfully!</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -288,20 +253,20 @@ ezkl verify-evm --proof-path proof_aggr.proof --addr=*paste address in addr.txt 
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../about_ezkl/parameters/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../tutorials/cryptoidol/overview/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Parameters</span>
+                                                <span class="block mt-1">Overview</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../visibility_what_is_private/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../../tutorials/cryptoidol/backend/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Visibility: What is Private?</span>
+                                                <span class="block mt-1">Idol Backend Tutorial</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -345,6 +310,6 @@ ezkl verify-evm --proof-path proof_aggr.proof --addr=*paste address in addr.txt 
 
     <div id="docs-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Verifying On-Chain", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Idol Model Tutorial", level: 3, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
