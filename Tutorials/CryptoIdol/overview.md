@@ -7,7 +7,7 @@ order: 5
 # **Building a Voice Emotion Classifier and Verifier with PyTorch, EZKL, and Ethereum Smart Contracts**
 
 
-This is part 1 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app.
+This is part 1 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app. The finished app is on Github; check out the [backend](https://github.com/zkonduit/cryptoidol) and [frontend](https://github.com/zkonduit/cryptoidol-frontend).
 
 ## Background Knowledge
 

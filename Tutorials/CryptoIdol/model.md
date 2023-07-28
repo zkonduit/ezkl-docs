@@ -5,7 +5,8 @@ order: 3
 
 # Idol Model Tutorial
 
-This is part 2 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app.
+This is part 2 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app; check out the [backend](https://github.com/zkonduit/cryptoidol) and [frontend](https://github.com/zkonduit/cryptoidol-frontend).
+
 
 ### Background Knowledge
 
