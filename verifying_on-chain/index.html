@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.743894951491">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.744088234872">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.1.0">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Verifying On-Chain</title>
     <meta name="title" content="Verifying On-Chain">
-    <meta name="description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
+    <meta name="description" content="To verify on-chain, generate a verifier smart contract after performing setup.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/verifying_on-chain/">
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
     <meta property="og:title" content="Verifying On-Chain">
-    <meta property="og:description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
+    <meta property="og:description" content="To verify on-chain, generate a verifier smart contract after performing setup.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/verifying_on-chain/">
     <meta property="twitter:title" content="Verifying On-Chain">
-    <meta property="twitter:description" content="Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.">
+    <meta property="twitter:description" content="To verify on-chain, generate a verifier smart contract after performing setup.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.1.0.743894951491" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.1.0.744088234872" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.1.0.743894951491" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.1.0.744088234872" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.1.0.743894951491" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.1.0.743894951491" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.1.0.744088234872" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.1.0.744088234872" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -186,10 +186,10 @@
 <doc-anchor-target id="verifying-with-the-evm-">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#verifying-with-the-evm-">#</doc-anchor-trigger>
-        <span>verifying with the EVM ◊</span>
+        <span>Verifying with the EVM ◊</span>
     </h4>
 </doc-anchor-target>
-<p>Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.</p>
+<p>To verify on-chain, generate a verifier smart contract after performing setup.</p>
 <p>You can use the example from Commands, or create it by copying over a network and input file (assuming the ezkl repo is in your home directory):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
@@ -197,19 +197,20 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./</code></pre>
 </doc-codeblock></div>
 <p>then create the setup</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-srs --logrows 16 --srs-path=16.srs
-ezkl gen-settings -M network.onnx
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
-ezkl setup -M network.onnx --srs-path=16.srs --settings-path=settings.json</code></pre>
+ezkl get-srs -S settings.json
+ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
+ezkl setup -M network.ezkl --srs-path=kzg.srs --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
-<p>Now we use the setup to create an EVM verifier, which would be deployed on-chain.</p>
+<p>Now we use this setup to create an EVM verifier, which would be deployed on-chain.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># gen evm verifier
-ezkl create-evm-verifier --srs-path=16.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json</code></pre>
+ezkl create-evm-verifier --srs-path=kzg.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
-ezkl prove --transcript=evm --witness witness.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=16.srs --settings-path=settings.json </code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
+ezkl prove --transcript=evm --witness witness.json -M network.ezkl --proof-path model.pf --pk-path pk.key --srs-path=kzg.srs --settings-path=settings.json </code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># install anvil if you haven't already
@@ -227,7 +228,16 @@ ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --
 <pre class="language-bash"><code v-pre class="language-bash"># verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
 ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030</code></pre>
 </doc-codeblock></div>
-<p>Note that the <code v-pre>.sol</code> file above can be deployed and composed with other Solidity contracts, via a <code v-pre>verify()</code> function. Please read <a href="https://hackmd.io/QOHOPeryRsOraO7FUnG-tg">this document</a> for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.</p>
+<p>Note that the <code v-pre>.sol</code> file above can be deployed and composed with other Solidity contracts, via a <code v-pre>verify()</code> function.</p>
+<doc-anchor-target id="aggregation">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#aggregation">#</doc-anchor-trigger>
+        <span>Aggregation</span>
+    </h4>
+</doc-anchor-target>
+<blockquote>
+<p>Note: this is an advanced technique, very resource-intensive, and chances are you don&#x27;t want to use this; if you are having trouble with proof size, first try asking about your problem in Telegram or Discord.</p>
+</blockquote>
 <p>The above pipeline can also be run using proof aggregation to reduce the final proof size and the size and execution cost of the on-chain verifier. A sample pipeline for doing so would be as follows.</p>
 <p>Grab a smaller model.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -243,18 +253,24 @@ ezkl gen-srs --logrows 20 --srs-path=20.srs</code></pre>
 ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources</code></pre>
 </doc-codeblock></div>
+<p>Set up the first proof.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Set up a new circuit
-ezkl setup  -M network.onnx --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json</code></pre>
+ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
+ezkl setup  -M network.ezkl --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Single proof -&gt; single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
-ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
-ezkl prove --transcript=poseidon --strategy=accum -W witness.json -M network.onnx --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key --settings-path=settings.json</code></pre>
+ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
+ezkl prove --transcript=poseidon --strategy=accum -W witness.json -M network.ezkl --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key --settings-path=settings.json</code></pre>
+</doc-codeblock></div>
+<p>Setup the aggregate proof.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl setup-aggregate --sample-snarks first.pf --srs-path 20.srs --logrows 20</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Aggregate -&gt; generates aggregate proof
-ezkl aggregate --logrows=20 --aggregation-snarks=first.pf --srs-path=20.srs </code></pre>
+ezkl aggregate --logrows=20 --aggregation-snarks=first.pf --srs-path=20.srs --pk-path pk_aggr.key </code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Generate aggregate evm verifier
@@ -294,11 +310,11 @@ ezkl verify-evm --proof-path proof_aggr.proof --addr=*paste address in addr.txt 
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../about_ezkl/parameters/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../about_ezkl/runargs/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Parameters</span>
+                                                <span class="block mt-1">Run​Args</span>
                                             </span>
                                         </a>
                                     </div>

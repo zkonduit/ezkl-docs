@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.743894951491">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.744088234872">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.1.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.1.0.743894951491" rel="stylesheet">
+    <link href="resources/css/retype.css?v=3.1.0.744088234872" rel="stylesheet">
 
-    <script data-cfasync="false" src="resources/js/config.js?v=3.1.0.743894951491" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="resources/js/config.js?v=3.1.0.744088234872" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="resources/js/retype.js?v=3.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.1.0.743894951491" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.1.0.743894951491" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.1.0.744088234872" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.1.0.744088234872" defer></script>
     <link href="resources/css/katex.css?v=3.1.0" rel="stylesheet">
     <script id="katex-js" data-cfasync="false" src="resources/js/katex.js?v=3.1.0" defer></script>
 </head>
@@ -201,22 +201,10 @@
 <blockquote>
 <p>&quot;I correctly ran this publicly available neural network on some public data and it produced this output&quot;</p>
 </blockquote>
-<p>These proofs can be trusted by anyone with a copy of the verifier, and even verified on Ethereum. <code v-pre>ezkl</code> can be used as a command-line tool, or directly from Python; <a href="https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing">see this colab notebook</a> and the python bindings docs. 
-<div class="mb-6 px-5 py-4 flex justify-between relative border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded transition-colors duration-150">
-    <div class="flex items-center text-blue-500 dark:text-blue-400">
-        <span class="inline-block mb-px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
-        </span>
-        <span class="inline-block font-medium ml-2">Python bindings</span>
-    </div>
-    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>python_bindings/</span>
-    </div>
-    <a href="python_bindings/" class="absolute block inset-0"></a>
-</div>
-</p>
+<p>These proofs can be trusted by anyone with a copy of the verifier, and verified directly on Ethereum and compatible chains. <code v-pre>ezkl</code> can be used directly from Python; <a href="https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing">see this colab notebook</a> and the python bindings docs. It can also be used from the command line.</p>
 <p><code v-pre>ezkl</code> can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify it on the Ethereum Virtual Machine (or on the command line, or in the browser using wasm).</p>
 <p>You can install the Python version with <code v-pre>pip install ezkl</code>.</p>
+<p><code v-pre>ezkl</code> can be used to move large and complex computations off-chain in a way that is easy to program (you can write your own functions in Python) and manage. You are not limited to a pre-defined set of functions, there is no limit on input size (using hashing), and there is no centralized sequencer.</p>
 <p>For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>, especially the <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank">notebooks.</a></p>
 <hr>
 <doc-anchor-target id="zero-knowledge-proofs">
@@ -262,17 +250,18 @@ Just as with a digital signature, there are three parties: one to define the set
 <li>the verification key, and</li>
 <li>the circuit settings: serialized flags, settings, and options, and a few numbers that describe the shape of the resulting circuit.</li>
 </ul>
-<p>Before setup can run, the settings need to be generated with <code v-pre>gen-settings</code> and optionally <code v-pre>calibrate-settings</code>.</p>
+<p>Before setup can run, the settings need to be generated with <code v-pre>gen-settings</code> and optionally <code v-pre>calibrate-settings</code>, and the model must be compiled.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-python"><code v-pre class="language-python">ezkl.gen_settings(onnx_filename, settings_filename)
 ezkl.calibrate_settings(
     input_filename, onnx_filename, settings_filename, &quot;resources&quot;)
+res = ezkl.compile_model(model_path, compiled_model_path, settings_path)
 res = ezkl.setup(
-        onnx_filename,
+        compiled_model_path,
         vk_path,
         pk_path,
-        params_path,
-        settings_filename,
+        srs_path,
+        settings_path,
     )</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="prove">
@@ -285,7 +274,7 @@ res = ezkl.setup(
 <p>The inputs to prove are:</p>
 <ul>
 <li>the witness data for the claim: an (input, output) pair <span class="math">(x,y)</span> such that model(input) = output (this pair can be produced from <span class="math">x</span> using the <code v-pre>gen-witness</code> command)</li>
-<li>the model (as an onnx file)</li>
+<li>the model (as a compiled model file, made from an onnx file)</li>
 <li>the proving key</li>
 <li>the structured reference string, and</li>
 <li>the circuit settings.</li>
@@ -295,17 +284,17 @@ res = ezkl.setup(
 <li>the proof file.</li>
 </ul>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">res = ezkl.gen_witness(input_filename, onnx_filename, witness_path, settings_path = settings_filename)
+<pre class="language-python"><code v-pre class="language-python">res = ezkl.gen_witness(data_path, compiled_model_path, witness_path, settings_path = settings_path)
 
-proof = ezkl.prove(
+res = ezkl.prove(
         witness_path,
-        onnx_filename,
+        compiled_model_path,
         pk_path,
         proof_path,
-        params_path,
+        srs_path,
         &quot;evm&quot;,
         &quot;single&quot;,
-        settings_filename,
+        settings_path,
     )</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="verify">
@@ -352,7 +341,7 @@ res = ezkl.verify_evm(
         <span>Contributing <span class="docs-emoji">&#x1F30E;</span></span>
     </h2>
 </doc-anchor-target>
-<p>If you&#x27;re interested in contributing and are unsure where to start, reach out to one of the maintainers on our <a href="https://t.me/+QRzaRvTPIthlYWMx">Telegram group</a>.</p>
+<p>If you&#x27;re interested in contributing and are unsure where to start, reach out to one of the maintainers on our <a href="https://t.me/+QRzaRvTPIthlYWMx">Telegram group</a> or our <a href="https://discord.gg/mqgdwdSgzA">Discord</a>.</p>
 <p>More broadly:</p>
 <ul>
 <li><p>Feel free to open up a <a href="https://github.com/zkonduit/ezkl/discussions">discussion topic</a> to ask questions.</p>

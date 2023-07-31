@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.743894951491">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.744088234872">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.1.0">
@@ -21,23 +21,23 @@
     <meta property="og:url" content="https://docs.ezkl.xyz/about_ezkl/commands/">
     <meta property="og:title" content="Commands">
     <meta property="og:description" content="Here is some more detail on ezkl commands.">
-    <meta property="og:image" content="https://docs.ezkl.xyz/assets/ezkl_flow.png">
+    <meta property="og:image" content="https://docs.ezkl.xyz/assets/sigmoidrender.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/about_ezkl/commands/">
     <meta property="twitter:title" content="Commands">
     <meta property="twitter:description" content="Here is some more detail on ezkl commands.">
-    <meta property="twitter:image" content="https://docs.ezkl.xyz/assets/ezkl_flow.png">
+    <meta property="twitter:image" content="https://docs.ezkl.xyz/assets/sigmoidrender.png">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=3.1.0.743894951491" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.1.0.744088234872" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.1.0.743894951491" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.1.0.744088234872" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.1.0.743894951491" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.1.0.743894951491" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.1.0.744088234872" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.1.0.744088234872" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -191,16 +191,11 @@
         <span><code v-pre>ezkl</code> Commands</span>
     </h2>
 </doc-anchor-target>
-<p><figure class="content-center">
-    <img src="../../assets/ezkl_flow.png" alt="">
-    <figcaption class="caption"></figcaption>
-</figure>
-</p>
 <p>Here is some more detail on <code v-pre>ezkl</code> commands.</p>
-<doc-anchor-target id="gensrs">
+<doc-anchor-target id="getting-an-srs">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#gensrs">#</doc-anchor-trigger>
-        <span>GenSRS</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#getting-an-srs">#</doc-anchor-trigger>
+        <span>Getting an SRS</span>
     </h3>
 </doc-anchor-target>
 <p><code v-pre>ezkl</code> uses KZG commitments, which in turn require a structured reference string (SRS). You can download a <a href="https://cypherpunks.ca/%7Eiang/pubs/PolyCommit-AsiaCrypt.pdf">KZG</a> structured reference string with (for example) 17 rows as follows.</p>
@@ -263,6 +258,16 @@
 <blockquote>
 <p>Note: You can still use the generic RunArgs for <code v-pre>mock</code> and <code v-pre>gen-witness</code> (e.g. <code v-pre>ezkl mock --logrows=22 --bits=21</code> rather than <code v-pre>ezkl mock --settings-path circuit.json</code>). However, <code v-pre>--settings-path</code> takes priority.</p>
 </blockquote>
+<doc-anchor-target id="compile-model">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#compile-model">#</doc-anchor-trigger>
+        <span>Compile model</span>
+    </h3>
+</doc-anchor-target>
+<p>This converts and freezes the onnx file to what ezkl will actually prove against, incorporating the settings, quantizing, etc.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="setup">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#setup">#</doc-anchor-trigger>
@@ -272,7 +277,7 @@
 <p>Along with our SRS and circuit parameters, we need two other elements to generate a proof: a proving key and a verifying key. You will get both by running <code v-pre>ezkl</code>&#x27;s <code v-pre>setup</code> command. We need our proving key to generate proofs; we need our verifying key to verify proofs from the corresponding proving key, or to generate an EVM verifier.</p>
 <p>Run this command to set up your proving and verifying keys:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M examples/onnx/4l_relu_conv_fc/network.onnx --srs-path=17.srs  --settings-path=settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.ezkl --srs-path=17.srs  --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <p>You should now have files called <code v-pre>vk.key</code> and <code v-pre>pk.key</code> in the root of your project. You can also specify different paths for these outputs with <code v-pre>--vk-path=altvk.key --pk-path=altpk.key</code></p>
 <doc-anchor-target id="generate-witness">
@@ -283,7 +288,7 @@
 </doc-anchor-target>
 <p>Now we take the input data, quantize it, and run it through the quantized model, performing any hashing or encryption, to obtain the input and output that we will be proving.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -M examples/onnx/4l_relu_conv_fc/network.onnx -D examples/onnx/4l_relu_conv_fc/input.json  --settings-path settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -M network.ezkl -D examples/onnx/4l_relu_conv_fc/input.json  --settings-path settings.json</code></pre>
 </doc-codeblock></div>
 <p>The default output file is <code v-pre>witness.json</code>.</p>
 <doc-anchor-target id="prove">
@@ -296,7 +301,7 @@
 <p>In a typical zk application, the proof will be generated by or on behalf of the client, then verified on a blockchain or server. <code v-pre>ezkl</code> provides WASM bindings for <code v-pre>prove</code> that you can use to generate proofs in-browser.</p>
 <p>Here is the command for generating a proof from the cli:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M examples/onnx/4l_relu_conv_fc/network.onnx --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <p>This will create a proof file called <code v-pre>model.proof</code> that anyone can later use to verify your model was run correctly on the input.</p>
 <doc-anchor-target id="verify">
@@ -334,7 +339,7 @@
 </doc-anchor-target>
 <p>When you&#x27;re testing a model, you may not want to run <code v-pre>setup</code> and <code v-pre>prove</code> with each iteration. <code v-pre>ezkl</code> provides a simple alternative with <code v-pre>mock</code>, where you can convert your model to constraints and run the inputs tosee if a proof can be generated. This saves time when testing new iterations of models with potential issues. Here is the command for <code v-pre>mock</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl mock -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl mock -M network.ezkl --witness witness.json --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <p>Mock is basically checking that constraints that your model has been translated into are satisfied, without doing any of the subsequent cryptographic heavy lifting to produce a proof.</p>
 <doc-anchor-target id="generate-witness-1">
@@ -346,7 +351,7 @@
 <p>The <code v-pre>gen-witness</code> function generates a witness for a given model and input data for a neural net or computational graph. A witness in the context of Zero Knowledge Proofs is a computational trace that allows a proof to be generated.  The <code v-pre>gen-witness</code> function doesn&#x27;t record all the intermediate values of the trace (such as the activations of inner layers in a neural network), but does write the final outputs of your neural network or computation graph in a form that is usable in the prove command, and human readable.</p>
 <p>The function has additional configurable settings, including an ONNX model file path, an input data file path, an output file path, an optional scale, and an optional batch size. More details on the optional scale and optional batch size can be found in <a href="../runargs/">RunArgs</a>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -M examples/onnx/1l_sigmoid/network.onnx -D examples/onnx/1l_sigmoid/input.json -O examples/onnx/1l_sigmoid/witness.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -M network.ezkl -D examples/onnx/1l_sigmoid/input.json</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="table">
     <h3>
@@ -389,14 +394,13 @@
     <figcaption class="caption">image-20230608155046296</figcaption>
 </figure>
 </p>
-<p>In this photo,</p>
+<p>In this image,</p>
 <ul>
-<li>Pink columns represent advice, or private, values</li>
-<li>White columns represent instance, or public, values</li>
-<li>Purple/blue columns represent fixed, or constant, values (lookups as well)</li>
+<li>Pink columns represent advice values</li>
+<li>White columns represent instance values</li>
+<li>Purple/blue columns represent fixed values</li>
 <li>Green areas represent regions in our circuit</li>
 </ul>
-<p>These renders are great for finding ways to optimize your circuit (perhaps lowering the number of bits per cell or using more rows).</p>
 <doc-anchor-target id="aggregate">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#aggregate">#</doc-anchor-trigger>
@@ -410,33 +414,43 @@
 </doc-codeblock></div>
 <p>Now, let&#x27;s say we want to aggregate a <code v-pre>conv</code> circuit and a <code v-pre>relu</code> circuit. We can set up the parameters for these different circuits with <code v-pre>gen-circuit-params</code>. For the sake of the example, let&#x27;s set one to optimize for accuracy and another to optimize for resources:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-circuit-params --calibration-target accuracy --model examples/onnx/1l_conv/network.onnx --settings-path circuitconv.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings --model examples/onnx/1l_conv/network.onnx --settings-path circuitconv.json
+ezkl calibrate-settings -M examples/onnx/1l_conv/network.onnx -D examples/onnx/1l_conv/input.json --target accuracy -O circuitconv.json</code></pre>
 </doc-codeblock></div>
 <p>and for RELU:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_relu/network.onnx --settings-path circuitrelu.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings --model examples/onnx/1l_relu/network.onnx --settings-path circuitrelu.json
+ezkl calibrate-settings -M examples/onnx/1l_relu/network.onnx -D examples/onnx/1l_relu/input.json --target resources -O circuitrelu.json</code></pre>
 </doc-codeblock></div>
 <p>Now, we can create our proof keys with <code v-pre>setup</code> (Note: be sure to use the same KZG parameters for all the circuits you plan to aggregate):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Conv
-ezkl setup -M examples/onnx/1l_conv/network.onnx --srs-path=23.srs --vk-path=vkconv.key --pk-path=pkconv.key --settings-path=circuitconv.json</code></pre>
+ezkl compile-model -M examples/onnx/1l_conv/network.onnx --settings-path=circuitconv.json --compiled-model conv.ezkl
+ezkl setup -M conv.ezkl --srs-path=23.srs --vk-path=vkconv.key --pk-path=pkconv.key --settings-path=circuitconv.json</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Relu
-ezkl setup -M examples/onnx/1l_relu/network.onnx --srs-path=23.srs --vk-path=vkrelu.key --pk-path=pkrelu.key --settings-path=circuitrelu.json</code></pre>
+ezkl compile-model -M examples/onnx/1l_relu/network.onnx --settings-path=circuitconv.json --compiled-model relu.ezkl
+ezkl setup -M relu.ezkl --srs-path=23.srs --vk-path=vkrelu.key --pk-path=pkrelu.key --settings-path=circuitrelu.json</code></pre>
 </doc-codeblock></div>
-<p>We then prove them (we&#x27;ll run with <code v-pre>RUST_LOG=debug</code> to fetch our allocated constraints:</p>
+<p>We then prove them.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Conv
-RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum --witness ./examples/onnx/1l_conv/input.json -M examples/onnx/1l_conv/network.onnx --proof-path model.proof --srs-path=23.srs  --pk-path=pkconv.key --settings-path=circuitconv.json</code></pre>
+ezkl gen-witness -D ./examples/onnx/1l_conv/input.json -M conv.ezkl -O convwit.json --settings-path=circuitconv.json 
+ezkl prove --transcript=poseidon --strategy=accum --witness convwit.json -M conv.ezkl --proof-path conv.proof --srs-path=23.srs  --pk-path=pkconv.key --settings-path=circuitconv.json</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Relu
-RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum --witness ./examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --proof-path model1.proof --srs-path=23.srs  --pk-path=pkrelu.key --settings-path=circuitrelu.json</code></pre>
+ezkl gen-witness -D ./examples/onnx/1l_relu/input.json -M relu.ezkl -O reluwit.json --settings-path=circuitrelu.json
+ezkl prove --transcript=poseidon --strategy=accum --witness reluwit.json -M relu.ezkl --proof-path relu.proof --srs-path=23.srs  --pk-path=pkrelu.key --settings-path=circuitrelu.json</code></pre>
+</doc-codeblock></div>
+<p>Setup the aggregation:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl setup-aggregate --sample-snarks conv.proof --sample-snarks relu.proof --srs-path 23.srs --logrows 23</code></pre>
 </doc-codeblock></div>
 <p>Now, we can aggregate the proofs:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl aggregate --logrows=23 --aggregation-snarks=model.proof --aggregation-snarks=model1.proof --aggregation-vk-paths vkconv.key --aggregation-vk-paths vkrelu.key --vk-path aggr.vk --proof-path aggr.proof --srs-path=23.srs --settings-paths=circuitconv.json --settings-paths=circuitrelu.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl aggregate --logrows=23 --aggregation-snarks=conv.proof --aggregation-snarks=relu.proof --proof-path aggr.proof --srs-path=23.srs --pk-path pk_aggr.key </code></pre>
 </doc-codeblock></div>
 <p>This creates one proof that simultaneously proves both our <code v-pre>conv</code> and <code v-pre>relu</code> circuits as long as we pass both proofs and verifying keys in. The bad news is that computing an aggregation takes a lot of memory and time right now; this proof will probably take about four or five minutes.</p>
 <doc-anchor-target id="verifyaggr">
@@ -447,7 +461,7 @@ RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum --witness ./exa
 </doc-anchor-target>
 <p>Now, we can verify our aggregated proof with:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl verify-aggr --logrows=23 --proof-path aggr.proof --srs-path=23.srs --vk-path aggr.vk</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl verify-aggr --logrows=23 --proof-path aggr.proof --srs-path=23.srs --vk-path vk_aggr.key</code></pre>
 </doc-codeblock></div>
 <p>This should return <code v-pre>verified: true</code>. You can learn more about aggregation <a href="https://vitalik.ca/general/2021/11/05/halo.html">here</a>.</p>
 <doc-anchor-target id="fuzz">
