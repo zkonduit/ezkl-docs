@@ -7,9 +7,10 @@ The `ezkl` cli provides a simple interface to load `.onnx` files, which represen
 
 ## CLI tutorial 👾
 
-You can easily create an `.onnx` file using `pytorch`. For samples of Onnx files see [here](https://github.com/onnx/models). For a tutorial on how to quickly generate Onnx files using python, check out [pyezkl](https://github.com/zkonduit/pyezkl). You'll also need an `input.json` file with sample inputs and outputs of your model (Note: input shape is no longer needed since this is now inferred by the library).
+You can easily create an `.onnx` file using `pytorch`. For samples of Onnx files see [here](https://github.com/onnx/models). To see how to generate Onnx files using python, check out <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank"> the notebooks.</a>. You'll also need an `input.json` file with sample inputs and outputs of your model.
 
-Sample onnx files are also available in `./examples/onnx`.
+Sample onnx files are also available in <a href="https://github.com/zkonduit/ezkl/blob/main/examples/onnx/" target="_blank"> the repo </a>.
+
 #### Initializing the project
 To generate a proof on one of the examples, first install `ezkl` 
 [!ref](/getting_started)
@@ -77,6 +78,20 @@ ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=
 We can then verify our generated proof with the `verify` command:
 ```bash
 ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=15.srs
+```
+
+#### All together
+```bash
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
+cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
+ezkl gen-settings -M network.onnx
+ezkl calibrate-settings -M network.onnx -D input.json --target resources
+ezkl get-srs -S settings.json
+ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
+ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
+ezkl gen-witness -D input.json -M network.ezkl -S settings.json
+ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs --settings-path=settings.json
+ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs
 ```
 
 
