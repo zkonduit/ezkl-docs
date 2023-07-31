@@ -14,10 +14,6 @@ Sample onnx files are also available in <a href="https://github.com/zkonduit/ezk
 #### Initializing the project
 To generate a proof on one of the examples, first install `ezkl` 
 [!ref](/getting_started)
-then download a structured reference string (SRS):
-```bash
-ezkl get-srs --logrows 15 --srs-path=15.srs
-```
 
 Put a model file (`network.onnx`) and input file (`input.json`) into your working directory, e.g. with something like:
 ```bash
@@ -42,6 +38,11 @@ ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ```
 In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. You can pass a `--settings-path` to read from an existing settings file, and only modify the parts changed by calibration (e.g. leaving visibility or tolerance unchanged). You can customize this file and even change the way it is generated. Learn more about `gen-settings` and `calibrate-settings` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section.
 
+Download the appropriate SRS:
+```bash
+ezkl get-srs -S settings.json
+```
+
 
 #### Compiling the model
 From the onnx file, we will create a `.ezkl` file that uses the settings to convert the onnx model to a format ready for proving.
@@ -55,7 +56,7 @@ ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezk
 Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS, our circuit settings, and the .onnx file. 
 
 ```bash
-ezkl setup -M network.ezkl --srs-path=15.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
+ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
 ```
 This creates the verification key, proving key, and circuit settings in the locations you specify. 
 
@@ -71,13 +72,13 @@ ezkl gen-witness -D input.json -M network.ezkl -S settings.json
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
 
 ```bash
-ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=15.srs --settings-path=settings.json
+ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs --settings-path=settings.json
 ```
 
 #### Verification
 We can then verify our generated proof with the `verify` command:
 ```bash
-ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=15.srs
+ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs
 ```
 
 #### All together
