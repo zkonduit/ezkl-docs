@@ -2,9 +2,9 @@
 icon: workflow
 order: 7
 ---
-#### verifying with the EVM ◊
+#### Verifying with the EVM ◊
 
-Verification can also be run with an EVM verifier. This can be done by generating a verifier smart contract after performing setup.
+To verify on-chain, generate a verifier smart contract after performing setup.
 
 You can use the example from Commands, or create it by copying over a network and input file (assuming the ezkl repo is in your home directory):
 ```bash
@@ -13,22 +13,23 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 ```
 then create the setup
 ```bash
-ezkl gen-srs --logrows 16 --srs-path=16.srs
 ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
-ezkl setup -M network.onnx --srs-path=16.srs --settings-path=settings.json
+ezkl get-srs -S settings.json
+ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
+ezkl setup -M network.ezkl --srs-path=kzg.srs --settings-path=settings.json
 ```
 
-Now we use the setup to create an EVM verifier, which would be deployed on-chain.
+Now we use this setup to create an EVM verifier, which would be deployed on-chain.
 
 ```bash
 # gen evm verifier
-ezkl create-evm-verifier --srs-path=16.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
+ezkl create-evm-verifier --srs-path=kzg.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
 ```
 
 ```bash
-ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
-ezkl prove --transcript=evm --witness witness.json -M network.onnx --proof-path model.pf --pk-path pk.key --srs-path=16.srs --settings-path=settings.json 
+ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
+ezkl prove --transcript=evm --witness witness.json -M network.ezkl --proof-path model.pf --pk-path pk.key --srs-path=kzg.srs --settings-path=settings.json 
 ```
 
 ```bash
@@ -51,7 +52,11 @@ ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --
 ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030
 ```
 
-Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function. Please read [this document](https://hackmd.io/QOHOPeryRsOraO7FUnG-tg) for more information about the interface of the contract, how to obtain the data needed for its function parameters, and its limitations.
+Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function. 
+
+#### Aggregation
+
+> Note: this is an advanced technique, very resource-intensive, and chances are you don't want to use this; if you are having trouble with proof size, first try asking about your problem in Telegram or Discord.
 
 The above pipeline can also be run using proof aggregation to reduce the final proof size and the size and execution cost of the on-chain verifier. A sample pipeline for doing so would be as follows.
 
@@ -72,20 +77,27 @@ ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ```
 
+Set up the first proof.
 ```bash
 # Set up a new circuit
-ezkl setup  -M network.onnx --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
+ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
+ezkl setup  -M network.ezkl --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
 ```
 
 ```bash
 # Single proof -> single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
-ezkl gen-witness -D input.json -M network.onnx --settings-path=settings.json
-ezkl prove --transcript=poseidon --strategy=accum -W witness.json -M network.onnx --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key --settings-path=settings.json
+ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
+ezkl prove --transcript=poseidon --strategy=accum -W witness.json -M network.ezkl --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key --settings-path=settings.json
+```
+
+Setup the aggregate proof.
+```bash
+ezkl setup-aggregate --sample-snarks first.pf --srs-path 20.srs --logrows 20
 ```
 
 ```bash
 # Aggregate -> generates aggregate proof
-ezkl aggregate --logrows=20 --aggregation-snarks=first.pf --srs-path=20.srs 
+ezkl aggregate --logrows=20 --aggregation-snarks=first.pf --srs-path=20.srs --pk-path pk_aggr.key 
 ```
 
 ```bash

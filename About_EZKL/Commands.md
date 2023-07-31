@@ -3,11 +3,10 @@ order: 92
 ---
 ## `ezkl` Commands
 
-![](../assets/ezkl_flow.png) 
 
 Here is some more detail on `ezkl` commands.
 
-### GenSRS
+### Getting an SRS
 
 `ezkl` uses KZG commitments, which in turn require a structured reference string (SRS). You can download a [KZG](https://cypherpunks.ca/~iang/pubs/PolyCommit-AsiaCrypt.pdf) structured reference string with (for example) 17 rows as follows. 
 
@@ -186,14 +185,13 @@ This will render our circuit as a file named `render.png` in our `examples/onnx/
 
 ![image-20230608155046296](../assets/sigmoidrender.png)
 
-In this photo,
+In this image,
 
-- Pink columns represent advice, or private, values
-- White columns represent instance, or public, values
-- Purple/blue columns represent fixed, or constant, values (lookups as well)
+- Pink columns represent advice values
+- White columns represent instance values
+- Purple/blue columns represent fixed values
 - Green areas represent regions in our circuit
 
-These renders are great for finding ways to optimize your circuit (perhaps lowering the number of bits per cell or using more rows).
 
 ### Aggregate
 
@@ -207,41 +205,52 @@ ezkl gen-srs --logrows 23 --srs-path=23.srs
 
 Now, let's say we want to aggregate a `conv` circuit and a `relu` circuit. We can set up the parameters for these different circuits with `gen-circuit-params`. For the sake of the example, let's set one to optimize for accuracy and another to optimize for resources:
 ```bash
-ezkl gen-circuit-params --calibration-target accuracy --model examples/onnx/1l_conv/network.onnx --settings-path circuitconv.json
+ezkl gen-settings --model examples/onnx/1l_conv/network.onnx --settings-path circuitconv.json
+ezkl calibrate-settings -M examples/onnx/1l_conv/network.onnx -D examples/onnx/1l_conv/input.json --target accuracy -O circuitconv.json
 ```
 and for RELU:
 ```bash
-ezkl gen-circuit-params --calibration-target resources --model examples/onnx/1l_relu/network.onnx --settings-path circuitrelu.json
+ezkl gen-settings --model examples/onnx/1l_relu/network.onnx --settings-path circuitrelu.json
+ezkl calibrate-settings -M examples/onnx/1l_relu/network.onnx -D examples/onnx/1l_relu/input.json --target resources -O circuitrelu.json
 ```
 
 Now, we can create our proof keys with `setup` (Note: be sure to use the same KZG parameters for all the circuits you plan to aggregate):
 
 ```bash
 # Conv
-ezkl setup -M examples/onnx/1l_conv/network.onnx --srs-path=23.srs --vk-path=vkconv.key --pk-path=pkconv.key --settings-path=circuitconv.json
+ezkl compile-model -M examples/onnx/1l_conv/network.onnx --settings-path=circuitconv.json --compiled-model conv.ezkl
+ezkl setup -M conv.ezkl --srs-path=23.srs --vk-path=vkconv.key --pk-path=pkconv.key --settings-path=circuitconv.json
 ```
 
 ```bash
 # Relu
-ezkl setup -M examples/onnx/1l_relu/network.onnx --srs-path=23.srs --vk-path=vkrelu.key --pk-path=pkrelu.key --settings-path=circuitrelu.json
+ezkl compile-model -M examples/onnx/1l_relu/network.onnx --settings-path=circuitconv.json --compiled-model relu.ezkl
+ezkl setup -M relu.ezkl --srs-path=23.srs --vk-path=vkrelu.key --pk-path=pkrelu.key --settings-path=circuitrelu.json
 ```
 
-We then prove them (we'll run with `RUST_LOG=debug` to fetch our allocated constraints:
+We then prove them.
 
 ```bash
 # Conv
-RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum --witness ./examples/onnx/1l_conv/input.json -M examples/onnx/1l_conv/network.onnx --proof-path model.proof --srs-path=23.srs  --pk-path=pkconv.key --settings-path=circuitconv.json
+ezkl gen-witness -D ./examples/onnx/1l_conv/input.json -M conv.ezkl -O convwit.json --settings-path=circuitconv.json 
+ezkl prove --transcript=poseidon --strategy=accum --witness convwit.json -M conv.ezkl --proof-path conv.proof --srs-path=23.srs  --pk-path=pkconv.key --settings-path=circuitconv.json
 ```
 
 ```bash
 # Relu
-RUST_LOG=debug ezkl prove --transcript=poseidon --strategy=accum --witness ./examples/onnx/1l_relu/input.json -M examples/onnx/1l_relu/network.onnx --proof-path model1.proof --srs-path=23.srs  --pk-path=pkrelu.key --settings-path=circuitrelu.json
+ezkl gen-witness -D ./examples/onnx/1l_relu/input.json -M relu.ezkl -O reluwit.json --settings-path=circuitrelu.json
+ezkl prove --transcript=poseidon --strategy=accum --witness reluwit.json -M relu.ezkl --proof-path relu.proof --srs-path=23.srs  --pk-path=pkrelu.key --settings-path=circuitrelu.json
+```
+
+Setup the aggregation:
+```bash
+ezkl setup-aggregate --sample-snarks conv.proof --sample-snarks relu.proof --srs-path 23.srs --logrows 23
 ```
 
 Now, we can aggregate the proofs:
 
 ```bash
-ezkl aggregate --logrows=23 --aggregation-snarks=model.proof --aggregation-snarks=model1.proof --aggregation-vk-paths vkconv.key --aggregation-vk-paths vkrelu.key --vk-path aggr.vk --proof-path aggr.proof --srs-path=23.srs --settings-paths=circuitconv.json --settings-paths=circuitrelu.json
+ezkl aggregate --logrows=23 --aggregation-snarks=conv.proof --aggregation-snarks=relu.proof --proof-path aggr.proof --srs-path=23.srs --pk-path pk_aggr.key 
 ```
 
 This creates one proof that simultaneously proves both our `conv` and `relu` circuits as long as we pass both proofs and verifying keys in. The bad news is that computing an aggregation takes a lot of memory and time right now; this proof will probably take about four or five minutes.
@@ -251,7 +260,7 @@ This creates one proof that simultaneously proves both our `conv` and `relu` cir
 Now, we can verify our aggregated proof with:
 
 ```bash
-ezkl verify-aggr --logrows=23 --proof-path aggr.proof --srs-path=23.srs --vk-path aggr.vk
+ezkl verify-aggr --logrows=23 --proof-path aggr.proof --srs-path=23.srs --vk-path vk_aggr.key
 ```
 
 This should return `verified: true`. You can learn more about aggregation [here](https://vitalik.ca/general/2021/11/05/halo.html).

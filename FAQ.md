@@ -64,8 +64,7 @@ This error is typically thrown when no public variables are passed to the circui
 This error is thrown when attempting to rescale inputs for an operation
 ### Error: ModelLoad
 This error is thrown when a model fails to load; please check your onnx file for missing connections / unsupported layers. We suggest using [Netron](https://netron.app/) to view onnx files. 
-### Error: PackingExponent
-PackingExponent is thrown when the scale for packing tensor values is too large. Keep the exponent under the logarithm (with your chosen base) of `i128::MAX` (about 38 for base 10, about 88 for base `e`).
+
 
 
 
