@@ -4,9 +4,12 @@ order: 95
 ---
 
 ### Installing EZKL
-You may want to download a release binary from the GitHub, or use `ezkl` from Python with `pip install ezkl`. If you want the latest build, you can also install from source. 
+To use `ezkl` in Python, just `!pip install ezkl`. You will generally also need `onnx` installed if you are exporting models, and Pytorch, Tensorflow, or similar if you are creating models.
 
 `ezkl` uses your system `solc` Solidity compiler, so you may need to tweak it using svm-rs or solc-select, particularly if you are targeting a specific hardfork.
+
+To use the cli, download a [release binary](https://github.com/zkonduit/ezkl/releases) from GitHub. If you want the latest build, you can also install from source. 
+
 
 ### Building from source 🔨
 Ezkl is built in rust. First [install rust](https://www.rust-lang.org/tools/install), e.g. by 

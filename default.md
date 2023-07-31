@@ -14,11 +14,13 @@ order: 100
 
 > "I correctly ran this publicly available neural network on some public data and it produced this output"
 
-These proofs can be trusted by anyone with a copy of the verifier, and even verified on Ethereum. `ezkl` can be used as a command-line tool, or directly from Python; [see this colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) and the python bindings docs. [!ref](/python_bindings)
+These proofs can be trusted by anyone with a copy of the verifier, and verified directly on Ethereum and compatible chains. `ezkl` can be used directly from Python; [see this colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) and the python bindings docs. It can also be used from the command line.
 
 `ezkl` can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify it on the Ethereum Virtual Machine (or on the command line, or in the browser using wasm). 
 
 You can install the Python version with `pip install ezkl`.
+
+`ezkl` can be used to move large and complex computations off-chain in a way that is easy to program (you can write your own functions in Python) and manage. You are not limited to a pre-defined set of functions, there is no limit on input size (using hashing), and there is no centralized sequencer.
 
 For more details on how to use `ezkl`, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>, especially the <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank">notebooks.</a>
 
@@ -50,18 +52,19 @@ The outputs of setup are:
 - the verification key, and
 - the circuit settings: serialized flags, settings, and options, and a few numbers that describe the shape of the resulting circuit.
 
-Before setup can run, the settings need to be generated with `gen-settings` and optionally `calibrate-settings`.
+Before setup can run, the settings need to be generated with `gen-settings` and optionally `calibrate-settings`, and the model must be compiled.
 
 ```python
 ezkl.gen_settings(onnx_filename, settings_filename)
 ezkl.calibrate_settings(
     input_filename, onnx_filename, settings_filename, "resources")
+res = ezkl.compile_model(model_path, compiled_model_path, settings_path)
 res = ezkl.setup(
-        onnx_filename,
+        compiled_model_path,
         vk_path,
         pk_path,
-        params_path,
-        settings_filename,
+        srs_path,
+        settings_path,
     )
 ```
 
@@ -70,7 +73,7 @@ Prove, invoked with `ezkl prove` at the cli or `ezkl.prove()` in Python, is call
 
 The inputs to prove are:
 - the witness data for the claim: an (input, output) pair $(x,y)$ such that model(input) = output (this pair can be produced from $x$ using the `gen-witness` command)
-- the model (as an onnx file)
+- the model (as a compiled model file, made from an onnx file)
 - the proving key
 - the structured reference string, and
 - the circuit settings.
@@ -79,17 +82,17 @@ The outputs of prove are:
 - the proof file.
 
 ```python
-res = ezkl.gen_witness(input_filename, onnx_filename, witness_path, settings_path = settings_filename)
+res = ezkl.gen_witness(data_path, compiled_model_path, witness_path, settings_path = settings_path)
 
-proof = ezkl.prove(
+res = ezkl.prove(
         witness_path,
-        onnx_filename,
+        compiled_model_path,
         pk_path,
         proof_path,
-        params_path,
+        srs_path,
         "evm",
         "single",
-        settings_filename,
+        settings_path,
     )
 ```
 
@@ -133,7 +136,7 @@ The inputs to (non-EVM) verify are:
 
 ## Contributing 🌎
 
-If you're interested in contributing and are unsure where to start, reach out to one of the maintainers on our [Telegram group](https://t.me/+QRzaRvTPIthlYWMx).
+If you're interested in contributing and are unsure where to start, reach out to one of the maintainers on our [Telegram group](https://t.me/+QRzaRvTPIthlYWMx) or our [Discord](https://discord.gg/mqgdwdSgzA). 
 
 More broadly:
 
