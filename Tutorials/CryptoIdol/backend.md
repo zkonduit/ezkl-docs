@@ -6,6 +6,10 @@ order: 2
 
 This is part 3 of our tutorial on building the [Cryptoidol](https://cryptoidol.tech) demo app; check out the [backend](https://github.com/zkonduit/cryptoidol) and [frontend](https://github.com/zkonduit/cryptoidol-frontend).
 
+Setting up the proving server is very involved. Perhaps you have better things to do and would prefer a hosted service that computes proofs for your application. We now offer a managed service, ezkl hub, which takes care of all this work. 
+
+[Click here](https://mmycoj5vy74.typeform.com/to/Z2aikKUt) to join the waiting list and try out ezkl hub.
+
 # Overview
 
 So you have trained the model and obtained the public key and verifier key. There’s a new problem: how are you going to serve the proofs to your users? 
