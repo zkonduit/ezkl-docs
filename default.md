@@ -14,7 +14,7 @@ order: 100
 
 > "I correctly ran this publicly available neural network on some public data and it produced this output"
 
-These proofs can be trusted by anyone with a copy of the verifier, and verified directly on Ethereum and compatible chains. `ezkl` can be used directly from Python; [see this colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) and the python bindings docs. It can also be used from the command line.
+These proofs can be trusted by anyone with a copy of the verifier, and verified directly on Ethereum and compatible chains. `ezkl` can be used directly from Python; [see this colab notebook](https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo.ipynb) and the python bindings docs. It can also be used from the command line.
 
 `ezkl` can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify it on the Ethereum Virtual Machine (or on the command line, or in the browser using wasm). 
 
