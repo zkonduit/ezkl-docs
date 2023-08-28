@@ -224,7 +224,7 @@ ezkl setup -M conv.ezkl --srs-path=23.srs --vk-path=vkconv.key --pk-path=pkconv.
 
 ```bash
 # Relu
-ezkl compile-model -M examples/onnx/1l_relu/network.onnx --settings-path=circuitconv.json --compiled-model relu.ezkl
+ezkl compile-model -M examples/onnx/1l_relu/network.onnx --settings-path=circuitrelu.json --compiled-model relu.ezkl
 ezkl setup -M relu.ezkl --srs-path=23.srs --vk-path=vkrelu.key --pk-path=pkrelu.key --settings-path=circuitrelu.json
 ```
 
