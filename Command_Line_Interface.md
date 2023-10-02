@@ -48,7 +48,7 @@ ezkl get-srs -S settings.json
 From the onnx file, we will create a `.ezkl` file that uses the settings to convert the onnx model to a format ready for proving.
 
 ```bash
-ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
+ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
 ```
 
 
@@ -56,7 +56,7 @@ ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezk
 Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS, our circuit settings, and the .onnx file. 
 
 ```bash
-ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
+ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key
 ```
 This creates the verification key, proving key, and circuit settings in the locations you specify. 
 
@@ -66,13 +66,13 @@ This creates the verification key, proving key, and circuit settings in the loca
 First we generate a witness file.
 
 ```bash
-ezkl gen-witness -D input.json -M network.ezkl -S settings.json
+ezkl gen-witness -D input.json -M network.ezkl
 ```
 
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
 
 ```bash
-ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs --settings-path=settings.json
+ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs
 ```
 
 #### Verification
@@ -88,10 +88,10 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ezkl get-srs -S settings.json
-ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
-ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
-ezkl gen-witness -D input.json -M network.ezkl -S settings.json
-ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs --settings-path=settings.json
+ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
+ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key
+ezkl gen-witness -D input.json -M network.ezkl
+ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs
 ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs
 ```
 
