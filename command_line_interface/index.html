@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.2.0.746565107498">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.749557933442">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.2.0">
+    <meta name="generator" content="Retype 3.5.0">
 
     <!-- Primary Meta Tags -->
     <title>Command Line Interface</title>
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.2.0.746565107498" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.749557933442" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.2.0.746565107498" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../resources/js/retype.js?v=3.2.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.2.0.746565107498" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.2.0.746565107498" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.749557933442" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.749557933442" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.749557933442" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -175,7 +175,6 @@
                             <div class="docs-markdown" id="docs-content">
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="docs-sidebar-right-toggle"></div>
-                
                                 <!-- Page content  -->
 <doc-anchor-target id="command-line-interface" class="break-words">
     <h1>
@@ -253,7 +252,7 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 </doc-anchor-target>
 <p>From the onnx file, we will create a <code v-pre>.ezkl</code> file that uses the settings to convert the onnx model to a format ready for proving.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="creating-the-circuit">
     <h4>
@@ -263,7 +262,7 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 </doc-anchor-target>
 <p>Now, we use <code v-pre>setup</code> to create a proving and verifying key for our circuit, using the SRS, our circuit settings, and the .onnx file.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key</code></pre>
 </doc-codeblock></div>
 <p>This creates the verification key, proving key, and circuit settings in the locations you specify.</p>
 <blockquote>
@@ -277,11 +276,11 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 </doc-anchor-target>
 <p>First we generate a witness file.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.ezkl -S settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.ezkl</code></pre>
 </doc-codeblock></div>
 <p>Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by <code v-pre>--proof-path</code>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs --settings-path=settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="verification">
     <h4>
@@ -305,10 +304,10 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ezkl get-srs -S settings.json
-ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
-ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
-ezkl gen-witness -D input.json -M network.ezkl -S settings.json
-ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs --settings-path=settings.json
+ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
+ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key
+ezkl gen-witness -D input.json -M network.ezkl
+ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs
 ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs</code></pre>
 </doc-codeblock></div>
 
@@ -377,6 +376,6 @@ ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.
 
     <div id="docs-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Command Line Interface", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Command Line Interface", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
