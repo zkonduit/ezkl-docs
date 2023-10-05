@@ -19,8 +19,8 @@ then create the setup
 ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ezkl get-srs -S settings.json
-ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
-ezkl setup -M network.ezkl --srs-path=kzg.srs --settings-path=settings.json
+ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
+ezkl setup -M network.ezkl --srs-path=kzg.srs
 ```
 
 Now we use this setup to create an EVM verifier, which would be deployed on-chain.
@@ -31,7 +31,7 @@ ezkl create-evm-verifier --srs-path=kzg.srs --vk-path vk.key --sol-code-path ver
 ```
 
 ```bash
-ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
+ezkl gen-witness -D input.json -M network.ezkl
 ezkl prove --transcript=evm --witness witness.json -M network.ezkl --proof-path model.pf --pk-path pk.key --srs-path=kzg.srs --settings-path=settings.json 
 ```
 
@@ -52,7 +52,7 @@ ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --
 
 ```bash
 # verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
-ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030
+ezkl verify-evm --proof-path model.pf --addr=$(cat addr.txt) --rpc-url=http://127.0.0.1:3030
 ```
 
 Note that the `.sol` file above can be deployed and composed with other Solidity contracts, via a `verify()` function.
