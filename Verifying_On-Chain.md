@@ -32,7 +32,7 @@ ezkl create-evm-verifier --srs-path=kzg.srs --vk-path vk.key --sol-code-path ver
 
 ```bash
 ezkl gen-witness -D input.json -M network.ezkl
-ezkl prove --transcript=evm --witness witness.json -M network.ezkl --proof-path model.pf --pk-path pk.key --srs-path=kzg.srs --settings-path=settings.json 
+ezkl prove --witness witness.json -M network.ezkl --proof-path model.pf --pk-path pk.key --srs-path=kzg.srs
 ```
 
 ```bash
@@ -85,14 +85,14 @@ Set up the first proof.
 
 ```bash
 # Set up a new circuit
-ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
-ezkl setup  -M network.ezkl --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json
+ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
+ezkl setup  -M network.ezkl --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key 
 ```
 
 ```bash
 # Single proof -> single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
-ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
-ezkl prove --transcript=poseidon --strategy=accum -W witness.json -M network.ezkl --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key --settings-path=settings.json
+ezkl gen-witness -D input.json -M network.ezkl
+ezkl prove --proof-type=for-aggr -W witness.json -M network.ezkl --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key
 ```
 
 Setup the aggregate proof.
@@ -123,7 +123,7 @@ ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --
 
 ```bash
 # verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
-ezkl verify-evm --proof-path proof_aggr.proof --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030
+ezkl verify-evm --proof-path proof_aggr.proof --addr=$(cat addr.txt) --rpc-url=http://127.0.0.1:3030
 ```
 
 Also note that this may require a local [solc](https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html) installation. You can follow the SolidityLang instructions linked above, or you can use [svm-rs](https://github.com/alloy-rs/svm-rs) to install solc. Here's how:
