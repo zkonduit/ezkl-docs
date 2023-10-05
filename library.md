@@ -3,10 +3,9 @@ icon: book
 order: -9
 ---
 
-### Talks to watch 
+### Talks to watch
 
 [Dante and Jason - Zero-Knowledge Machine Learning with EZKL in Autonomous Worlds](https://www.youtube.com/watch?v=tp22vStPVG8)
-
 
 [![](../assets/edconthumb.png)](https://www.youtube.com/watch?v=b8WwlHFBXfs)
 
@@ -18,14 +17,13 @@ Empower - coming soon
 
 ETH Denver talks - coming soon
 
-[Jason Morton - Zero-Knowledge Machine Learning 6 Jan 2023 | ZK SYMPOSIUM](https://www.youtube.com/watch?v=7rxNN4mcOgI) 
+[Jason Morton - Zero-Knowledge Machine Learning 6 Jan 2023 | ZK SYMPOSIUM](https://www.youtube.com/watch?v=7rxNN4mcOgI)
 
-[Jason Morton - Zero-Knowledge Machine Learning 16 Nov 2022 | ZkProof Tel Aviv](https://www.youtube.com/watch?v=r-tlqdO1bRs) 
+[Jason Morton - Zero-Knowledge Machine Learning 16 Nov 2022 | ZkProof Tel Aviv](https://www.youtube.com/watch?v=r-tlqdO1bRs)
 
 [Jason Morton - Zero-Knowledge Machine Learning 15 Sep 2022 | DEVCON Bogota](https://www.youtube.com/watch?v=s9IfxTMq4ks)
 
 [Jason Morton - Zero-Knowledge Machine Learning | Stanford Science of Blockchain Conference 2 Sept 2022](https://www.youtube.com/watch?v=a66iUDRvgWU)
-
 
 ### Blog posts
 
@@ -35,9 +33,7 @@ ETH Denver talks - coming soon
 
 <!-- zkml post -->
 
-
 ### EZKL in the press and blogs
-
 
 [Spectral Finance: The State of Zero-Knowledge Machine Learning (zkML), 6 June 2023](https://blog.spectral.finance/the-state-of-zero-knowledge-machine-learning-zkml)
 
@@ -56,5 +52,3 @@ ETH Denver talks - coming soon
 [Worldcoin: An introduction to zero-knowledge machine learning (ZKML) 22 Feb 2023](https://worldcoin.org/blog/engineering/intro-to-zkml)
 
 <!-- ### Selected academic papers by the ezkl team -->
-
-
