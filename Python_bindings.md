@@ -13,16 +13,17 @@ python
 
 >>> import ezkl
 ```
+
 lets you use `ezkl` directly from Python.  [Here is a colab notebook](https://colab.research.google.com/drive/1XuXNKqH7axOelZXyU3gpoTOCvFetIsKu?usp=sharing) that shows how to produce and verify a proof from Python.
 
 When installing `ezkl` with pip, you may want to use a virtualenv.
 Some virtualenv management solutions for python includes `venv`, `pipenv`, `conda`, and `poetry`.
 
-
 ### development
-Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin). 
 
-To test the development Python bindings you will need to install [Python3](https://realpython.com/installing-python/). 
+Python bindings are built for `ezkl` using [PyO3](https://pyo3.rs) and [Maturin](https://github.com/PyO3/maturin).
+
+To test the development Python bindings you will need to install [Python3](https://realpython.com/installing-python/).
 
 Note, `ezkl` is only supported for `Python>=3.7`, this installs the [pyezkl build](https://github.com/zkonduit/pyezkl) which contains Python specific functions that the [Rust bindings on the main ezkl repository do not implement](https://github.com/zkonduit/ezkl).
 
@@ -45,11 +46,13 @@ With a solidity version manager you are then able to change solidity versions in
 #### 3. Try out EZKL Examples in the repository with a Jupyter Notebook
 
 Clone the pyezkl repository.
+
 ```bash
 git clone https://github.com/zkonduit/pyezkl.git
 ```
 
 Install jupyter and start the jupyter notebook
+
 ```bash
 pip install jupyter
 jupyter notebook
@@ -57,12 +60,12 @@ jupyter notebook
 
 Navigate to the [ezkl_demo.ipynb](https://github.com/zkonduit/pyezkl/blob/main/examples/ezkl_demo.ipynb) file which is located in the examples folder. It contains a minimal setup for running ezkl within python.
 
-
 ### Developmental python bindings
 
 Setting up the development python bindings can be an involved process.
 
 #### ezkl repository
+
 In the event that you may want to use the developmental bindings on the main `ezkl` repository, you can clone and build the [main ezkl repository written in rust](https://github.com/zkonduit/ezkl) instead.
 
 ```bash
@@ -124,7 +127,6 @@ pip install ezkl_lib-0.1.0-cp37-abi3-manylinux_2_35_x86_64.whl
 
 If you would like to then use the development version of [pyezkl](https://github.com/zkonduit/pyezkl) with the developmental bindings at [ezkl](https://github.com/zkonduit/ezkl), you will need to setup pyezkl too.
 
-
 Clone the pyezkl repository in a separate directory if you haven't done so already.
 
 ```bash
@@ -134,6 +136,7 @@ git clone https://github.com/zkonduit/pyezkl.git
 We will use `poetry` for the pyezkl repository. [Install poetry by following the instructions provided](https://python-poetry.org/docs/).
 
 You will also need to deactivate any existing virtualenv.
+
 ```bash
 deactivate
 ```
@@ -147,6 +150,7 @@ poetry shell        # activates the virtual environment for poetry
 ```
 
 Navigate to the ezkl repository and install the wheel that you have built.
+
 ```bash
 cd ezkl/target/wheels
 pip install ezkl_lib-version-pythontype-abi3-osversion-processor.whl
@@ -163,6 +167,7 @@ pip install ./dist/ezkl-version-py3-none-any.whl
 ```
 
 If successful, you should be able to run python in your `poetry` environment and call the functions.
+
 ```
 python
 >>> import ezkl
@@ -170,14 +175,14 @@ python
 ```
 
 ### API Reference
-![](../assets/library.png) 
+
+![](../assets/library.png)
 This reference details function, modules, and objects included in both `ezkl` and `ezkl_lib`.
 Note that `ezkl` is a superset of `ezkl_lib` so functions contained within `ezkl_lib` will be contained in `ezkl`.
 
 ### `ezkl`
 
 #### Utilities
-
 
 ##### `export`
 
@@ -219,15 +224,14 @@ The `ezkl_lib.forward` function is used for the forward operation to quantize in
 The function raises an error if neither `input_shape` nor `input_array` are provided, or if both are provided but `input_shape` doesn't match the shape of `input_array`.
 
 **Example**
+
 ```python
 
 ```
 
-
 ### `ezkl_lib`
 
 #### Command Bindings
-
 
 ##### `PyRunArgs`
 
@@ -267,13 +271,11 @@ For integer fields, you are able to use default Python integers.
 
 Fields marked with the `#[pyo3(get, set)]` attribute can be accessed (read or modified) directly from Python.
 
-
 ##### `table`
 
 **Description**
 
 For more information refer to [Table](./About_EZKL/Commands.md#table)
-
 
 **Parameters**
 `model (required)`: This is a string representing the file path of the ONNX model to be loaded.
@@ -298,7 +300,6 @@ try:
 except Exception as e:
     print(f"An error occurred: {e}")
 ```
-
 
 ##### `gen_srs`
 
@@ -326,7 +327,6 @@ import ezkl
 ezkl.gen_srs("path/to/save/params", 17)
 print("SRS generation successful.")
 ```
-
 
 ##### `gen-witness`
 
@@ -363,7 +363,6 @@ except Exception as e:
     print(f"An error occurred: {e}")
 ```
 
-
 ##### `mock`
 
 **Description**
@@ -399,7 +398,6 @@ try:
 except Exception as e:
     print(f"An error occurred: {e}")
 ```
-
 
 ##### `setup`
 
@@ -452,7 +450,6 @@ try:
 except Exception as e:
     print(f"An error occurred: {e}")
 ```
-
 
 ##### `prove`
 
@@ -515,13 +512,11 @@ except Exception as e:
     print(f"An error occurred: {e}")
 ```
 
-
 ##### `verify`
 
 **Description**
 
 For more information visit [Verify](./About_EZKL/Commands.md#verify)
-
 
 **Parameters**
 
@@ -563,7 +558,6 @@ try:
 except Exception as e:
     print(f"An error occurred: {e}")
 ```
-
 
 ##### `aggregate`
 
@@ -618,7 +612,6 @@ res = ezkl_lib.aggregate(
     20,
     "unsafe"
 ```
-
 
 ##### `verify_aggr`
 
@@ -680,7 +673,6 @@ More information can be found in [Verifying On Chain](Verifying_On-Chain.md).
 
 `sol_code_path (optional)`: A string representing the file path where the Solidity code for the verifier will be saved.
 
-
 **Returns**
 
 If the EVM compatible verifier is successfully generated and saved, it will return `True`. If an error occurs at any stage, it will return an `IOError` or `RuntimeError`.
@@ -708,7 +700,6 @@ assert res == True
 assert os.path.isfile(deployment_code_path)
 assert os.path.isfile(sol_code_path)
 ```
-
 
 ##### `verify_evm`
 
@@ -749,7 +740,6 @@ res = ezkl.verify_evm(
 
 assert res == True
 ```
-
 
 ##### `create_evm_verifier_aggr`
 
@@ -857,7 +847,6 @@ res = ezkl_lib.verify_aggr(
 )
 assert res == True
 ```
-
 
 ##### `print_proof_hex`
 
