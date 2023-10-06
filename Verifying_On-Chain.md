@@ -72,7 +72,7 @@ cp ~/ezkl/examples/onnx/1l_relu/input.json ./
 
 ```bash
 # Generate a new SRS. We use 20 since aggregation requires larger circuits (more commonly 23+).
-ezkl gen-srs --logrows 20 --srs-path=20.srs
+ezkl get-srs --logrows 20 --srs-path=20.srs
 ```
 
 ```bash

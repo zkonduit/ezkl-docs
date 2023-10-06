@@ -81,7 +81,7 @@ Along with our SRS and circuit parameters, we need two other elements to generat
 Run this command to set up your proving and verifying keys:
 
 ```bash
-ezkl setup -M network.ezkl --srs-path=17.srs  --settings-path=settings.json
+ezkl setup -M network.ezkl --srs-path=17.srs  
 ```
 You should now have files called `vk.key` and `pk.key` in the root of your project. You can also specify different paths for these outputs with `--vk-path=altvk.key --pk-path=altpk.key`
 
@@ -130,7 +130,7 @@ Note that these are not the only operations that can be performed by `ezkl`. You
 When you're testing a model, you may not want to run `setup` and `prove` with each iteration. `ezkl` provides a simple alternative with `mock`, where you can convert your model to constraints and run the inputs tosee if a proof can be generated. This saves time when testing new iterations of models with potential issues. Here is the command for `mock`:
 
 ```bash
-ezkl mock -M network.ezkl --witness witness.json --settings-path=settings.json
+ezkl mock -M network.ezkl --witness witness.json
 ```
 
 Mock is basically checking that constraints that your model has been translated into are satisfied, without doing any of the subsequent cryptographic heavy lifting to produce a proof. 
