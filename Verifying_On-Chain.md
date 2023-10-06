@@ -47,7 +47,7 @@ anvil -p 3030
 
 ```bash
 # deploy evm verifier
-ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --sol-code-path verif.sol 
+ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --sol-code-path veerif.sol 
 ```
 
 ```bash
