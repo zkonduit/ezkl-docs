@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.749565396645">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.749868708646">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.749565396645" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.749868708646" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.749565396645" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.749868708646" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.749565396645" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.749565396645" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.749868708646" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.749868708646" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -199,8 +199,8 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./</code></pre>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M network.onnx
 ezkl calibrate-settings -M network.onnx -D input.json --target resources
 ezkl get-srs -S settings.json
-ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
-ezkl setup -M network.ezkl --srs-path=kzg.srs --settings-path=settings.json</code></pre>
+ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
+ezkl setup -M network.ezkl --srs-path=kzg.srs</code></pre>
 </doc-codeblock></div>
 <p>Now we use this setup to create an EVM verifier, which would be deployed on-chain.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -208,15 +208,15 @@ ezkl setup -M network.ezkl --srs-path=kzg.srs --settings-path=settings.json</cod
 ezkl create-evm-verifier --srs-path=kzg.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
-ezkl prove --transcript=evm --witness witness.json -M network.ezkl --proof-path model.pf --pk-path pk.key --srs-path=kzg.srs --settings-path=settings.json </code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.ezkl
+ezkl prove --witness witness.json -M network.ezkl --proof-path model.pf --pk-path pk.key --srs-path=kzg.srs</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># install anvil if you haven't already
-cargo install --git https://github.com/foundry-rs/foundry --profile local --locked foundry-cli anvil</code></pre>
+cargo install --git https://github.com/foundry-rs/foundry --profile local --locked anvil</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash"># spin up a local EVM through anvil 
+<pre class="language-bash"><code v-pre class="language-bash"># spin up a local EVM through anvil in a separate terminal 
 anvil -p 3030</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -225,7 +225,7 @@ ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
-ezkl verify-evm --proof-path model.pf --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030</code></pre>
+ezkl verify-evm --proof-path model.pf --addr=$(cat addr.txt) --rpc-url=http://127.0.0.1:3030</code></pre>
 </doc-codeblock></div>
 <p>Note that the <code v-pre>.sol</code> file above can be deployed and composed with other Solidity contracts, via a <code v-pre>verify()</code> function.</p>
 <doc-anchor-target id="aggregation">
@@ -245,7 +245,7 @@ cp ~/ezkl/examples/onnx/1l_relu/input.json ./</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Generate a new SRS. We use 20 since aggregation requires larger circuits (more commonly 23+).
-ezkl gen-srs --logrows 20 --srs-path=20.srs</code></pre>
+ezkl get-srs --logrows 20 --srs-path=20.srs</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Create new circuit parameters
@@ -255,13 +255,13 @@ ezkl calibrate-settings -M network.onnx -D input.json --target resources</code><
 <p>Set up the first proof.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Set up a new circuit
-ezkl compile-model -M network.onnx -S settings.json --compiled-model network.ezkl
-ezkl setup  -M network.ezkl --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key --settings-path=settings.json</code></pre>
+ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
+ezkl setup  -M network.ezkl --srs-path=20.srs --vk-path=vk.key --pk-path=pk.key </code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># Single proof -&gt; single proof we are going to feed into aggregation circuit. (Mock)-verifies + verifies natively as sanity check
-ezkl gen-witness -D input.json -M network.ezkl --settings-path=settings.json
-ezkl prove --transcript=poseidon --strategy=accum -W witness.json -M network.ezkl --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key --settings-path=settings.json</code></pre>
+ezkl gen-witness -D input.json -M network.ezkl
+ezkl prove --proof-type=for-aggr -W witness.json -M network.ezkl --proof-path first.pf --srs-path=20.srs  --pk-path=pk.key</code></pre>
 </doc-codeblock></div>
 <p>Setup the aggregate proof.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -285,7 +285,7 @@ ezkl deploy-evm-verifier --addr-path=addr.txt --rpc-url=http://127.0.0.1:3030 --
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># verify (EVM), make sure to copy the address stored in addr.txt and paste it into the addr param
-ezkl verify-evm --proof-path proof_aggr.proof --addr=*paste address in addr.txt here* --rpc-url=http://127.0.0.1:3030</code></pre>
+ezkl verify-evm --proof-path proof_aggr.proof --addr=$(cat addr.txt) --rpc-url=http://127.0.0.1:3030</code></pre>
 </doc-codeblock></div>
 <p>Also note that this may require a local <a href="https://docs.soliditylang.org/en/v0.8.17/installing-solidity.html">solc</a> installation. You can follow the SolidityLang instructions linked above, or you can use <a href="https://github.com/alloy-rs/svm-rs">svm-rs</a> to install solc. Here&#x27;s how:</p>
 <p>Install svm-rs:</p>
