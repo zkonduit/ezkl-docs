@@ -30,7 +30,7 @@ We have broken down the tests for the bindings into 4 different files:
 - [poseidonHash.test.ts](https://github.com/zkonduit/ezkljs-engine/blob/main/tests/poseidonHash.test.ts)
 - [fieldElementUtils.test.ts](https://github.com/zkonduit/ezkljs-engine/tree/main/tests/fieldElementUtils.test.ts)
 
-The engine exposes JS bindings to the main ezkl repo that make hashing, encrypting, decrypting, proving and verifying in the browser/nodejs context seemless:
+The engine exposes JS bindings to the main ezkl repo that make hashing, encrypting, decrypting, proving and verifying in the browser/nodejs context seamless:
 
 - [genWitness](#generating-a-witness): Generate a witness from a given input.
 - [elgamalGenRandom](#elgamal-variables): Generate an ElGamal keypair from a random seed.
@@ -69,7 +69,7 @@ If you just want to jump right into viewing an example application that demonstr
 
 ### Cross Origin Isolation [VERY IMPORTANT].
 
-In order to use "SharedArrayBuffer" feature in all browsers, you need to ensure the global `crossOriginIsolated` is set to `true`. Otherwise, the ezkljs engine bindings might not work across all browser, as the WebAssembly memory is shared between the main thread and the web worker. Follow [this guide](https://github.com/GoogleChrome/web.dev/blob/main/src/site/content/en/secure/cross-origin-isolation-guide/index.md) by google to ensure your web app is cross origin isolated. In the example app we built using next js, we enabled cross origin isolation by adding the following to our next.config.js file:
+In order to use "SharedArrayBuffer" feature in all browsers, you need to ensure the global `crossOriginIsolated` is set to `true`. Otherwise, the ezkljs engine bindings might not work across all browsers, as the WebAssembly memory is shared between the main thread and the web worker. Follow [this guide](https://github.com/GoogleChrome/web.dev/blob/main/src/site/content/en/secure/cross-origin-isolation-guide/index.md) by Google to ensure your web app is cross origin isolated. In the example app we built using next js, we enabled cross origin isolation by adding the following to our next.config.js file:
 
 ```javascript
 const nextConfig = {
