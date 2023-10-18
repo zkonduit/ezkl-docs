@@ -1,4 +1,3 @@
-
 ## Installation
 
 To install EZKL engine, simply use your favorite package manager:
@@ -18,7 +17,7 @@ pnpm add @ezkljs/engine
 
 If you want to get your hands dirty with the Engine bindings, check out this github codespace: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/zkonduit/ezkljs-engine)
 It contains descriptive Jest tests that show you how to use the various bindings available in `@ezkljs/engine/nodejs` package as well as an example 
-Next.js that demos the `@ezkljs/engine/web` web bundle. Simply run `pnpm run test` to execute all of the tests in the codespace. Everything should work out of the box, no setup commands necessary. 
+Next.js application that demos the `@ezkljs/engine/web` web bundle. Simply run `pnpm run test` to execute all of the tests in the codespace. Everything should work out of the box, no setup commands necessary. 
 
 To view each test, open the `tests` directory and click on the test you want to view. All of them are written in typescript and are well documented.
 
