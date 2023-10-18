@@ -1,7 +1,3 @@
----
-icon: Engine
-order: 5
----
 
 ## Installation
 
