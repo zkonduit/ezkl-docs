@@ -1,6 +1,6 @@
 # Hub 
 
-The EZKL Hub library is a set of tools to make interacting with [EZKL Hub](https://hub.ezkl.xyz) in your application easier than ever.
+The EZKL Hub is a set of tools to make interacting with [EZKL Hub](https://hub.ezkl.xyz) in your application easier than ever.
 
 ---
 

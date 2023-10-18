@@ -1,18 +1,18 @@
 # Verify 
 
-The EZKL Verify library enables in-browser evm verification of EZKL proofs.
+EZKL Verify enables in-browser evm verification of EZKL proofs.
 
 ---
 
 ```shell
 # npm
-npm install @ezkljs/engine
+npm install @ezkljs/verify
 
 # yarn
-yarn add @ezkljs/engine
+yarn add @ezkljs/verify
 
 # pnpm
-pnpm add @ezkljs/engine
+pnpm add @ezkljs/verify
 ```
 
 ---
@@ -54,12 +54,12 @@ function localEVMVerify(
 Parameters:
 
 - [proof] (Uint8Array | Uint8ClampedArray): The proof to be verified in serialized format.
-- [bytecode] (string): The bytecode of the compiled Solidity verifier.
+- [bytecode] (string): The bytecode of the compiled Solidity verifier represented as a string.
 - [evmVersion] (Hardfork [optional]): The Ethereum hardfork version target for the compiled bytecode. Default is Hardfork.London.
 
 Return Value:
 
-A `Promise`` that resolves to a boolean indicating whether the verification succeeded.
+A `Promise` that resolves to a boolean indicating whether the verification succeeded.
 
 ### Example
 
@@ -74,12 +74,12 @@ export async function handleEvmVerifyButton<T extends FileMapping>(
   evmVersion: Hardfork
 ): Promise<VerifyResult> {
   const result = await convertFilesToFilesSer(files)
-  console.log("evmVersion", evmVersion)
 
   const start = performance.now();  // Start the timer
 
   let output = await localEVMVerify(
     result['proof'],
+    // Convert the serialized bytecode to a string using TextDecoder
     new TextDecoder().decode(result['bytecodeVerifier']),
     evmVersion
   )
@@ -92,5 +92,11 @@ export async function handleEvmVerifyButton<T extends FileMapping>(
   }
 }
 
+```
+
+Output: 
+
+```typescript
+true
 ```
 
