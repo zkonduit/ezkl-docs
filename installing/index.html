@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.750972878633">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.752436446786">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
 
     <!-- Primary Meta Tags -->
-    <title>Command Line Interface</title>
-    <meta name="title" content="Command Line Interface">
-    <meta name="description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them, and run a...">
+    <title>Installing</title>
+    <meta name="title" content="Installing">
+    <meta name="description" content="To use ezkl in Python, just pip install ezkl. You will generally also need onnx installed if you are exporting models, and Pytorch, Tensorflow, or...">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://docs.ezkl.xyz/command_line_interface/">
+    <link rel="canonical" href="https://docs.ezkl.xyz/installing/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.ezkl.xyz/command_line_interface/">
-    <meta property="og:title" content="Command Line Interface">
-    <meta property="og:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them, and run a...">
+    <meta property="og:url" content="https://docs.ezkl.xyz/installing/">
+    <meta property="og:title" content="Installing">
+    <meta property="og:description" content="To use ezkl in Python, just pip install ezkl. You will generally also need onnx installed if you are exporting models, and Pytorch, Tensorflow, or...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.ezkl.xyz/command_line_interface/">
-    <meta property="twitter:title" content="Command Line Interface">
-    <meta property="twitter:description" content="The ezkl cli provides a simple interface to load .onnx files, which represent graphs of operations (such as neural networks), convert them, and run a...">
+    <meta property="twitter:url" content="https://docs.ezkl.xyz/installing/">
+    <meta property="twitter:title" content="Installing">
+    <meta property="twitter:description" content="To use ezkl in Python, just pip install ezkl. You will generally also need onnx installed if you are exporting models, and Pytorch, Tensorflow, or...">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.750972878633" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.752436446786" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.750972878633" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.752436446786" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.750972878633" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.750972878633" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.752436446786" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.752436446786" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -70,6 +70,9 @@
                             </li>
                             <li class="mr-6">
                                 <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://t.me/+QRzaRvTPIthlYWMx">EZKL Telegram</a>
+                            </li>
+                            <li class="mr-6">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://blog.ezkl.xyz">EZKL Blog</a>
                             </li>
         
                         </ul>
@@ -154,6 +157,9 @@
                                     <li class="mr-6">
                                         <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://t.me/+QRzaRvTPIthlYWMx">EZKL Telegram</a>
                                     </li>
+                                    <li class="mr-6">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://blog.ezkl.xyz">EZKL Blog</a>
+                                    </li>
             
                                 </ul>
                             </nav>
@@ -176,140 +182,51 @@
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="docs-sidebar-right-toggle"></div>
                                 <!-- Page content  -->
-<doc-anchor-target id="command-line-interface" class="break-words">
+<doc-anchor-target id="installing" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#command-line-interface">#</doc-anchor-trigger>
-        <span>Command Line Interface</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#installing">#</doc-anchor-trigger>
+        <span>Installing</span>
     </h1>
 </doc-anchor-target>
-<p><figure class="content-center">
-    <img src="../assets/cli.png" alt="">
-    <figcaption class="caption"></figcaption>
-</figure>
-The <code v-pre>ezkl</code> cli provides a simple interface to load <code v-pre>.onnx</code> files, which represent graphs of operations (such as neural networks), convert them, and run a proof.</p>
-<doc-anchor-target id="cli-tutorial">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#cli-tutorial">#</doc-anchor-trigger>
-        <span>CLI tutorial <span class="docs-emoji">&#x1F47E;</span></span>
-    </h2>
+<doc-anchor-target id="installing-ezkl">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#installing-ezkl">#</doc-anchor-trigger>
+        <span>Installing EZKL</span>
+    </h3>
 </doc-anchor-target>
-<p>You can easily create an <code v-pre>.onnx</code> file using <code v-pre>pytorch</code>. For samples of Onnx files see <a href="https://github.com/onnx/models">here</a>. To see how to generate Onnx files using python, check out <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank"> the notebooks.</a>. You&#x27;ll also need an <code v-pre>input.json</code> file with sample inputs and outputs of your model.</p>
-<p>Sample onnx files are also available in <a href="https://github.com/zkonduit/ezkl/blob/main/examples/onnx/" target="_blank"> the repo </a>.</p>
-<doc-anchor-target id="initializing-the-project">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#initializing-the-project">#</doc-anchor-trigger>
-        <span>Initializing the project</span>
-    </h4>
+<p>To use <code v-pre>ezkl</code> in Python, just <code v-pre>pip install ezkl</code>. You will generally also need <code v-pre>onnx</code> installed if you are exporting models, and Pytorch, Tensorflow, or similar if you are creating models.</p>
+<p><code v-pre>ezkl</code> uses your system <code v-pre>solc</code> Solidity compiler, so you may need to tweak it using svm-rs or solc-select, particularly if you are targeting a specific hardfork.</p>
+<p>To use the cli, download a <a href="https://github.com/zkonduit/ezkl/releases">release binary</a> from GitHub. If you want the latest build, you can also install from source.</p>
+<doc-anchor-target id="building-from-source">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#building-from-source">#</doc-anchor-trigger>
+        <span>Building from source <span class="docs-emoji">&#x1F528;</span></span>
+    </h3>
 </doc-anchor-target>
-<p>To generate a proof on one of the examples, first install <code v-pre>ezkl</code>
-<div class="mb-6 px-5 py-4 flex justify-between relative border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded transition-colors duration-150">
-    <div class="flex items-center text-blue-500 dark:text-blue-400">
-        <span class="inline-block mb-px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
-        </span>
-        <span class="inline-block font-medium ml-2">Getting Started</span>
-    </div>
-    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>../getting_started/</span>
-    </div>
-    <a href="../getting_started/" class="absolute block inset-0"></a>
-</div>
-</p>
-<p>Put a model file (<code v-pre>network.onnx</code>) and input file (<code v-pre>input.json</code>) into your working directory, e.g. with something like:</p>
+<p>Ezkl is built in rust. First <a href="https://www.rust-lang.org/tools/install">install rust</a>, then download the repo and enter the directory</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
-cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
-</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">git clone git@github.com:zkonduit/ezkl.git
+cd ezkl</code></pre>
 </doc-codeblock></div>
-<p>To display <code v-pre>ezkl</code>&#x27;s understanding of the model, run:</p>
+<p>After which you may build and install the library</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl table -M network.onnx</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">cargo install --force --path .</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="setting-circuit-parameters">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#setting-circuit-parameters">#</doc-anchor-trigger>
-        <span>Setting circuit parameters</span>
-    </h4>
-</doc-anchor-target>
-<p>Our circuit is configured with the <code v-pre>settings.json</code> file. This is created with the <code v-pre>gen-settings</code> command.</p>
+<p>If you want to build manually with cargo build, be sure to use the release flag as the debug build will result in slow proofs</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M network.onnx</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">cargo build --release --bin ezkl</code></pre>
 </doc-codeblock></div>
-<p>This will produce a <code v-pre>settings.json</code> file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the <code v-pre>calibrate-settings</code> command:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings -M network.onnx -D input.json --target resources</code></pre>
-</doc-codeblock></div>
-<p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>. You can pass a <code v-pre>--settings-path</code> to read from an existing settings file, and only modify the parts changed by calibration (e.g. leaving visibility or tolerance unchanged). You can customize this file and even change the way it is generated. Learn more about <code v-pre>gen-settings</code> and <code v-pre>calibrate-settings</code> in the <a href="https://docs.ezkl.xyz/about_ezkl/commands/">Commands</a> section.</p>
-<p>Download the appropriate SRS:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs -S settings.json</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="compiling-the-model">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#compiling-the-model">#</doc-anchor-trigger>
-        <span>Compiling the model</span>
-    </h4>
-</doc-anchor-target>
-<p>From the onnx file, we will create a <code v-pre>.ezkl</code> file that uses the settings to convert the onnx model to a format ready for proving.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="creating-the-circuit">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#creating-the-circuit">#</doc-anchor-trigger>
-        <span>Creating the circuit</span>
-    </h4>
-</doc-anchor-target>
-<p>Now, we use <code v-pre>setup</code> to create a proving and verifying key for our circuit, using the SRS, our circuit settings, and the .onnx file.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key</code></pre>
-</doc-codeblock></div>
-<p>This creates the verification key, proving key, and circuit settings in the locations you specify.</p>
 <blockquote>
-<p>Note: You can view the options associated to a subcommand such as <code v-pre>setup</code> by typing <code v-pre>ezkl setup</code> with no parameters. If you provide some but not all required parameters, <code v-pre>ezkl</code> will tell you what else it needs.</p>
+<p>Note: To render your model circuits, you&#x27;ll need to compile <code v-pre>ezkl</code> with the <code v-pre>render</code> feature (<code v-pre>cargo build --features render --bin ezkl</code>). This enables the <code v-pre>render-circuit</code> command which can create <code v-pre>.png</code> representations of the compiled circuits. You&#x27;ll also need to install the <code v-pre>libexpat1-dev</code> and <code v-pre>libfreetype6-dev</code> libraries on Debian systems (there are equivalents for MacOS as well).</p>
 </blockquote>
-<doc-anchor-target id="making-a-proof">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#making-a-proof">#</doc-anchor-trigger>
-        <span>Making a proof</span>
-    </h4>
+<hr>
+<doc-anchor-target id="rust-docs">
+    <h5>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#rust-docs">#</doc-anchor-trigger>
+        <span>Rust docs <span class="docs-emoji">&#x1F4D6;</span></span>
+    </h5>
 </doc-anchor-target>
-<p>First we generate a witness file.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.ezkl</code></pre>
-</doc-codeblock></div>
-<p>Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by <code v-pre>--proof-path</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="verification">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#verification">#</doc-anchor-trigger>
-        <span>Verification</span>
-    </h4>
-</doc-anchor-target>
-<p>We can then verify our generated proof with the <code v-pre>verify</code> command:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="all-together">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#all-together">#</doc-anchor-trigger>
-        <span>All together</span>
-    </h4>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
-cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
-ezkl gen-settings -M network.onnx
-ezkl calibrate-settings -M network.onnx -D input.json --target resources
-ezkl get-srs -S settings.json
-ezkl compile-circuit -M network.onnx -S settings.json --compiled-circuit network.ezkl
-ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key
-ezkl gen-witness -D input.json -M network.ezkl
-ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs
-ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs</code></pre>
-</doc-codeblock></div>
+<p>Use <code v-pre>cargo doc --open</code> to compile and open the Rust documentation for <code v-pre>ezkl</code> in your default browser.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -319,20 +236,20 @@ ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../getting_started/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Getting Started</span>
+                                                <span class="block mt-1">What is EZKL?</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../about_ezkl/commands/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../getting_started/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Commands</span>
+                                                <span class="block mt-1">Getting Started</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -376,6 +293,6 @@ ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.
 
     <div id="docs-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Command Line Interface", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Installing", level: 1, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
