@@ -1,12 +1,8 @@
-# EZKL
-
-The EZKL library is a set of tools to make integrating the [EZKL](https://github.com/zkonduit/ezkl) engine into your application easier than ever.
-
----
+# Hub
 
 ## Installation
 
-To install EZKL, simply use your favorite package manager:
+To install EZKL Hub, simply use your favorite package manager:
 
 ```shell
 # npm

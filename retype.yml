@@ -11,5 +11,7 @@ links:
   link: https://discord.gg/mqgdwdSgzA
 - text: EZKL Telegram
   link: https://t.me/+QRzaRvTPIthlYWMx
+- text: EZKL Blog
+  link: https://blog.ezkl.xyz
 footer:
   copyright: "&copy; Copyright Zkonduit Inc. {{ year }}. All rights reserved."
