@@ -25,6 +25,8 @@ ezkl setup -M network.ezkl --srs-path=kzg.srs
 
 Now we use this setup to create an EVM verifier, which would be deployed on-chain.
 
+> Note: Due to the introduction of PUSH0 opcode in post-Shangai network, only contracts compiled with solc >= 0.8.20 end up using that opcode. If you want to deploy to a pre-Shangai network (which includes nearly all of the most popular L2s at the time of writing), you need to use solc 0.8.19 or earlier.
+
 ```bash
 # gen evm verifier
 ezkl create-evm-verifier --srs-path=kzg.srs --vk-path vk.key --sol-code-path verif.sol --settings-path=settings.json
