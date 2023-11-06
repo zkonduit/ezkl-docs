@@ -104,6 +104,10 @@ If you also want to print debug statments from the engine, you can call the `ini
 
 If you are using the web bundle, you will first need to initialize a web assembly module before you can use any of the methods exposed by the engine. To do this import the default export from `@ezkljs/engine/web/ezkl.js` and then call it. If you want to overide the default WASM memory size, you can pass in a WebAssembly.Memory object as the second argument. We highly recommend doing this if you want your application to be compatible with mobile browsers, as the default memory allocation is too large for iOS browsers. From our experimentation, we have found that the maximum memory allocation that iOS browsers can handle is 4096 mb (default is 65536 mb). 
 
+> Note: If you are still getting an uninformative wasm related error message (i.e. "RuntimeError: Uncaught in promise unreachable") after calling the 
+> `init_panic_hook` then thats an indication that you haven't allocated enough memory for the WASM module. If you want to allocate the maximum available to 
+> the wasm32-unknonw-unkown target, don't pass anything to the default export for the `@ezkljs/engine/web/ezkl.js` import.
+
 In the example code below, we call each of these potential "setup" methods in the useEffect hook of the home component of a Next.js 
 application:: 
 
