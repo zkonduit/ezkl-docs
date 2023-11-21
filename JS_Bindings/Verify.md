@@ -63,7 +63,7 @@ A `Promise` that resolves to a boolean indicating whether the verification succe
 
 ### Example
 
-Check out how the ezkljs verify library is used in the [ezkljs web app](https://ezkljs-engine.vercel.app/)
+Check out how the ezkljs verify library is used in the [ezkljs web app](http://localhost:3000/)
 Link to the method used here in the example app: [handleEvmVerifyButton](https://github.com/zkonduit/ezkljs-engine/blob/main/app/Utils.tsx#L298)
 
 ```typescript

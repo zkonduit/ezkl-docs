@@ -65,7 +65,7 @@ difference between the two is that the web bundle supports multithreading via a 
 This readme will focus on documenting the web target. If you are interested in using the nodejs target, please refer to the unit tests
 we wrote for [them](https://github.com/zkonduit/ezkljs-engine/tree/main/tests). 
 
-If you just want to jump right into viewing an example application that demonstrates how to use all of the core engine bindings check out [this app](https://ezkljs-engine.vercel.app/). The code for which can be found [here](https://github.com/zkonduit/ezkljs-engine/tree/main/app)
+If you just want to jump right into viewing an example application that demonstrates how to use all of the core engine bindings check out [this app](http://localhost:3000/). The code for which can be found [here](https://github.com/zkonduit/ezkljs-engine/tree/main/app)
 
 ### Cross Origin Isolation [VERY IMPORTANT].
 
