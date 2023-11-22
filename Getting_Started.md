@@ -148,7 +148,7 @@ Use the form below to generate a verifying key and proving key for your circuit 
 
 > Note: We designed the API of these methods such that one needs to create a verifying key before they can create a proving key, as we imagine its more useful in most application to create a verifying key instead of just a proving key in a browser context.
 
-[!embed el="embed" aspect="1:1" width="740" height="560"](http://localhost:3000/setup)
+[!embed el="embed" aspect="1:1" width="720" height="565"](https://ezkljs-engine.vercel.app/setup)
 ==- View Source Code
 ```typescript setup.tsx
 'use client'
@@ -598,7 +598,7 @@ assert os.path.isfile(proof_path)
 
 Generate a witness file using the form rendered below. 
 
-[!embed el="embed" aspect="1:1" width="400" height="400"](http://localhost:3000/gen-witness)
+[!embed el="embed" aspect="1:1" width="400" height="465"](https://ezkljs-engine.vercel.app/gen-witness)
 ==- View Source Code
 ```typescript gen-witness.tsx
 'use client'
@@ -863,7 +863,7 @@ function WitnessArtifactForm({
 ===
 Use the form rendered below to generate ZKML proofs in the browser right now :)
 
-[!embed el="embed" aspect="1:1" width="720" height="660"](http://localhost:3000/prove)
+[!embed el="embed" aspect="1:1" width="400" height="660"](https://ezkljs-engine.vercel.app/prove)
 ==- View Source Code
 ```typescript prove.tsx
 'use client'
@@ -1048,7 +1048,7 @@ async function populateWithSampleFiles() {
   };
 
   // Helper function to fetch and create a file object from a public URL
-  const fetchAndCreateFile = async (path: string, filename: string): Promise<File> => {
+  const fetchAndCreateFile = async (path: string, filename: string): promise<File> => {
     const response = await fetch(path);
     const blob = await response.blob();
     return new File([blob], filename, { type: blob.type });
@@ -1195,7 +1195,7 @@ assert res == True
 +++ JS
 Use the form rendered below to verify ZKML proofs in the browser right now :)
 
-[!embed el="embed" aspect="1:1" width="720" height="660"](http://localhost:3000/verify)
+[!embed el="embed" aspect="1:1" width="400" height="660"](https://ezkljs-engine.vercel.app/verify)
 
 ==- View Source Code
 ```typescript verify.tsx
@@ -1458,7 +1458,7 @@ function VerifyingArtifactForm({
 +++ In-browser EVM verifying
 Use the form rendered below to verify ZKML proofs in the browser right now :)
 
-[!embed el="embed" aspect="1:1" width="720" height="660"](http://localhost:3000/in-browser-evm-verify)
+[!embed el="embed" aspect="1:1" width="400" height="565"](https://ezkljs-engine.vercel.app/in-browser-evm-verify)
 
 ==- View Source Code
 ```typescript inBrowserEvmVerify.tsx
