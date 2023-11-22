@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.752436446786">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.753941654973">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.752436446786" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.753941654973" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.752436446786" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.753941654973" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.752436446786" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.752436446786" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.753941654973" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.753941654973" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -375,7 +375,7 @@ assert os.path.isfile(pk_path)</code></pre>
 </blockquote>
 <p>
 <figure>
-    <div class="relative w-full mb-6 overflow-hidden" style="height: 560px; max-width: 740px;">
+    <div class="relative w-full mb-6 overflow-hidden" style="height: 565px; max-width: 720px;">
         <embed class="w-full h-full border-0" src="https://ezkljs-engine.vercel.app/setup"></embed>
     </div>
 </figure>
@@ -386,396 +386,394 @@ assert os.path.isfile(pk_path)</code></pre>
 <div class="codeblock-title">setup.tsx</div>
 <pre class="language-typescript"><code v-pre class="language-typescript">'use client'
 import {
-    FileInput,
-    Label,
-    Button,
-    Alert,
-    Spinner as _Spinner
+  FileInput,
+  Label,
+  Button,
+  Alert,
+  Spinner as _Spinner,
 } from 'flowbite-react'
 import React, { useState } from 'react'
 import { formDataSchemaGenVk, formDataSchemaGenPk } from './parsers'
-import { useSharedResources } from '../EngineContext';
+import { useSharedResources } from '../EngineContext'
 
 export default function Setup() {
-    const { engine, utils } = useSharedResources();
-    const [openModal, setOpenModal] = useState&lt;string | undefined&gt;();
-    const props = { openModal, setOpenModal };
-    const [alertGenVk, setAlertGenVk] = useState&lt;string&gt;('')
-    const [warningGenVk, setWarningGenVk] = useState&lt;string&gt;('')
-    const [alertGenPk, setAlertGenPk] = useState&lt;string&gt;('')
-    const [warningGenPk, setWarningGenPk] = useState&lt;string&gt;('')
-    const [loading, setLoading] = useState(false)
-    const [genVkResult, setGenVkResult] = useState('')
-    const [genPkResult, setGenPkResult] = useState('')
-    const [bufferVk, setBufferVk] = useState&lt;Uint8Array | null&gt;(null)
-    const [bufferPk, setBufferPk] = useState&lt;Uint8Array | null&gt;(null)
+  const { engine, utils } = useSharedResources()
+  const [openModal, setOpenModal] = useState&lt;string | undefined&gt;()
+  const props = { openModal, setOpenModal }
+  const [alertGenVk, setAlertGenVk] = useState&lt;string&gt;('')
+  const [warningGenVk, setWarningGenVk] = useState&lt;string&gt;('')
+  const [alertGenPk, setAlertGenPk] = useState&lt;string&gt;('')
+  const [warningGenPk, setWarningGenPk] = useState&lt;string&gt;('')
+  const [loading, setLoading] = useState(false)
+  const [genVkResult, setGenVkResult] = useState('')
+  const [genPkResult, setGenPkResult] = useState('')
+  const [bufferVk, setBufferVk] = useState&lt;Uint8Array | null&gt;(null)
+  const [bufferPk, setBufferPk] = useState&lt;Uint8Array | null&gt;(null)
 
-    const handleSubmitGenVk = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
-        e.preventDefault()
-        const formData = new FormData(e.currentTarget)
+  const handleSubmitGenVk = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
 
-        const formInputs = {
-            compiled_onnx: formData.get('compiled_onnx'),
-            srs: formData.get('srs'),
-        }
-        // Validate form has valid inputs (zod)
-        const validatedFormInputs = formDataSchemaGenVk.safeParse(formInputs)
-
-        if (warningGenVk) setWarningGenVk('')
-
-        if (!validatedFormInputs.success) {
-            setAlertGenVk('Please upload all files')
-            return
-        }
-
-        // Clear alert and warning
-        if (alertGenVk) setAlertGenVk('')
-
-        // Missing data
-        if (
-            validatedFormInputs.data.compiled_onnx === null ||
-            validatedFormInputs.data.srs === null
-        ) {
-            setAlertGenVk('Please upload all files')
-            return
-        }
-
-        setLoading(true)
-
-        // create file object
-        const files = {
-            compiled_onnx: validatedFormInputs.data.compiled_onnx,
-            srs: validatedFormInputs.data.srs,
-        }
-        /* ================== ENGINE API ====================== */
-        utils.handleGenVkButton(files as { [key: string]: File })
-            .then(({ output, executionTime }) =&gt; {
-                setBufferVk(output)
-
-
-
-                // Update result based on the outcome
-                setGenVkResult(
-                    output
-                        ? `Vk generation successful. Execution time: ${executionTime} ms`
-                        : &quot;Vk generation failed&quot;
-                )
-            })
-            .catch((error) =&gt; {
-                console.error('An error occurred:', error)
-                setWarningGenVk(`Vk generation failed: ${error}`)
-            })
-
-        setLoading(false)
+    const formInputs = {
+      compiled_onnx: formData.get('compiled_onnx'),
+      srs: formData.get('srs'),
     }
-    const handleSubmitGenPk = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
-        e.preventDefault()
-        const formData = new FormData(e.currentTarget)
+    // Validate form has valid inputs (zod)
+    const validatedFormInputs = formDataSchemaGenVk.safeParse(formInputs)
 
-        const formInputs = {
-            vk: formData.get('vk'),
-            compiled_onnx: formData.get('compiled_onnx'),
-            srs: formData.get('srs'),
-        }
-        // Validate form has valid inputs (zod)
-        const validatedFormInputs = formDataSchemaGenPk.safeParse(formInputs)
+    if (warningGenVk) setWarningGenVk('')
 
-        if (warningGenPk) setWarningGenPk('')
-
-
-        if (!validatedFormInputs.success) {
-            setAlertGenPk('Please upload all files')
-            return
-        }
-
-        // Clear alert and warning
-        if (alertGenPk) setAlertGenPk('')
-
-        // Missing data
-        if (
-            validatedFormInputs.data.vk === null ||
-            validatedFormInputs.data.compiled_onnx === null ||
-            validatedFormInputs.data.srs === null
-        ) {
-            setAlertGenPk('Please upload all files')
-            return
-        }
-
-        setLoading(true)
-        console.log(&quot;hi&quot;)
-
-        // create file object
-        const files = {
-            vk: validatedFormInputs.data.vk,
-            compiled_onnx: validatedFormInputs.data.compiled_onnx,
-            srs: validatedFormInputs.data.srs
-        }
-        /* ================== ENGINE API ====================== */
-        utils.handleGenPkButton(files as { [key: string]: File })
-            .then(({ output, executionTime }) =&gt; {
-                setBufferPk(output)
-                // Update result based on the outcome
-                setGenPkResult(
-                    output
-                        ? 'Pk generation successful. Execution time: ' + executionTime + ' ms'
-                        : 'Pk generation failed'
-                )
-            })
-            .catch((error) =&gt; {
-                console.error('An error occurred:', error)
-                setWarningGenPk(`Pk process failed with an error: ${error}`)
-            })
-
-        setLoading(false)
+    if (!validatedFormInputs.success) {
+      setAlertGenVk('Please upload all files')
+      return
     }
 
+    // Clear alert and warning
+    if (alertGenVk) setAlertGenVk('')
 
-    return (
-        &lt;div className='flex flex-col justify-center items-center h-5/6 pb-20'&gt;
-            {bufferVk &amp;&amp; !warningGenVk ? (
-                &lt;div className='w-10/12 flex flex-col'&gt;
-                    &lt;h1 className='text-2xl mb-6 '&gt;{genVkResult}&lt;/h1&gt;
-                    &lt;div className=&quot;flex w-full justify-center pt-7&quot;&gt;
-                        &lt;Button
-                            className=&quot;w-1/2 mr-3&quot;
-                            type='submit'
-                            onClick={() =&gt; utils.handleFileDownload('test.vk', bufferVk)}
-                        &gt;
-                            Download Vk File
-                        &lt;/Button&gt;
-                        &lt;Button
-                            className=&quot;w-1/2&quot;
-                            onClick={() =&gt; setBufferVk(null)}
-                        &gt;
-                            Reset
-                        &lt;/Button&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            ) : bufferPk &amp;&amp; !warningGenPk ? (
-                &lt;div className='w-10/12 flex flex-col'&gt;
-                    &lt;h1 className='text-2xl mb-6 '&gt;{genPkResult}&lt;/h1&gt;
-                    &lt;div className=&quot;flex w-full justify-center pt-7&quot;&gt;
-                        &lt;Button
-                            className=&quot;w-1/2 mr-3&quot;
-                            type='submit'
-                            onClick={() =&gt; utils.handleFileDownload('test.pk', bufferPk)}
-                        &gt;
-                            Download Pk File
-                        &lt;/Button&gt;
-                        &lt;Button
-                            className=&quot;w-1/2&quot;
-                            onClick={() =&gt; setBufferPk(null)}
-                        &gt;
-                            Reset
-                        &lt;/Button&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            ) : loading ? (
-                &lt;Spinner /&gt;
-            ) : (
-                &lt;div className='flex flex-col justify-between w-full items-center space-y-4'&gt;
-                    &lt;div className='flex justify-between w-full items-stretch space-x-8'&gt;
-                        &lt;GenVkArtifactForm handleSubmit={handleSubmitGenVk} alert={alertGenVk} warning={warningGenVk} /&gt;
-                        &lt;GenPkArtifactForm handleSubmit={handleSubmitGenPk} alert={alertGenPk} warning={warningGenPk} /&gt;
-                    &lt;/div&gt;
-                    &lt;Button
-                        type='submit'
-                        color='dark'
-                        className='self-center mt-4 w-full'
-                        onClick={() =&gt; populateWithSampleFiles()}
-                    &gt;
-                        Populate with sample files
-                    &lt;/Button&gt;
-                &lt;/div&gt;
+    // Missing data
+    if (
+      validatedFormInputs.data.compiled_onnx === null ||
+      validatedFormInputs.data.srs === null
+    ) {
+      setAlertGenVk('Please upload all files')
+      return
+    }
 
+    setLoading(true)
 
-            )}
+    // create file object
+    const files = {
+      compiled_onnx: validatedFormInputs.data.compiled_onnx,
+      srs: validatedFormInputs.data.srs,
+    }
+    /* ================== ENGINE API ====================== */
+    utils
+      .handleGenVkButton(files as { [key: string]: File })
+      .then(({ output, executionTime }) =&gt; {
+        setBufferVk(output)
+
+        // Update result based on the outcome
+        setGenVkResult(
+          output
+            ? `Vk generation successful. Execution time: ${executionTime} ms`
+            : 'Vk generation failed',
+        )
+      })
+      .catch((error) =&gt; {
+        console.error('An error occurred:', error)
+        setWarningGenVk(`Vk generation failed: ${error}`)
+      })
+
+    setLoading(false)
+  }
+  const handleSubmitGenPk = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+
+    const formInputs = {
+      vk: formData.get('vk'),
+      compiled_onnx: formData.get('compiled_onnx'),
+      srs: formData.get('srs'),
+    }
+    // Validate form has valid inputs (zod)
+    const validatedFormInputs = formDataSchemaGenPk.safeParse(formInputs)
+
+    if (warningGenPk) setWarningGenPk('')
+
+    if (!validatedFormInputs.success) {
+      setAlertGenPk('Please upload all files')
+      return
+    }
+
+    // Clear alert and warning
+    if (alertGenPk) setAlertGenPk('')
+
+    // Missing data
+    if (
+      validatedFormInputs.data.vk === null ||
+      validatedFormInputs.data.compiled_onnx === null ||
+      validatedFormInputs.data.srs === null
+    ) {
+      setAlertGenPk('Please upload all files')
+      return
+    }
+
+    setLoading(true)
+    console.log('hi')
+
+    // create file object
+    const files = {
+      vk: validatedFormInputs.data.vk,
+      compiled_onnx: validatedFormInputs.data.compiled_onnx,
+      srs: validatedFormInputs.data.srs,
+    }
+    /* ================== ENGINE API ====================== */
+    utils
+      .handleGenPkButton(files as { [key: string]: File })
+      .then(({ output, executionTime }) =&gt; {
+        setBufferPk(output)
+        // Update result based on the outcome
+        setGenPkResult(
+          output
+            ? 'Pk generation successful. Execution time: ' +
+            executionTime +
+            ' ms'
+            : 'Pk generation failed',
+        )
+      })
+      .catch((error) =&gt; {
+        console.error('An error occurred:', error)
+        setWarningGenPk(`Pk process failed with an error: ${error}`)
+      })
+
+    setLoading(false)
+  }
+
+  return (
+    &lt;div className='flex flex-column justify-around'&gt;
+      {bufferVk &amp;&amp; !warningGenVk ? (
+        &lt;div className='flex flex-col justify-around'&gt;
+          &lt;h1 className='text-2xl mb-4 '&gt;{genVkResult}&lt;/h1&gt;
+          &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
+            &lt;Button
+              className='w-full flex-grow'
+              type='submit'
+              onClick={() =&gt; utils.handleFileDownload('test.vk', bufferVk)}
+            &gt;
+              Download Vk File
+            &lt;/Button&gt;
+            &lt;Button className='w-full flex-grow mt-4' onClick={() =&gt; setBufferVk(null)}&gt;
+              Reset
+            &lt;/Button&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-    );
+      ) : bufferPk &amp;&amp; !warningGenPk ? (
+        &lt;div className='flex flex-col justify-around'&gt;
+          &lt;h1 className='text-2xl mb-4 '&gt;{genPkResult}&lt;/h1&gt;
+          &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
+            &lt;Button
+              className='w-full flex-grow'
+              type='submit'
+              onClick={() =&gt; utils.handleFileDownload('test.pk', bufferPk)}
+            &gt;
+              Download Pk File
+            &lt;/Button&gt;
+            &lt;Button className='w-full flex-grow mt-4' onClick={() =&gt; setBufferPk(null)}&gt;
+              Reset
+            &lt;/Button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      ) : loading ? (
+        &lt;Spinner /&gt;
+      ) : (
+        &lt;div className='flex flex-col w-full items-center space-y-4'&gt;
+          &lt;div className='flex w-full items-stretch space-x-8'&gt;
+            &lt;GenVkArtifactForm
+              handleSubmit={handleSubmitGenVk}
+              alert={alertGenVk}
+              warning={warningGenVk}
+            /&gt;
+            &lt;GenPkArtifactForm
+              handleSubmit={handleSubmitGenPk}
+              alert={alertGenPk}
+              warning={warningGenPk}
+            /&gt;
+          &lt;/div&gt;
+          &lt;Button
+            type='submit'
+            color='dark'
+            className='self-center mt-4 w-full'
+            onClick={() =&gt; populateWithSampleFiles()}
+          &gt;
+            Populate with sample files
+          &lt;/Button&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  )
 }
 // UI Component
 function Spinner() {
-    return (
-        &lt;div className='h-full flex items-center'&gt;
-            &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
-        &lt;/div&gt;
-    )
+  return (
+    &lt;div className='h-full flex items-center'&gt;
+      &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
+    &lt;/div&gt;
+  )
 }
 
 async function populateWithSampleFiles() {
-    // Helper to assert that the element is not null
-    function assertElement&lt;T extends Element&gt;(element: T | null): asserts element is T {
-        if (element === null) {
-            throw new Error('Element not found');
-        }
+  // Helper to assert that the element is not null
+  function assertElement&lt;T extends Element&gt;(
+    element: T | null,
+  ): asserts element is T {
+    if (element === null) {
+      throw new Error('Element not found')
     }
+  }
 
-    // Names of the sample files in the public directory
-    const sampleFileNames: { [key: string]: string } = {
-        compiled_onnx: 'test_network.compiled',
-        srs: 'kzg',
-        vk: 'test.key',
-    };
+  // Names of the sample files in the public directory
+  const sampleFileNames: { [key: string]: string } = {
+    compiled_onnx: 'test_network.compiled',
+    srs: 'kzg',
+    vk: 'test.key',
+  }
 
-    // Helper function to fetch and create a file object from a public URL
-    const fetchAndCreateFile = async (path: string, filename: string): Promise&lt;File&gt; =&gt; {
-        const response = await fetch(path);
-        const blob = await response.blob();
-        return new File([blob], filename, { type: blob.type });
-    };
+  // Helper function to fetch and create a file object from a public URL
+  const fetchAndCreateFile = async (
+    path: string,
+    filename: string,
+  ): Promise&lt;File&gt; =&gt; {
+    const response = await fetch(path)
+    const blob = await response.blob()
+    return new File([blob], filename, { type: blob.type })
+  }
 
-    // Fetch each sample file and create a File object
-    const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
-        fetchAndCreateFile(`/data/${filename}`, filename)
-    );
+  // Fetch each sample file and create a File object
+  const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
+    fetchAndCreateFile(`/data/1l_mlp/${filename}`, filename),
+  )
 
-    // Wait for all files to be fetched and created
-    const files = await Promise.all(filePromises);
+  // Wait for all files to be fetched and created
+  const files = await Promise.all(filePromises)
 
-    // Select the file input elements and assign the FileList to each
-    const compiledOnnxInputVk = document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx_vk');
-    const srsInputVk = document.querySelector&lt;HTMLInputElement&gt;('#srs_vk');
-    const compiledOnnxInputPk = document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx_pk');
-    const srsInputPk = document.querySelector&lt;HTMLInputElement&gt;('#srs_pk');
-    const vkInput = document.querySelector&lt;HTMLInputElement&gt;('#vk');
+  // Select the file input elements and assign the FileList to each
+  const compiledOnnxInputVk =
+    document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx_vk')
+  const srsInputVk = document.querySelector&lt;HTMLInputElement&gt;('#srs_vk')
+  const compiledOnnxInputPk =
+    document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx_pk')
+  const srsInputPk = document.querySelector&lt;HTMLInputElement&gt;('#srs_pk')
+  const vkInput = document.querySelector&lt;HTMLInputElement&gt;('#vk')
 
-    // Assert that the elements are not null
-    assertElement(compiledOnnxInputVk);
-    assertElement(srsInputVk);
-    assertElement(compiledOnnxInputPk);
-    assertElement(srsInputPk);
-    assertElement(vkInput);
+  // Assert that the elements are not null
+  assertElement(compiledOnnxInputVk)
+  assertElement(srsInputVk)
+  assertElement(compiledOnnxInputPk)
+  assertElement(srsInputPk)
+  assertElement(vkInput)
 
-    // Create a new DataTransfer to hold the files
-    let dataTransfers: DataTransfer[] = [];
-    files.forEach(
-        (file, idx) =&gt; {
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file)
-            dataTransfers[idx] = dataTransfer;
-        }
+  // Create a new DataTransfer to hold the files
+  let dataTransfers: DataTransfer[] = []
+  files.forEach((file, idx) =&gt; {
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(file)
+    dataTransfers[idx] = dataTransfer
+  })
 
-    );
-
-
-    compiledOnnxInputVk.files = dataTransfers[0].files;
-    srsInputVk.files = dataTransfers[1].files;
-    compiledOnnxInputPk.files = dataTransfers[0].files;
-    srsInputPk.files = dataTransfers[1].files;
-    vkInput.files = dataTransfers[2].files;
+  compiledOnnxInputVk.files = dataTransfers[0].files
+  srsInputVk.files = dataTransfers[1].files
+  compiledOnnxInputPk.files = dataTransfers[0].files
+  srsInputPk.files = dataTransfers[1].files
+  vkInput.files = dataTransfers[2].files
 }
-
 
 function GenVkArtifactForm({
-    handleSubmit,
-    alert,
-    warning
+  handleSubmit,
+  alert,
+  warning,
 }: {
-    handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
-    alert: string
-    warning: string
+  handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
+  alert: string
+  warning: string
 }) {
-    return (
-        &lt;div className='flex flex-col'&gt;
-            &lt;h1 className='text-2xl mb-6 '&gt;Generate Verifying Key&lt;/h1&gt;
-            {alert &amp;&amp; (
-                &lt;Alert color='info' className='mb-6'&gt;
-                    {alert}
-                &lt;/Alert&gt;
-            )}
-            {warning &amp;&amp; (
-                &lt;Alert color='warning' className='mb-6'&gt;
-                    {warning}
-                &lt;/Alert&gt;
-            )}
-            &lt;form
-                onSubmit={handleSubmit}
-                className='flex flex-col flex-grow  justify-between'
-            &gt;
-                {/* COMPILED ONNX MODEL */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='compiled_onnx' value='Select Compiled Onnx File' /&gt;
-                    &lt;FileInput
-                        id='compiled_onnx_vk'
-                        name='compiled_onnx'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* SRS */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='srs' value='Select SRS File' /&gt;
-                    &lt;FileInput
-                        id='srs_vk'
-                        name='srs'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
-                    Generate Vk
-                &lt;/Button&gt;
-            &lt;/form&gt;
+  return (
+    &lt;div className='flex flex-col'&gt;
+      &lt;h1 className='text-2xl mb-6 '&gt;Generate Verifying Key&lt;/h1&gt;
+      {alert &amp;&amp; (
+        &lt;Alert color='info' className='mb-6'&gt;
+          {alert}
+        &lt;/Alert&gt;
+      )}
+      {warning &amp;&amp; (
+        &lt;Alert color='warning' className='mb-6'&gt;
+          {warning}
+        &lt;/Alert&gt;
+      )}
+      &lt;form
+        onSubmit={handleSubmit}
+        className='flex flex-col flex-grow  justify-between'
+      &gt;
+        {/* COMPILED ONNX MODEL */}
+        &lt;div&gt;
+          &lt;Label
+            color='white'
+            htmlFor='compiled_onnx'
+            value='Select Compiled Onnx File'
+          /&gt;
+          &lt;FileInput
+            id='compiled_onnx_vk'
+            name='compiled_onnx'
+            className='my-4'
+          /&gt;
         &lt;/div&gt;
-    )
+        {/* SRS */}
+        &lt;div&gt;
+          &lt;Label color='white' htmlFor='srs' value='Select SRS File' /&gt;
+          &lt;FileInput id='srs_vk' name='srs' className='my-4' /&gt;
+        &lt;/div&gt;
+        &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
+          Generate Vk
+        &lt;/Button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  )
 }
 function GenPkArtifactForm({
-    handleSubmit,
-    alert,
-    warning
+  handleSubmit,
+  alert,
+  warning,
 }: {
-    handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
-    alert: string
-    warning: string
+  handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
+  alert: string
+  warning: string
 }) {
-    return (
-        &lt;div className='flex flex-col'&gt;
-            &lt;h1 className='text-2xl mb-6 '&gt;Generate Proving Key&lt;/h1&gt;
-            {alert &amp;&amp; (
-                &lt;Alert color='info' className='mb-6'&gt;
-                    {alert}
-                &lt;/Alert&gt;
-            )}
-            {warning &amp;&amp; (
-                &lt;Alert color='warning' className='mb-6'&gt;
-                    {warning}
-                &lt;/Alert&gt;
-            )}
-            &lt;form
-                onSubmit={handleSubmit}
-                className='flex flex-col flex-grow  justify-between'
-            &gt;
-                {/* VK */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='vk' value='Select VK File' /&gt;
-                    &lt;FileInput
-                        id='vk'
-                        name='vk'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* COMPILED ONNX MODEL */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='compiled_onnx' value='Select Compiled Onnx File' /&gt;
-                    &lt;FileInput
-                        id='compiled_onnx_pk'
-                        name='compiled_onnx'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* SRS */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='srs' value='Select SRS File' /&gt;
-                    &lt;FileInput
-                        id='srs_pk'
-                        name='srs'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
-                    Generate Pk
-                &lt;/Button&gt;
-            &lt;/form&gt;
+  return (
+    &lt;div className='flex flex-col'&gt;
+      &lt;h1 className='text-2xl mb-6 '&gt;Generate Proving Key&lt;/h1&gt;
+      {alert &amp;&amp; (
+        &lt;Alert color='info' className='mb-6'&gt;
+          {alert}
+        &lt;/Alert&gt;
+      )}
+      {warning &amp;&amp; (
+        &lt;Alert color='warning' className='mb-6'&gt;
+          {warning}
+        &lt;/Alert&gt;
+      )}
+      &lt;form
+        onSubmit={handleSubmit}
+        className='flex flex-col flex-grow  justify-between'
+      &gt;
+        {/* VK */}
+        &lt;div&gt;
+          &lt;Label color='white' htmlFor='vk' value='Select VK File' /&gt;
+          &lt;FileInput id='vk' name='vk' className='my-4' /&gt;
         &lt;/div&gt;
-    )
+        {/* COMPILED ONNX MODEL */}
+        &lt;div&gt;
+          &lt;Label
+            color='white'
+            htmlFor='compiled_onnx'
+            value='Select Compiled Onnx File'
+          /&gt;
+          &lt;FileInput
+            id='compiled_onnx_pk'
+            name='compiled_onnx'
+            className='my-4'
+          /&gt;
+        &lt;/div&gt;
+        {/* SRS */}
+        &lt;div&gt;
+          &lt;Label color='white' htmlFor='srs' value='Select SRS File' /&gt;
+          &lt;FileInput id='srs_pk' name='srs' className='my-4' /&gt;
+        &lt;/div&gt;
+        &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
+          Generate Pk
+        &lt;/Button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  )
 }
 </code></pre>
 </doc-codeblock></div>
@@ -832,10 +830,283 @@ assert os.path.isfile(proof_path)</code></pre>
 </doc-tab>
 <doc-tab v-cloak id="js">
 <template #title>JS</template>
+<p>Generate a witness file using the form rendered below.</p>
+<p>
+<figure>
+    <div class="relative w-full mb-6 overflow-hidden" style="height: 465px; max-width: 400px;">
+        <embed class="w-full h-full border-0" src="https://ezkljs-engine.vercel.app/gen-witness"></embed>
+    </div>
+</figure>
+</p>
+<doc-panel id="view-source-code" collapsed>
+    <template #title>View Source Code</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">gen-witness.tsx</div>
+<pre class="language-typescript"><code v-pre class="language-typescript">'use client'
+import {
+    FileInput,
+    Label,
+    Button,
+    Alert,
+    Spinner as _Spinner,
+    Modal,
+} from 'flowbite-react'
+import React, { useEffect, useState } from 'react'
+import { formDataSchema } from './parsers'
+import { stringify } from 'json-bigint'
+import { useSharedResources } from '../EngineContext'
+
+export default function GenWitness() {
+    const { engine, utils } = useSharedResources()
+    const [openModal, setOpenModal] = useState&lt;string | undefined&gt;()
+    const [alert, setAlert] = useState&lt;string&gt;('')
+    const [warning, setWarning] = useState&lt;string&gt;('')
+    const [loading, setLoading] = useState(false)
+    const [witness, setWitness] = useState({})
+    const [witnessResult, setWitnessResult] = useState&lt;string&gt;('')
+    const [buffer, setBuffer] = useState&lt;Uint8Array | null&gt;(null)
+
+    const handleSubmit = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
+        e.preventDefault()
+        const formData = new FormData(e.currentTarget)
+
+        const formInputs = {
+            compiled_onnx: formData.get('compiled_onnx'),
+            input: formData.get('input'),
+        }
+        // Validate form has valid inputs (zod)
+        const validatedFormInputs = formDataSchema.safeParse(formInputs)
+
+        if (warning) setWarning('')
+
+        if (!validatedFormInputs.success) {
+            setAlert('Please upload all files')
+            return
+        }
+
+        // Clear alert and warning
+        if (alert) setAlert('')
+
+        // Missing data
+        if (
+            validatedFormInputs.data.compiled_onnx === null ||
+            validatedFormInputs.data.input === null
+        ) {
+            setAlert('Please upload all files')
+            return
+        }
+
+        let files = {
+            compiled_onnx: validatedFormInputs.data.compiled_onnx,
+            input: validatedFormInputs.data.input,
+        }
+
+        setLoading(true)
+
+        /* ================== ENGINE API ====================== */
+        utils
+            .handleGenWitnessButton(files as { [key: string]: File })
+            .then(({ output, executionTime }) =&gt; {
+                setBuffer(output)
+
+                // Update result based on the outcome
+                setWitnessResult(
+                    output
+                        ? `Witness generation successful. Execution time: ${executionTime} ms`
+                        : 'Witness generation failed',
+                )
+                const witness = engine.deserialize(output)
+                console.log('witness', witness)
+                setWitness(witness)
+            })
+            .catch((error) =&gt; {
+                console.error('An error occurred:', error)
+                setWarning(`Witness generation failed: ${error}`)
+            })
+
+        setLoading(false)
+    }
+
+    return (
+        &lt;div className='flex flex-column justify-around'&gt;
+            {buffer &amp;&amp; !warning ? (
+                &lt;div className='flex flex-col justify-around'&gt;
+                    &lt;h1 className='text-2xl mb-6 '&gt;{witnessResult}&lt;/h1&gt;
+
+                    &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
+                        &lt;Button
+                            className='w-full flex-grow'
+                            type='submit'
+                            onClick={() =&gt; utils.handleFileDownload('witness.json', buffer)}
+                        &gt;
+                            Download Witness
+                        &lt;/Button&gt;
+                        &lt;Button
+                            className='w-full flex-grow mt-4'
+                            onClick={() =&gt; setOpenModal('default')}
+                            data-modal-target='witness-modal'
+                            data-modal-toggle='witness-modal'
+                        &gt;
+                            Show Witness
+                        &lt;/Button&gt;
+                        &lt;Button className='w-full flex-grow mt-4' onClick={() =&gt; setBuffer(null)}&gt;
+                            Reset
+                        &lt;/Button&gt;
+                        &lt;Modal
+                            show={openModal === 'default'}
+                            onClose={() =&gt; setOpenModal(undefined)}
+                        &gt;
+                            &lt;Modal.Header&gt;Witness File Content: &lt;/Modal.Header&gt;
+                            &lt;Modal.Body className='bg-black'&gt;
+                                &lt;div className='mt-4 p-4 bg-black-100 rounded'&gt;
+                                    &lt;pre className='blackspace-pre-wrap' style=13px&gt;
+                                        {stringify(witness, null, 6)}
+                                    &lt;/pre&gt;
+                                &lt;/div&gt;
+                            &lt;/Modal.Body&gt;
+                        &lt;/Modal&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            ) : loading ? (
+                &lt;Spinner /&gt;
+            ) : (
+                &lt;div className='flex flex-col w-full items-center space-y-4'&gt;
+                    &lt;WitnessArtifactForm
+                        handleSubmit={handleSubmit}
+                        alert={alert}
+                        warning={warning}
+                    /&gt;
+                    &lt;Button
+                        type='submit'
+                        color='dark'
+                        className='self-center mt-4 w-full'
+                        onClick={() =&gt; populateWithSampleFiles()}
+                    &gt;
+                        Populate with sample files
+                    &lt;/Button&gt;
+                &lt;/div&gt;
+            )}
+        &lt;/div&gt;
+    )
+}
+// UI Component
+function Spinner() {
+    return (
+        &lt;div className='h-full flex items-center'&gt;
+            &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
+        &lt;/div&gt;
+    )
+}
+
+async function populateWithSampleFiles() {
+    // Helper to assert that the element is not null
+    function assertElement&lt;T extends Element&gt;(
+        element: T | null,
+    ): asserts element is T {
+        if (element === null) {
+            throw new Error('Element not found')
+        }
+    }
+
+    // Names of the sample files in the public directory
+    const sampleFileNames: { [key: string]: string } = {
+        compiled_onnx: 'test_network.compiled',
+        input: 'input.json',
+    }
+
+    // Helper function to fetch and create a file object from a public URL
+    const fetchAndCreateFile = async (
+        path: string,
+        filename: string,
+    ): Promise&lt;File&gt; =&gt; {
+        const response = await fetch(path)
+        const blob = await response.blob()
+        return new File([blob], filename, { type: blob.type })
+    }
+
+    // Fetch each sample file and create a File object
+    const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
+        fetchAndCreateFile(`/data/1l_mlp/${filename}`, filename),
+    )
+
+    // Wait for all files to be fetched and created
+    const files = await Promise.all(filePromises)
+
+    // Select the file input elements and assign the FileList to each
+    const compiledOnnxInput =
+        document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx')
+    const input = document.querySelector&lt;HTMLInputElement&gt;('#input')
+
+    // Assert that the elements are not null
+    assertElement(compiledOnnxInput)
+    assertElement(input)
+
+    // Create a new DataTransfer to hold the files
+    let dataTransfers: DataTransfer[] = []
+    files.forEach((file, idx) =&gt; {
+        const dataTransfer = new DataTransfer()
+        dataTransfer.items.add(file)
+        dataTransfers[idx] = dataTransfer
+    })
+
+    compiledOnnxInput.files = dataTransfers[0].files
+    input.files = dataTransfers[1].files
+}
+
+function WitnessArtifactForm({
+    handleSubmit,
+    alert,
+    warning,
+}: {
+    handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
+    alert: string
+    warning: string
+}) {
+    return (
+        &lt;div className='flex flex-col'&gt;
+            &lt;h1 className='text-2xl mb-6 '&gt;Witnessing&lt;/h1&gt;
+            {alert &amp;&amp; (
+                &lt;Alert color='info' className='mb-6'&gt;
+                    {alert}
+                &lt;/Alert&gt;
+            )}
+            {warning &amp;&amp; (
+                &lt;Alert color='warning' className='mb-6'&gt;
+                    {warning}
+                &lt;/Alert&gt;
+            )}
+            &lt;form
+                onSubmit={handleSubmit}
+                className='flex flex-col flex-grow justify-between'
+            &gt;
+                {/* COMPILED ONNX */}
+                &lt;div&gt;
+                    &lt;Label
+                        color='white'
+                        htmlFor='compiled_onnx'
+                        value='Select Compiled Onnx File'
+                    /&gt;
+                    &lt;FileInput id='compiled_onnx' name='compiled_onnx' className='my-4' /&gt;
+                &lt;/div&gt;
+                {/* INPUT */}
+                &lt;div&gt;
+                    &lt;Label color='white' htmlFor='input' value='Select Input File' /&gt;
+                    &lt;FileInput id='input' name='input' className='my-4' /&gt;
+                &lt;/div&gt;
+                &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
+                    Generate Witness
+                &lt;/Button&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    )
+}
+</code></pre>
+</doc-codeblock></div>
+</doc-panel>
 <p>Use the form rendered below to generate ZKML proofs in the browser right now :)</p>
 <p>
 <figure>
-    <div class="relative w-full mb-6 overflow-hidden" style="height: 660px; max-width: 720px;">
+    <div class="relative w-full mb-6 overflow-hidden" style="height: 660px; max-width: 400px;">
         <embed class="w-full h-full border-0" src="https://ezkljs-engine.vercel.app/prove"></embed>
     </div>
 </figure>
@@ -844,24 +1115,25 @@ assert os.path.isfile(proof_path)</code></pre>
     <template #title>View Source Code</template>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">prove.tsx</div>
-<pre class="language-typescript"><code v-pre class="language-typescript">'use client'
+<pre class="language-typescript"><code v-pre class="language-typescript">// Example for pages/Page1.js
+'use client'
 import {
   FileInput,
   Label,
   Button,
   Alert,
   Spinner as _Spinner,
-  Modal
+  Modal,
 } from 'flowbite-react'
 import React, { useState } from 'react'
 import { formDataSchemaProve } from './parsers'
-import { stringify } from &quot;json-bigint&quot;;
-import { useSharedResources } from '../EngineContext';
+import { stringify } from 'json-bigint'
+import { useSharedResources } from '../EngineContext'
 
 export default function Prove() {
-  const { engine, utils } = useSharedResources();
-  const [openModal, setOpenModal] = useState&lt;string | undefined&gt;();
-  const props = { openModal, setOpenModal };
+  const { engine, utils } = useSharedResources()
+  const [openModal, setOpenModal] = useState&lt;string | undefined&gt;()
+  const props = { openModal, setOpenModal }
   const [alertProof, setAlertProof] = useState&lt;string&gt;('')
   const [warningProof, setWarningProof] = useState&lt;string&gt;('')
   const [loading, setLoading] = useState(false)
@@ -913,24 +1185,23 @@ export default function Prove() {
       srs: validatedFormInputs.data.srs,
     }
     /* ================== ENGINE API ====================== */
-    utils.handleGenProofButton(files as { [key: string]: File })
+    utils
+      .handleGenProofButton(files as { [key: string]: File })
       .then(({ output, executionTime }) =&gt; {
         setBuffer(output)
-
-
 
         // Update result based on the outcome
         setProofResult(
           output
             ? `Proof generation successful. Execution time: ${executionTime} ms`
-            : &quot;Proof generation failed&quot;
+            : 'Proof generation failed',
         )
         // Deseralize proof buffer
         // TODO - uncomment this line once a new engine bundle is relased
         // with patch to web based serialize/deserialize methods.
         const proof = engine.deserialize(output)
-        console.log(&quot;proof&quot;, proof)
-        setProof(proof);
+        console.log('proof', proof)
+        setProof(proof)
       })
       .catch((error) =&gt; {
         console.error('An error occurred:', error)
@@ -941,30 +1212,27 @@ export default function Prove() {
   }
 
   return (
-    &lt;div className='flex flex-col justify-center items-center h-5/6 pb-20'&gt;
+    &lt;div className='flex flex-column justify-around'&gt;
       {buffer &amp;&amp; !warningProof ? (
-        &lt;div className='w-10/12 flex flex-col'&gt;
+        &lt;div className='flex flex-col justify-around'&gt;
           &lt;h1 className='text-2xl mb-6 '&gt;{proofResult}&lt;/h1&gt;
-          &lt;div className=&quot;flex w-full justify-center pt-7&quot;&gt;
+          &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
             &lt;Button
-              className=&quot;w-1/2 mr-3&quot;
+              className='w-full flex-grow'
               type='submit'
               onClick={() =&gt; utils.handleFileDownload('test.pf', buffer)}
             &gt;
               Download Proof File
             &lt;/Button&gt;
             &lt;Button
-              className=&quot;w-1/2 mr-3&quot;
+              className='w-full flex-grow mt-4'
               onClick={() =&gt; props.setOpenModal('default')}
-              data-modal-target=&quot;witness-modal&quot;
-              data-modal-toggle=&quot;witness-modal&quot;
+              data-modal-target='witness-modal'
+              data-modal-toggle='witness-modal'
             &gt;
               Show Proof
             &lt;/Button&gt;
-            &lt;Button
-              className=&quot;w-1/2&quot;
-              onClick={() =&gt; setBuffer(null)}
-            &gt;
+            &lt;Button className='w-full flex-grow mt-4' onClick={() =&gt; setBuffer(null)}&gt;
               Reset
             &lt;/Button&gt;
             &lt;Modal
@@ -972,9 +1240,11 @@ export default function Prove() {
               onClose={() =&gt; props.setOpenModal(undefined)}
             &gt;
               &lt;Modal.Header&gt;Proof File Content: &lt;/Modal.Header&gt;
-              &lt;Modal.Body className=&quot;bg-black&quot;&gt;
-                &lt;div className='mt-4 p-4 bg-black-100 rounded border'&gt;
-                  &lt;pre className='blackspace-pre-wrap'&gt;{stringify(proof, null, 6)}&lt;/pre&gt;
+              &lt;Modal.Body className='bg-black'&gt;
+                &lt;div className='mt-4 p-4 bg-black-100 rounded'&gt;
+                  &lt;pre className='blackspace-pre-wrap' style=13px&gt;
+                    {stringify(proof, null, 6)}
+                  &lt;/pre&gt;
                 &lt;/div&gt;
               &lt;/Modal.Body&gt;
             &lt;/Modal&gt;
@@ -983,9 +1253,13 @@ export default function Prove() {
       ) : loading ? (
         &lt;Spinner /&gt;
       ) : (
-        &lt;div className='flex flex-col justify-between w-full items-center space-y-4'&gt;
-          &lt;div className='flex justify-between w-full items-stretch space-x-8'&gt;
-            &lt;ProvingArtifactForm handleSubmit={handleSubmitProve} alert={alertProof} warning={warningProof} /&gt;
+        &lt;div className='flex flex-col w-full items-center space-y-4'&gt;
+          &lt;div className='flex w-full items-stretch space-x-8'&gt;
+            &lt;ProvingArtifactForm
+              handleSubmit={handleSubmitProve}
+              alert={alertProof}
+              warning={warningProof}
+            /&gt;
           &lt;/div&gt;
           &lt;Button
             type='submit'
@@ -998,7 +1272,7 @@ export default function Prove() {
         &lt;/div&gt;
       )}
     &lt;/div&gt;
-  );
+  )
 }
 // UI Component
 function Spinner() {
@@ -1011,9 +1285,11 @@ function Spinner() {
 
 async function populateWithSampleFiles() {
   // Helper to assert that the element is not null
-  function assertElement&lt;T extends Element&gt;(element: T | null): asserts element is T {
+  function assertElement&lt;T extends Element&gt;(
+    element: T | null,
+  ): asserts element is T {
     if (element === null) {
-      throw new Error('Element not found');
+      throw new Error('Element not found')
     }
   }
 
@@ -1022,58 +1298,58 @@ async function populateWithSampleFiles() {
     witness: 'test.witness.json',
     pk: 'test.provekey',
     compiled_onnx: 'test_network.compiled',
-    srs: 'kzg'
-  };
+    srs: 'kzg',
+  }
 
   // Helper function to fetch and create a file object from a public URL
-  const fetchAndCreateFile = async (path: string, filename: string): Promise&lt;File&gt; =&gt; {
-    const response = await fetch(path);
-    const blob = await response.blob();
-    return new File([blob], filename, { type: blob.type });
-  };
+  const fetchAndCreateFile = async (
+    path: string,
+    filename: string,
+  ): Promise&lt;File&gt; =&gt; {
+    const response = await fetch(path)
+    const blob = await response.blob()
+    return new File([blob], filename, { type: blob.type })
+  }
 
   // Fetch each sample file and create a File object
   const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
-    fetchAndCreateFile(`/data/${filename}`, filename)
-  );
+    fetchAndCreateFile(`/data/1l_mlp/${filename}`, filename),
+  )
 
   // Wait for all files to be fetched and created
-  const files = await Promise.all(filePromises);
+  const files = await Promise.all(filePromises)
 
   // Select the file input elements and assign the FileList to each
-  const witness = document.querySelector&lt;HTMLInputElement&gt;('#witness');
-  const pk = document.querySelector&lt;HTMLInputElement&gt;('#pk');
-  const compiled_onnx = document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx');
-  const srsProve = document.querySelector&lt;HTMLInputElement&gt;('#srs_prove');
+  const witness = document.querySelector&lt;HTMLInputElement&gt;('#witness')
+  const pk = document.querySelector&lt;HTMLInputElement&gt;('#pk')
+  const compiled_onnx =
+    document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx')
+  const srsProve = document.querySelector&lt;HTMLInputElement&gt;('#srs_prove')
 
   // Assert that the elements are not null
-  assertElement(witness);
-  assertElement(pk);
-  assertElement(compiled_onnx);
-  assertElement(srsProve);
+  assertElement(witness)
+  assertElement(pk)
+  assertElement(compiled_onnx)
+  assertElement(srsProve)
 
   // Create a new DataTransfer to hold the files
-  let dataTransfers: DataTransfer[] = [];
-  files.forEach(
-    (file, idx) =&gt; {
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file)
-      dataTransfers[idx] = dataTransfer;
-    }
+  let dataTransfers: DataTransfer[] = []
+  files.forEach((file, idx) =&gt; {
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(file)
+    dataTransfers[idx] = dataTransfer
+  })
 
-  );
-
-
-  witness.files = dataTransfers[0].files;
-  pk.files = dataTransfers[1].files;
-  compiled_onnx.files = dataTransfers[2].files;
-  srsProve.files = dataTransfers[3].files;
+  witness.files = dataTransfers[0].files
+  pk.files = dataTransfers[1].files
+  compiled_onnx.files = dataTransfers[2].files
+  srsProve.files = dataTransfers[3].files
 }
 
 function ProvingArtifactForm({
   handleSubmit,
   alert,
-  warning
+  warning,
 }: {
   handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
   alert: string
@@ -1098,39 +1374,27 @@ function ProvingArtifactForm({
       &gt;
         {/* WITNESS */}
         &lt;div&gt;
-          &lt;Label color=&quot;white&quot; htmlFor='witness' value='Select Witness File' /&gt;
-          &lt;FileInput
-            id='witness'
-            name='witness'
-            className='my-4'
-          /&gt;
+          &lt;Label color='white' htmlFor='witness' value='Select Witness File' /&gt;
+          &lt;FileInput id='witness' name='witness' className='my-4' /&gt;
         &lt;/div&gt;
         {/* PK */}
         &lt;div&gt;
-          &lt;Label color=&quot;white&quot; htmlFor='pk' value='Select Proving Key File' /&gt;
-          &lt;FileInput
-            id='pk'
-            name='pk'
-            className='my-4'
-          /&gt;
+          &lt;Label color='white' htmlFor='pk' value='Select Proving Key File' /&gt;
+          &lt;FileInput id='pk' name='pk' className='my-4' /&gt;
         &lt;/div&gt;
         {/* COMPILED ONNX MODEL */}
         &lt;div&gt;
-          &lt;Label color=&quot;white&quot; htmlFor='compiled_onnx' value='Select Compiled Onnx File' /&gt;
-          &lt;FileInput
-            id='compiled_onnx'
-            name='compiled_onnx'
-            className='my-4'
+          &lt;Label
+            color='white'
+            htmlFor='compiled_onnx'
+            value='Select Compiled Onnx File'
           /&gt;
+          &lt;FileInput id='compiled_onnx' name='compiled_onnx' className='my-4' /&gt;
         &lt;/div&gt;
         {/* SRS */}
         &lt;div&gt;
-          &lt;Label color=&quot;white&quot; htmlFor='srs' value='Select SRS File' /&gt;
-          &lt;FileInput
-            id='srs_prove'
-            name='srs'
-            className='my-4'
-          /&gt;
+          &lt;Label color='white' htmlFor='srs' value='Select SRS File' /&gt;
+          &lt;FileInput id='srs_prove' name='srs' className='my-4' /&gt;
         &lt;/div&gt;
         &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
           Generate Proof
@@ -1139,6 +1403,7 @@ function ProvingArtifactForm({
     &lt;/div&gt;
   )
 }
+
 </code></pre>
 </doc-codeblock></div>
 </doc-panel>
@@ -1183,7 +1448,7 @@ assert res == True</code></pre>
 <p>Use the form rendered below to verify ZKML proofs in the browser right now :)</p>
 <p>
 <figure>
-    <div class="relative w-full mb-6 overflow-hidden" style="height: 660px; max-width: 720px;">
+    <div class="relative w-full mb-6 overflow-hidden" style="height: 660px; max-width: 400px;">
         <embed class="w-full h-full border-0" src="https://ezkljs-engine.vercel.app/verify"></embed>
     </div>
 </figure>
@@ -1192,260 +1457,253 @@ assert res == True</code></pre>
     <template #title>View Source Code</template>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">verify.tsx</div>
-<pre class="language-typescript"><code v-pre class="language-typescript">// Example for pages/Page1.js
-'use client'
+<pre class="language-typescript"><code v-pre class="language-typescript">'use client'
 import {
-    FileInput,
-    Label,
-    Button,
-    Alert,
-    Spinner as _Spinner
+  FileInput,
+  Label,
+  Button,
+  Alert,
+  Spinner as _Spinner,
 } from 'flowbite-react'
 import React, { useState } from 'react'
 import { formDataSchemaVerify } from './parsers'
-import { useSharedResources } from '../EngineContext';
+import { useSharedResources } from '../EngineContext'
 
 export default function Verify() {
-    const { utils } = useSharedResources();
-    const [alertVerify, setAlertVerify] = useState&lt;string&gt;('')
-    const [warningVerify, setWarningVerify] = useState&lt;string&gt;('')
-    const [loading, setLoading] = useState(false)
-    const [verifyResult, setVerifyResult] = useState&lt;string&gt;('');
+  const { utils } = useSharedResources()
+  const [alertVerify, setAlertVerify] = useState&lt;string&gt;('')
+  const [warningVerify, setWarningVerify] = useState&lt;string&gt;('')
+  const [loading, setLoading] = useState(false)
+  const [verifyResult, setVerifyResult] = useState&lt;string&gt;('')
 
-    const handleSubmitVerify = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
-        e.preventDefault()
-        const formData = new FormData(e.currentTarget)
+  const handleSubmitVerify = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
 
-        const formInputs = {
-            proof: formData.get('proof'),
-            vk: formData.get('vk'),
-            settings: formData.get('settings'),
-            srs: formData.get('srs'),
-        }
-        // Validate form has valid inputs (zod)
-        const validatedFormInputs = formDataSchemaVerify.safeParse(formInputs)
+    const formInputs = {
+      proof: formData.get('proof'),
+      vk: formData.get('vk'),
+      settings: formData.get('settings'),
+      srs: formData.get('srs'),
+    }
+    // Validate form has valid inputs (zod)
+    const validatedFormInputs = formDataSchemaVerify.safeParse(formInputs)
 
-        if (warningVerify) setWarningVerify('')
+    if (warningVerify) setWarningVerify('')
 
-        if (!validatedFormInputs.success) {
-            setAlertVerify('Please upload all files')
-            return
-        }
-
-        // Clear alert and warning
-        if (alertVerify) setAlertVerify('')
-
-        // Missing data
-        if (
-            validatedFormInputs.data.proof === null ||
-            validatedFormInputs.data.vk === null ||
-            validatedFormInputs.data.settings === null ||
-            validatedFormInputs.data.srs === null
-        ) {
-            setAlertVerify('Please upload all files')
-            return
-        }
-
-        setLoading(true)
-
-        // create file object
-        const files = {
-            proof: validatedFormInputs.data.proof,
-            vk: validatedFormInputs.data.vk,
-            settings: validatedFormInputs.data.settings,
-            srs: validatedFormInputs.data.srs
-        }
-        /* ================== ENGINE API ====================== */
-        utils.handleVerifyButton(files as { [key: string]: File })
-            .then(({ output, executionTime }) =&gt; {
-                // Update result based on the outcome
-                setVerifyResult(
-                    output
-                        ? 'Verification successful. Execution time: ' + executionTime + ' ms'
-                        : 'Verification failed'
-                )
-            })
-            .catch((error) =&gt; {
-                console.error('An error occurred:', error)
-                setWarningVerify(`Verification process failed with an error: ${error}`)
-            })
-
-        setLoading(false)
+    if (!validatedFormInputs.success) {
+      setAlertVerify('Please upload all files')
+      return
     }
 
+    // Clear alert and warning
+    if (alertVerify) setAlertVerify('')
 
-    return (
-        &lt;div className='flex flex-col justify-center items-center h-5/6 pb-20'&gt;
-            {verifyResult &amp;&amp; !warningVerify ? (
-                &lt;div className='w-10/12 flex flex-col'&gt;
-                    &lt;h1 className='text-2xl mb-6 '&gt;{verifyResult}&lt;/h1&gt;
-                    &lt;div className=&quot;flex w-full justify-center&quot;&gt;
-                        &lt;Button
-                            className=&quot;w-full&quot;
-                            onClick={() =&gt; setVerifyResult(&quot;&quot;)}
-                        &gt;
-                            Reset
-                        &lt;/Button&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            ) : loading ? (
-                &lt;Spinner /&gt;
-            ) : (
-                &lt;div className='flex flex-col justify-between w-full items-center space-y-4'&gt;
-                    &lt;div className='flex justify-between w-full items-stretch space-x-8'&gt;
-                        &lt;VerifyingArtifactForm handleSubmit={handleSubmitVerify} alert={alertVerify} warning={warningVerify} /&gt;
-                    &lt;/div&gt;
-                    &lt;Button
-                        type='submit'
-                        color='dark'
-                        className='self-center mt-4 w-full'
-                        onClick={() =&gt; populateWithSampleFiles()}
-                    &gt;
-                        Populate with sample files
-                    &lt;/Button&gt;
-                &lt;/div&gt;
-            )}
+    // Missing data
+    if (
+      validatedFormInputs.data.proof === null ||
+      validatedFormInputs.data.vk === null ||
+      validatedFormInputs.data.settings === null ||
+      validatedFormInputs.data.srs === null
+    ) {
+      setAlertVerify('Please upload all files')
+      return
+    }
+
+    setLoading(true)
+
+    // create file object
+    const files = {
+      proof: validatedFormInputs.data.proof,
+      vk: validatedFormInputs.data.vk,
+      settings: validatedFormInputs.data.settings,
+      srs: validatedFormInputs.data.srs,
+    }
+    /* ================== ENGINE API ====================== */
+    utils
+      .handleVerifyButton(files as { [key: string]: File })
+      .then(({ output, executionTime }) =&gt; {
+        // Update result based on the outcome
+        setVerifyResult(
+          output
+            ? 'Verification successful. Execution time: ' +
+            executionTime +
+            ' ms'
+            : 'Verification failed',
+        )
+      })
+      .catch((error) =&gt; {
+        console.error('An error occurred:', error)
+        setWarningVerify(`Verification process failed with an error: ${error}`)
+      })
+
+    setLoading(false)
+  }
+
+  return (
+    &lt;div className='flex flex-column justify-around'&gt;
+      {verifyResult &amp;&amp; !warningVerify ? (
+        &lt;div className='flex flex-col justify-around'&gt;
+          &lt;h1 className='text-2xl mb-4 '&gt;{verifyResult}&lt;/h1&gt;
+          &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
+            &lt;Button className='w-full flex-grow' onClick={() =&gt; setVerifyResult('')}&gt;
+              Reset
+            &lt;/Button&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-    );
+      ) : loading ? (
+        &lt;Spinner /&gt;
+      ) : (
+        &lt;div className='flex flex-col w-full items-center space-y-4'&gt;
+          &lt;div className='flex w-full items-stretch space-x-8'&gt;
+            &lt;VerifyingArtifactForm
+              handleSubmit={handleSubmitVerify}
+              alert={alertVerify}
+              warning={warningVerify}
+            /&gt;
+          &lt;/div&gt;
+          &lt;Button
+            type='submit'
+            color='dark'
+            className='self-center mt-4 w-full'
+            onClick={() =&gt; populateWithSampleFiles()}
+          &gt;
+            Populate with sample files
+          &lt;/Button&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  )
 }
 // UI Component
 function Spinner() {
-    return (
-        &lt;div className='h-full flex items-center'&gt;
-            &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
-        &lt;/div&gt;
-    )
+  return (
+    &lt;div className='h-full flex items-center'&gt;
+      &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
+    &lt;/div&gt;
+  )
 }
 
 async function populateWithSampleFiles() {
-    // Helper to assert that the element is not null
-    function assertElement&lt;T extends Element&gt;(element: T | null): asserts element is T {
-        if (element === null) {
-            throw new Error('Element not found');
-        }
+  // Helper to assert that the element is not null
+  function assertElement&lt;T extends Element&gt;(
+    element: T | null,
+  ): asserts element is T {
+    if (element === null) {
+      throw new Error('Element not found')
     }
+  }
 
-    // Names of the sample files in the public directory
-    const sampleFileNames: { [key: string]: string } = {
-        srs: 'kzg',
-        proof: 'test.pf',
-        settings: 'settings.json',
-        vk: 'test.key'
-    };
+  // Names of the sample files in the public directory
+  const sampleFileNames: { [key: string]: string } = {
+    srs: 'kzg',
+    proof: 'test.pf',
+    settings: 'settings.json',
+    vk: 'test.key',
+  }
 
-    // Helper function to fetch and create a file object from a public URL
-    const fetchAndCreateFile = async (path: string, filename: string): Promise&lt;File&gt; =&gt; {
-        const response = await fetch(path);
-        const blob = await response.blob();
-        return new File([blob], filename, { type: blob.type });
-    };
+  // Helper function to fetch and create a file object from a public URL
+  const fetchAndCreateFile = async (
+    path: string,
+    filename: string,
+  ): Promise&lt;File&gt; =&gt; {
+    const response = await fetch(path)
+    const blob = await response.blob()
+    return new File([blob], filename, { type: blob.type })
+  }
 
-    // Fetch each sample file and create a File object
-    const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
-        fetchAndCreateFile(`/data/${filename}`, filename)
-    );
+  // Fetch each sample file and create a File object
+  const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
+    fetchAndCreateFile(`/data/1l_mlp/${filename}`, filename),
+  )
 
-    // Wait for all files to be fetched and created
-    const files = await Promise.all(filePromises);
+  // Wait for all files to be fetched and created
+  const files = await Promise.all(filePromises)
 
-    // Select the file input elements and assign the FileList to each
-    const proof = document.querySelector&lt;HTMLInputElement&gt;('#proof');
-    const settings = document.querySelector&lt;HTMLInputElement&gt;('#settings');
-    const vk = document.querySelector&lt;HTMLInputElement&gt;('#vk');
-    const srsVerify = document.querySelector&lt;HTMLInputElement&gt;('#srs_verify');
+  // Select the file input elements and assign the FileList to each
+  const proof = document.querySelector&lt;HTMLInputElement&gt;('#proof')
+  const settings = document.querySelector&lt;HTMLInputElement&gt;('#settings')
+  const vk = document.querySelector&lt;HTMLInputElement&gt;('#vk')
+  const srsVerify = document.querySelector&lt;HTMLInputElement&gt;('#srs_verify')
 
-    // Assert that the elements are not null
-    assertElement(proof);
-    assertElement(settings);
-    assertElement(vk);
-    assertElement(srsVerify);
+  // Assert that the elements are not null
+  assertElement(proof)
+  assertElement(settings)
+  assertElement(vk)
+  assertElement(srsVerify)
 
-    // Create a new DataTransfer to hold the files
-    let dataTransfers: DataTransfer[] = [];
-    files.forEach(
-        (file, idx) =&gt; {
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file)
-            dataTransfers[idx] = dataTransfer;
-        }
+  // Create a new DataTransfer to hold the files
+  let dataTransfers: DataTransfer[] = []
+  files.forEach((file, idx) =&gt; {
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(file)
+    dataTransfers[idx] = dataTransfer
+  })
 
-    );
-
-    srsVerify.files = dataTransfers[0].files;
-    proof.files = dataTransfers[1].files;
-    settings.files = dataTransfers[2].files;
-    vk.files = dataTransfers[3].files;
+  srsVerify.files = dataTransfers[0].files
+  proof.files = dataTransfers[1].files
+  settings.files = dataTransfers[2].files
+  vk.files = dataTransfers[3].files
 }
 
 function VerifyingArtifactForm({
-    handleSubmit,
-    alert,
-    warning
+  handleSubmit,
+  alert,
+  warning,
 }: {
-    handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
-    alert: string
-    warning: string
+  handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
+  alert: string
+  warning: string
 }) {
-    return (
-        &lt;div className='flex flex-col'&gt;
-            &lt;h1 className='text-2xl mb-6 '&gt;Verifying&lt;/h1&gt;
-            {alert &amp;&amp; (
-                &lt;Alert color='info' className='mb-6'&gt;
-                    {alert}
-                &lt;/Alert&gt;
-            )}
-            {warning &amp;&amp; (
-                &lt;Alert color='warning' className='mb-6'&gt;
-                    {warning}
-                &lt;/Alert&gt;
-            )}
-            &lt;form
-                onSubmit={handleSubmit}
-                className='flex flex-col flex-grow  justify-between'
-            &gt;
-                {/* PROOF */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='proof' value='Select Proof File' /&gt;
-                    &lt;FileInput
-                        id='proof'
-                        name='proof'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* SETTINGS */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='settings' value='Select Settings File' /&gt;
-                    &lt;FileInput
-                        id='settings'
-                        name='settings'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* VK */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='vk' value='Select VK File' /&gt;
-                    &lt;FileInput
-                        id='vk'
-                        name='vk'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* SRS */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='srs' value='Select SRS File' /&gt;
-                    &lt;FileInput
-                        id='srs_verify'
-                        name='srs'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
-                    Verify
-                &lt;/Button&gt;
-            &lt;/form&gt;
+  return (
+    &lt;div className='flex flex-col'&gt;
+      &lt;h1 className='text-2xl mb-6 '&gt;Verifying&lt;/h1&gt;
+      {alert &amp;&amp; (
+        &lt;Alert color='info' className='mb-6'&gt;
+          {alert}
+        &lt;/Alert&gt;
+      )}
+      {warning &amp;&amp; (
+        &lt;Alert color='warning' className='mb-6'&gt;
+          {warning}
+        &lt;/Alert&gt;
+      )}
+      &lt;form
+        onSubmit={handleSubmit}
+        className='flex flex-col flex-grow justify-between'
+      &gt;
+        {/* PROOF */}
+        &lt;div&gt;
+          &lt;Label color='white' htmlFor='proof' value='Select Proof File' /&gt;
+          &lt;FileInput id='proof' name='proof' className='my-4' /&gt;
         &lt;/div&gt;
-    )
-}</code></pre>
+        {/* SETTINGS */}
+        &lt;div&gt;
+          &lt;Label
+            color='white'
+            htmlFor='settings'
+            value='Select Settings File'
+          /&gt;
+          &lt;FileInput id='settings' name='settings' className='my-4' /&gt;
+        &lt;/div&gt;
+        {/* VK */}
+        &lt;div&gt;
+          &lt;Label color='white' htmlFor='vk' value='Select VK File' /&gt;
+          &lt;FileInput id='vk' name='vk' className='my-4' /&gt;
+        &lt;/div&gt;
+        {/* SRS */}
+        &lt;div&gt;
+          &lt;Label color='white' htmlFor='srs' value='Select SRS File' /&gt;
+          &lt;FileInput id='srs_verify' name='srs' className='my-4' /&gt;
+        &lt;/div&gt;
+        &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
+          Verify
+        &lt;/Button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  )
+}
+</code></pre>
 </doc-codeblock></div>
 </doc-panel>
 </doc-tab>
@@ -1454,7 +1712,7 @@ function VerifyingArtifactForm({
 <p>Use the form rendered below to verify ZKML proofs in the browser right now :)</p>
 <p>
 <figure>
-    <div class="relative w-full mb-6 overflow-hidden" style="height: 660px; max-width: 720px;">
+    <div class="relative w-full mb-6 overflow-hidden" style="height: 565px; max-width: 400px;">
         <embed class="w-full h-full border-0" src="https://ezkljs-engine.vercel.app/in-browser-evm-verify"></embed>
     </div>
 </figure>
@@ -1463,293 +1721,289 @@ function VerifyingArtifactForm({
     <template #title>View Source Code</template>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">inBrowserEvmVerify.tsx</div>
-<pre class="language-typescript"><code v-pre class="language-typescript">
-'use client'
+<pre class="language-typescript"><code v-pre class="language-typescript">'use client'
 import {
-    FileInput,
-    Label,
-    Button,
-    Alert,
-    Select,
-    Spinner as _Spinner,
+  FileInput,
+  Label,
+  Button,
+  Alert,
+  Select,
+  Spinner as _Spinner,
 } from 'flowbite-react'
 import React, { useState } from 'react'
 import { formDataSchemaEvmVerify } from './parsers'
-import { useSharedResources } from '../EngineContext';
+import { useSharedResources } from '../EngineContext'
 
 enum Hardfork {
-    Chainstart = 'chainstart',
-    Homestead = 'homestead',
-    Dao = 'dao',
-    TangerineWhistle = 'tangerineWhistle',
-    SpuriousDragon = 'spuriousDragon',
-    Byzantium = 'byzantium',
-    Constantinople = 'constantinople',
-    Petersburg = 'petersburg',
-    Istanbul = 'istanbul',
-    MuirGlacier = 'muirGlacier',
-    Berlin = 'berlin',
-    London = 'london',
-    ArrowGlacier = 'arrowGlacier',
-    GrayGlacier = 'grayGlacier',
-    MergeForkIdTransition = 'mergeForkIdTransition',
-    Paris = 'paris',
-    Shanghai = 'shanghai',
-    Cancun = 'cancun',
+  Chainstart = 'chainstart',
+  Homestead = 'homestead',
+  Dao = 'dao',
+  TangerineWhistle = 'tangerineWhistle',
+  SpuriousDragon = 'spuriousDragon',
+  Byzantium = 'byzantium',
+  Constantinople = 'constantinople',
+  Petersburg = 'petersburg',
+  Istanbul = 'istanbul',
+  MuirGlacier = 'muirGlacier',
+  Berlin = 'berlin',
+  London = 'london',
+  ArrowGlacier = 'arrowGlacier',
+  GrayGlacier = 'grayGlacier',
+  MergeForkIdTransition = 'mergeForkIdTransition',
+  Paris = 'paris',
+  Shanghai = 'shanghai',
+  Cancun = 'cancun',
 }
 
 export default function InBrowserEvmVerify() {
-    const { utils } = useSharedResources();
-    const [alertVerify, setAlertVerify] = useState&lt;string&gt;('')
-    const [warningVerify, setWarningVerify] = useState&lt;string&gt;('')
-    const [loading, setLoading] = useState(false)
-    const [evmVerifyResult, setEvmVerifyResult] = useState&lt;string&gt;('');
+  const { utils } = useSharedResources()
+  const [alertVerify, setAlertVerify] = useState&lt;string&gt;('')
+  const [warningVerify, setWarningVerify] = useState&lt;string&gt;('')
+  const [loading, setLoading] = useState(false)
+  const [evmVerifyResult, setEvmVerifyResult] = useState&lt;string&gt;('')
 
-    const handleSubmitVerify = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
-        e.preventDefault()
-        const formData = new FormData(e.currentTarget)
+  const handleSubmitVerify = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
 
-        const formInputs = {
-            proof: formData.get('proof'),
-            bytecode_verifier: formData.get('bytecode_verifier'),
-            evm_version: formData.get('evm_version')
-        }
-        // Validate form has valid inputs (zod)
-        const validatedFormInputs = formDataSchemaEvmVerify.safeParse(formInputs)
+    const formInputs = {
+      proof: formData.get('proof'),
+      bytecode_verifier: formData.get('bytecode_verifier'),
+      evm_version: formData.get('evm_version'),
+    }
+    // Validate form has valid inputs (zod)
+    const validatedFormInputs = formDataSchemaEvmVerify.safeParse(formInputs)
 
-        if (warningVerify) setWarningVerify('')
+    if (warningVerify) setWarningVerify('')
 
-        if (!validatedFormInputs.success) {
-            setAlertVerify('Please upload all files')
-            return
-        }
-
-        // Clear alert and warning
-        if (alertVerify) setAlertVerify('')
-        if (warningVerify) setWarningVerify('')
-
-        // Missing data
-        if (
-            validatedFormInputs.data.proof === null ||
-            validatedFormInputs.data.bytecode_verifier === null ||
-            validatedFormInputs.data.evm_version === '' ||
-            validatedFormInputs.data.evm_version === null
-
-        ) {
-            setAlertVerify('Please upload all files')
-            return
-        }
-
-        setLoading(true)
-
-        // create file object
-        const files = {
-            proof: validatedFormInputs.data.proof,
-            bytecodeVerifier: validatedFormInputs.data.bytecode_verifier
-        }
-        /* ================== ENGINE API ====================== */
-        utils.handleEvmVerifyButton(files as { [key: string]: File }, validatedFormInputs.data.evm_version as Hardfork)
-            .then(({ output, executionTime }) =&gt; {
-                // Update result based on the outcome
-                setEvmVerifyResult(
-                    output
-                        ? 'In-browser EVM verification successful. Execution time: ' + executionTime + ' ms'
-                        : 'In-browser EVM verification failed'
-                )
-            })
-            .catch(error =&gt; {
-                console.error(&quot;An error occurred:&quot;, error);
-                setEvmVerifyResult(&quot;An error occurred: &quot; + error);
-            })
-
-        setLoading(false)
+    if (!validatedFormInputs.success) {
+      setAlertVerify('Please upload all files')
+      return
     }
 
+    // Clear alert and warning
+    if (alertVerify) setAlertVerify('')
+    if (warningVerify) setWarningVerify('')
 
-    return (
-        &lt;div className='flex flex-col justify-center items-center h-5/6 pb-20'&gt;
-            {evmVerifyResult &amp;&amp; !warningVerify ? (
-                &lt;div className='w-10/12 flex flex-col'&gt;
-                    &lt;h1 className='text-2xl mb-6 '&gt;{evmVerifyResult}&lt;/h1&gt;
-                    &lt;div className=&quot;flex w-full justify-center&quot;&gt;
-                        &lt;Button
-                            className=&quot;w-1/2&quot;
-                            onClick={() =&gt; setEvmVerifyResult(&quot;&quot;)}
-                        &gt;
-                            Reset
-                        &lt;/Button&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            ) : loading ? (
-                &lt;Spinner /&gt;
-            ) : (
-                &lt;div className='flex flex-col justify-between w-full items-center space-y-4'&gt;
-                    &lt;VerifyingArtifactForm handleSubmit={handleSubmitVerify} alert={alertVerify} warning={warningVerify} /&gt;
-                    &lt;Button
-                        type='submit'
-                        color='dark'
-                        className='self-center mt-4 w-full'
-                        onClick={() =&gt; populateWithSampleFiles()}
-                    &gt;
-                        Populate with sample files
-                    &lt;/Button&gt;
-                &lt;/div&gt;
+    // Missing data
+    if (
+      validatedFormInputs.data.proof === null ||
+      validatedFormInputs.data.bytecode_verifier === null ||
+      validatedFormInputs.data.evm_version === '' ||
+      validatedFormInputs.data.evm_version === null
+    ) {
+      setAlertVerify('Please upload all files')
+      return
+    }
 
-            )}
+    setLoading(true)
+
+    // create file object
+    const files = {
+      proof: validatedFormInputs.data.proof,
+      bytecodeVerifier: validatedFormInputs.data.bytecode_verifier,
+    }
+    /* ================== ENGINE API ====================== */
+    utils
+      .handleEvmVerifyButton(
+        files as { [key: string]: File },
+        validatedFormInputs.data.evm_version as Hardfork,
+      )
+      .then(({ output, executionTime }) =&gt; {
+        // Update result based on the outcome
+        setEvmVerifyResult(
+          output
+            ? 'In-browser EVM verification successful. Execution time: ' +
+            executionTime +
+            ' ms'
+            : 'In-browser EVM verification failed',
+        )
+      })
+      .catch((error) =&gt; {
+        console.error('An error occurred:', error)
+        setEvmVerifyResult('An error occurred: ' + error)
+      })
+
+    setLoading(false)
+  }
+
+  return (
+    &lt;div className='flex flex-column justify-around'&gt;
+      {evmVerifyResult &amp;&amp; !warningVerify ? (
+        &lt;div className='flex flex-col justify-around'&gt;
+          &lt;h1 className='text-2xl mb-4 '&gt;{evmVerifyResult}&lt;/h1&gt;
+          &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
+            &lt;Button className='w-full flex-grow' onClick={() =&gt; setEvmVerifyResult('')}&gt;
+              Reset
+            &lt;/Button&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-    );
+      ) : loading ? (
+        &lt;Spinner /&gt;
+      ) : (
+        &lt;div className='flex flex-col w-full items-center space-y-4'&gt;
+          &lt;VerifyingArtifactForm
+            handleSubmit={handleSubmitVerify}
+            alert={alertVerify}
+            warning={warningVerify}
+          /&gt;
+          &lt;Button
+            type='submit'
+            color='dark'
+            className='self-center mt-4 w-full'
+            onClick={() =&gt; populateWithSampleFiles()}
+          &gt;
+            Populate with sample files
+          &lt;/Button&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  )
 }
 // UI Component
 function Spinner() {
-    return (
-        &lt;div className='h-full flex items-center'&gt;
-            &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
-        &lt;/div&gt;
-    )
+  return (
+    &lt;div className='h-full flex items-center'&gt;
+      &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
+    &lt;/div&gt;
+  )
 }
 
 async function populateWithSampleFiles() {
-    // Helper to assert that the element is not null
-    function assertElement&lt;T extends Element&gt;(element: T | null): asserts element is T {
-        if (element === null) {
-            throw new Error('Element not found');
-        }
+  // Helper to assert that the element is not null
+  function assertElement&lt;T extends Element&gt;(
+    element: T | null,
+  ): asserts element is T {
+    if (element === null) {
+      throw new Error('Element not found')
     }
+  }
 
-    // Names of the sample files in the public directory
-    const sampleFileNames: { [key: string]: string } = {
-        proof: 'evm_verify.pf',
-        bytecode: 'bytecode.code'
-    };
+  // Names of the sample files in the public directory
+  const sampleFileNames: { [key: string]: string } = {
+    proof: 'evm_verify.pf',
+    bytecode: 'bytecode.code',
+  }
 
-    // Helper function to fetch and create a file object from a public URL
-    const fetchAndCreateFile = async (path: string, filename: string): Promise&lt;File&gt; =&gt; {
-        const response = await fetch(path);
-        const blob = await response.blob();
-        return new File([blob], filename, { type: blob.type });
-    };
+  // Helper function to fetch and create a file object from a public URL
+  const fetchAndCreateFile = async (
+    path: string,
+    filename: string,
+  ): Promise&lt;File&gt; =&gt; {
+    const response = await fetch(path)
+    const blob = await response.blob()
+    return new File([blob], filename, { type: blob.type })
+  }
 
-    // Fetch each sample file and create a File object
-    const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
-        fetchAndCreateFile(`/data/${filename}`, filename)
-    );
+  // Fetch each sample file and create a File object
+  const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
+    fetchAndCreateFile(`/data/1l_mlp/${filename}`, filename),
+  )
 
-    // Wait for all files to be fetched and created
-    const files = await Promise.all(filePromises);
+  // Wait for all files to be fetched and created
+  const files = await Promise.all(filePromises)
 
-    // Select the file input elements and assign the FileList to each
-    const proof = document.querySelector&lt;HTMLInputElement&gt;('#proof');
-    const bytecode = document.querySelector&lt;HTMLInputElement&gt;('#bytecode_verifier');
+  // Select the file input elements and assign the FileList to each
+  const proof = document.querySelector&lt;HTMLInputElement&gt;('#proof')
+  const bytecode =
+    document.querySelector&lt;HTMLInputElement&gt;('#bytecode_verifier')
 
-    // Assert that the elements are not null
-    assertElement(proof);
-    assertElement(bytecode);
+  // Assert that the elements are not null
+  assertElement(proof)
+  assertElement(bytecode)
 
-    // Create a new DataTransfer to hold the files
-    let dataTransfers: DataTransfer[] = [];
-    files.forEach(
-        (file, idx) =&gt; {
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file)
-            dataTransfers[idx] = dataTransfer;
-        }
+  // Create a new DataTransfer to hold the files
+  let dataTransfers: DataTransfer[] = []
+  files.forEach((file, idx) =&gt; {
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(file)
+    dataTransfers[idx] = dataTransfer
+  })
 
-    );
-
-
-    proof.files = dataTransfers[0].files;
-    bytecode.files = dataTransfers[1].files;
-
-    // // If the 'vk' file is different, you'd handle it separately
-    // const vkFile = await fetchAndCreateFile(`/${sampleFileNames.vk}`, sampleFileNames.vk);
-    // const vkDataTransfer = new DataTransfer();
-    // vkDataTransfer.items.add(vkFile);
-
-    // Trigger any onChange or update logic if necessary
-    // This part depends on your application. For example, you might need to call a state setter function if you're using React state to track file input values.
+  proof.files = dataTransfers[0].files
+  bytecode.files = dataTransfers[1].files
 }
 
 function VerifyingArtifactForm({
-    handleSubmit,
-    alert,
-    warning
+  handleSubmit,
+  alert,
+  warning,
 }: {
-    handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
-    alert: string
-    warning: string
+  handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
+  alert: string
+  warning: string
 }) {
-    const [selectedVersion, setSelectedVersion] = useState&lt;Hardfork&gt;(Hardfork.Istanbul);
+  const [selectedVersion, setSelectedVersion] = useState&lt;Hardfork&gt;(
+    Hardfork.Istanbul,
+  )
 
-    const handleChange = (e: React.ChangeEvent&lt;HTMLSelectElement&gt;) =&gt; {
-        const selectedValue = e.target.value as Hardfork;
-        setSelectedVersion(selectedValue);
-
-    };
-    return (
-        &lt;div className='flex flex-col' &gt;
-            &lt;h1 className='text-2xl mb-6 '&gt;In-Browser Evm Verifying&lt;/h1&gt;
-            {
-                alert &amp;&amp; (
-                    &lt;Alert color='info' className='mb-6'&gt;
-                        {alert}
-                    &lt;/Alert&gt;
-                )
-            }
-            {
-                warning &amp;&amp; (
-                    &lt;Alert color='warning' className='mb-6'&gt;
-                        {warning}
-                    &lt;/Alert&gt;
-                )
-            }
-            &lt;form
-                onSubmit={handleSubmit}
-                className='flex flex-col flex-grow  justify-between'
-            &gt;
-                {/* PROOF */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='proof' value='Select Proof File' /&gt;
-                    &lt;FileInput
-                        id='proof'
-                        name='proof'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* VERIFIER BYTECODE */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='bytecode_verifier' value='Select Evm Verifier Bytecode' /&gt;
-                    &lt;FileInput
-                        id='bytecode_verifier'
-                        name='bytecode_verifier'
-                        className='my-4'
-                    /&gt;
-                &lt;/div&gt;
-                {/* EVM VERSION */}
-                &lt;div&gt;
-                    &lt;Label color=&quot;white&quot; htmlFor='evm_version' value='Select Evm Version' /&gt;
-                    &lt;Select
-                        id='evm_version'
-                        name='evm_version'
-                        className='my-4'
-                        onChange={handleChange}
-                        value={selectedVersion}
-                    &gt;
-                        {Object.keys(Hardfork).map(key =&gt; (
-                            &lt;option key={key} value={Hardfork[key as keyof typeof Hardfork]}&gt;
-                                {key}
-                            &lt;/option&gt;
-                        ))}
-                    &lt;/Select&gt;
-
-                &lt;/div&gt;
-                &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
-                    Verify
-                &lt;/Button&gt;
-            &lt;/form&gt;
-        &lt;/div &gt;
-    )
-}
-</code></pre>
+  const handleChange = (e: React.ChangeEvent&lt;HTMLSelectElement&gt;) =&gt; {
+    const selectedValue = e.target.value as Hardfork
+    setSelectedVersion(selectedValue)
+  }
+  return (
+    &lt;div className='flex flex-col'&gt;
+      &lt;h1 className='text-2xl mb-6 '&gt;In-Browser Evm Verifying&lt;/h1&gt;
+      {alert &amp;&amp; (
+        &lt;Alert color='info' className='mb-6'&gt;
+          {alert}
+        &lt;/Alert&gt;
+      )}
+      {warning &amp;&amp; (
+        &lt;Alert color='warning' className='mb-6'&gt;
+          {warning}
+        &lt;/Alert&gt;
+      )}
+      &lt;form
+        onSubmit={handleSubmit}
+        className='flex flex-col flex-grow  justify-between'
+      &gt;
+        {/* PROOF */}
+        &lt;div&gt;
+          &lt;Label color='white' htmlFor='proof' value='Select Proof File' /&gt;
+          &lt;FileInput id='proof' name='proof' className='my-4' /&gt;
+        &lt;/div&gt;
+        {/* VERIFIER BYTECODE */}
+        &lt;div&gt;
+          &lt;Label
+            color='white'
+            htmlFor='bytecode_verifier'
+            value='Select Evm Verifier Bytecode'
+          /&gt;
+          &lt;FileInput
+            id='bytecode_verifier'
+            name='bytecode_verifier'
+            className='my-4'
+          /&gt;
+        &lt;/div&gt;
+        {/* EVM VERSION */}
+        &lt;div&gt;
+          &lt;Label
+            color='white'
+            htmlFor='evm_version'
+            value='Select Evm Version'
+          /&gt;
+          &lt;Select
+            id='evm_version'
+            name='evm_version'
+            className='my-4'
+            onChange={handleChange}
+            value={selectedVersion}
+          &gt;
+            {Object.keys(Hardfork).map((key) =&gt; (
+              &lt;option key={key} value={Hardfork[key as keyof typeof Hardfork]}&gt;
+                {key}
+              &lt;/option&gt;
+            ))}
+          &lt;/Select&gt;
+        &lt;/div&gt;
+        &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
+          Verify
+        &lt;/Button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
 </doc-codeblock></div>
 </doc-panel>
 </doc-tab>
