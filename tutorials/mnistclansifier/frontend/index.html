@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.755419200301">
+
+    <!-- See retype.com -->
+    <meta name="generator" content="Retype 3.5.0">
+
+    <!-- Primary Meta Tags -->
+    <title>MNIST Frontend Tutorial</title>
+    <meta name="title" content="MNIST Frontend Tutorial">
+    <meta name="description" content="This is part 4 of our tutorial on building the e2e-minst demo app; check out the frontend code.">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://docs.ezkl.xyz/tutorials/mnistclansifier/frontend/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://docs.ezkl.xyz/tutorials/mnistclansifier/frontend/">
+    <meta property="og:title" content="MNIST Frontend Tutorial">
+    <meta property="og:description" content="This is part 4 of our tutorial on building the e2e-minst demo app; check out the frontend code.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://docs.ezkl.xyz/tutorials/mnistclansifier/frontend/">
+    <meta property="twitter:title" content="MNIST Frontend Tutorial">
+    <meta property="twitter:description" content="This is part 4 of our tutorial on building the e2e-minst demo app; check out the frontend code.">
+
+    <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
+
+    <link href="../../../resources/css/retype.css?v=3.5.0.755419200301" rel="stylesheet">
+
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.5.0.755419200301" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.5.0.755419200301" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.5.0.755419200301" defer></script>
+</head>
+<body>
+    <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
+        <div class="absolute bottom-0 left-0 bg-gray-100 dark:bg-dark-800" style="top: 5rem; right: 50%"></div>
+    
+        <header id="docs-site-header" class="sticky top-0 z-30 flex w-full h-16 bg-white border-b border-gray-200 md:h-20 dark:bg-dark-850 dark:border-dark-650">
+            <div class="container relative flex items-center justify-between pr-6 grow md:justify-start">
+                <!-- Mobile menu button skeleton -->
+                <button v-cloak class="skeleton docs-mobile-menu-button flex items-center justify-center shrink-0 overflow-hidden dark:text-white focus:outline-none rounded-full w-10 h-10 ml-3.5 md:hidden"><svg xmlns="http://www.w3.org/2000/svg" class="mb-px shrink-0" width="24" height="24" viewBox="0 0 24 24" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor"><path d="M2 4h20v2H2zM2 11h20v2H2zM2 18h20v2H2z"></path></g></svg></button>
+                <div v-cloak id="docs-sidebar-toggle"></div>
+        
+                <!-- Logo -->
+                <div class="flex items-center justify-between h-full py-2 md:w-75">
+                    <div class="flex items-center px-2 md:px-6">
+                        <a id="docs-site-logo" href="../../../" class="flex items-center leading-snug text-2xl">
+                            <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">EZKL</span>
+                        </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
+                    </div>
+        
+                    <span class="hidden h-8 border-r md:inline-block dark:border-dark-650"></span>
+                </div>
+        
+                <div class="flex justify-between md:grow">
+                    <!-- Top Nav -->
+                    <nav class="hidden md:flex">
+                        <ul class="flex flex-col mb-4 md:pl-16 md:mb-0 md:flex-row md:items-center">
+                            <li class="mr-6">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://github.com/zkonduit/ezkl">EZKL GitHub</a>
+                            </li>
+                            <li class="mr-6">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://discord.gg/mqgdwdSgzA">EZKL Discord</a>
+                            </li>
+                            <li class="mr-6">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://t.me/+QRzaRvTPIthlYWMx">EZKL Telegram</a>
+                            </li>
+                            <li class="mr-6">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://blog.ezkl.xyz">EZKL Blog</a>
+                            </li>
+        
+                        </ul>
+                    </nav>
+        
+                    <!-- Header Right Skeleton -->
+                    <div v-cloak class="flex justify-end grow skeleton">
+        
+                        <!-- Search input mock -->
+                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
+                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                            </div>
+                            <input class="w-full h-10 placeholder-gray-400 transition-colors duration-200 ease-in bg-gray-200 border border-transparent rounded md:text-sm hover:bg-white hover:border-gray-300 focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-dark-600 dark:border-dark-600 dark:placeholder-dark-400" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
+                        </div>
+        
+                        <!-- Mobile search button -->
+                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                        </div>
+        
+                        <!-- Dark mode switch placeholder -->
+                        <div class="w-10 h-10 lg:ml-2"></div>
+        
+                        <!-- History button -->
+                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
+                        </div>
+                    </div>
+        
+                    <div v-cloak class="flex justify-end grow">
+                        <div id="docs-mobile-search-button"></div>
+                        <doc-search-desktop></doc-search-desktop>
+        
+                        <doc-theme-switch class="lg:ml-2"></doc-theme-switch>
+                        <doc-history></doc-history>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <div class="container relative flex bg-white">
+            <!-- Sidebar Skeleton -->
+            <div v-cloak class="fixed flex flex-col shrink-0 duration-300 ease-in-out bg-gray-100 border-gray-200 sidebar top-20 w-75 border-r h-screen md:sticky transition-transform skeleton dark:bg-dark-800 dark:border-dark-650">
+            
+                <!-- Render this div, if config.showSidebarFilter is `true` -->
+                <div class="flex items-center h-16 px-6">
+                    <input class="w-full h-8 px-3 py-2 transition-colors duration-200 ease-linear bg-white border border-gray-200 rounded shadow-none text-sm focus:outline-none focus:border-gray-600 dark:bg-dark-600 dark:border-dark-600" type="text" placeholder="Filter">
+                </div>
+            
+                <div class="pl-6 mt-1 mb-4">
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                </div>
+            
+                <div class="shrink-0 mt-auto bg-transparent dark:border-dark-650">
+                    <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                        <span class="text-xs whitespace-nowrap">Powered by</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Sidebar component -->
+            <doc-sidebar v-cloak>
+                <template #sidebar-footer>
+                    <div class="shrink-0 mt-auto border-t md:bg-transparent md:border-none dark:border-dark-650">
+            
+                        <div class="py-3 px-6 md:hidden border-b dark:border-dark-650">
+                            <nav>
+                                <ul class="flex flex-wrap justify-center items-center">
+                                    <li class="mr-6">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://github.com/zkonduit/ezkl">EZKL GitHub</a>
+                                    </li>
+                                    <li class="mr-6">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://discord.gg/mqgdwdSgzA">EZKL Discord</a>
+                                    </li>
+                                    <li class="mr-6">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://t.me/+QRzaRvTPIthlYWMx">EZKL Telegram</a>
+                                    </li>
+                                    <li class="mr-6">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-blue-500 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200" href="https://blog.ezkl.xyz">EZKL Blog</a>
+                                    </li>
+            
+                                </ul>
+                            </nav>
+                        </div>
+            
+                        <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                            <span class="text-xs whitespace-nowrap">Powered by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                        </a>
+                    </div>
+                </template>
+            </doc-sidebar>
+    
+            <div class="grow min-w-0 dark:bg-dark-850">
+                <!-- Render "toolbar" template here on api pages --><!-- Render page content -->
+                <div class="flex">
+                    <div class="min-w-0 p-4 grow md:px-16">
+                        <main class="relative pb-12 lg:pt-2">
+                            <div class="docs-markdown" id="docs-content">
+                                <!-- Rendered if sidebar right is enabled -->
+                                <div id="docs-sidebar-right-toggle"></div>
+                                <!-- Page content  -->
+<doc-anchor-target id="mnist-frontend-tutorial" class="break-words">
+    <h1>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#mnist-frontend-tutorial">#</doc-anchor-trigger>
+        <span>MNIST Frontend Tutorial</span>
+    </h1>
+</doc-anchor-target>
+<p>This is part 4 of our tutorial on building the <a href="https://e2e-mnist.vercel.app">e2e-minst</a> demo app; check out the <a href="https://github.com/zkonduit/e2e-mnist">frontend code</a>.</p>
+<doc-anchor-target id="overview">
+    <h1>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#overview">#</doc-anchor-trigger>
+        <span>Overview</span>
+    </h1>
+</doc-anchor-target>
+<p>Armed with the artifacts we need to prove and verify on-chain (from Hub), we need to build a frontend that can:</p>
+<ol>
+<li><doc-anchor-trigger to="#step-1-collecting-input-data">Collect input data from the user (drawn digits)</doc-anchor-trigger></li>
+<li><doc-anchor-trigger to="#step-2-generating-proofs-using-hub">Retrieve proofs from Hub</doc-anchor-trigger></li>
+<li><doc-anchor-trigger to="#step-3-verifying-on-chain">Submit proof for on-chain verification</doc-anchor-trigger></li>
+</ol>
+<doc-anchor-target id="step-1-collecting-input-data">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#step-1-collecting-input-data">#</doc-anchor-trigger>
+        <span>Step 1. Collecting Input Data</span>
+    </h2>
+</doc-anchor-target>
+<p>The first step is to collect the input data from the user. In our case, we want to collect a 28x28 pixel image of a hand drawn digit. Here is the Next.js code that renders a drawing board that we can use to faciltate such collection:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">MNISTDraw.tsx</div>
+<pre class="language-tsx"><code v-pre class="language-tsx">'use client'
+import { useState, useCallback } from 'react'
+import './MNIST.css'
+import './App.css'
+
+const GRID_SIZE = 28 as const
+
+interface IMNISTBoardProps {
+  grid: number[][]
+  onChange: (row: number, col: number) =&gt; void
+}
+
+interface IGridSquareProps {
+  isActive: boolean
+  onMouseDown: () =&gt; void
+  onMouseEnter: () =&gt; void
+  onMouseUp: () =&gt; void
+}
+
+function GridSquare({
+  isActive,
+  onMouseDown,
+  onMouseEnter,
+  onMouseUp,
+}: IGridSquareProps) {
+  return (
+    &lt;div
+      className={`square ${isActive ? 'on' : 'off'}`}
+      onMouseEnter={onMouseEnter}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+    /&gt;
+  )
+}
+
+function MNISTBoard({ grid, onChange }: IMNISTBoardProps) {
+  const [mouseDown, setMouseDown] = useState(false)
+
+  const handleMouseDown = useCallback(
+    (row: number, col: number) =&gt; {
+      setMouseDown(true)
+      onChange(row, col)
+    },
+    [onChange]
+  )
+
+  const handleMouseUp = useCallback(() =&gt; {
+    setMouseDown(false)
+  }, [])
+
+  const handleMouseEnter = useCallback(
+    (row: number, col: number) =&gt; {
+      if (mouseDown) {
+        onChange(row, col)
+      }
+    },
+    [mouseDown, onChange]
+  )
+
+  const size = GRID_SIZE
+
+  return (
+    &lt;div className='MNISTBoard'&gt;
+      &lt;div className='centerObject'&gt;
+        &lt;div className='grid'&gt;
+          {Array.from({ length: size }, (_, col) =&gt; (
+            &lt;div key={`col-${col}`}&gt;
+              {Array.from({ length: size }, (_, row) =&gt; (
+                &lt;GridSquare
+                  key={`row-${row}-col-${col}`}
+                  isActive={grid[row][col] === 1}
+                  onMouseDown={() =&gt; handleMouseDown(row, col)}
+                  onMouseEnter={() =&gt; handleMouseEnter(row, col)}
+                  onMouseUp={handleMouseUp}
+                /&gt;
+              ))}
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}
+
+export function MNISTDraw() {
+  const size = GRID_SIZE
+  const [grid, setGrid] = useState(
+    Array(size)
+      .fill(null)
+      .map(() =&gt; Array(size).fill(0))
+  )
+
+  function handleSetSquare(myrow: number, mycol: number) {
+    const newArray = grid.map((row, i) =&gt; (i === myrow ? [...row] : row))
+    newArray[myrow][mycol] = 1
+    setGrid(newArray)
+  }
+
+  return (
+    &lt;&gt;
+      &lt;div className='MNISTPage'&gt;
+        &lt;h1 className='text-2xl'&gt;Draw and classify a digit&lt;/h1&gt;
+        &lt;MNISTBoard grid={grid} onChange={handleSetSquare} /&gt;
+      &lt;/div&gt;
+    &lt;/&gt;
+  )
+}</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="step-2-generating-proofs-using-hub">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#step-2-generating-proofs-using-hub">#</doc-anchor-trigger>
+        <span>Step 2. Generating Proofs Using Hub</span>
+    </h2>
+</doc-anchor-target>
+<p>Next, we need to generate a proof using the EZKL Hub. We do this by calling the <code v-pre>initiateProof</code> and <code v-pre>getProof</code> methods from the hub module. Run <code v-pre>pnpm i @ezkljs/hub</code> to install the module.  The <code v-pre>initiateProof</code> method takes in the artifact id, input data, and hub url as arguments and returns an id that we can use to get the proof later on. Copy the artifact id for this project from the hub dashboard and paste it into the <code v-pre>artifactId</code> variable. The <code v-pre>getProof</code> method takes in the id and hub url as arguments and returns the proof.</p>
+<p>Once we get the proof, we need to parse the <code v-pre>instances</code> field of the proof to get the prediction. We do this by converting the <code v-pre>instances</code> field to a BigInt array and then finding the index of the max value of the array. To do this we convert each field element to an integer using the same logic in the intToFieldElement function in the solidity verifier contract. We then find the index of the max value of the array. This index is the predicted digit. Here is the code that does this:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">ezkl.ts</div>
+<pre class="language-tsx"><code v-pre class="language-tsx">const [prediction, setPrediction] = useState&lt;number&gt;(-1);
+const [grid, setGrid] = useState(Array(size).fill(null).map(() =&gt; Array(size).fill(0))); // initialize to a 28x28 array of 0's
+const [generatingProof, setGeneratingProof] = useState(false);
+const [proofDone, setProofDone] = useState(false);
+const [proof, setProof] = useState&lt;any&gt;(null);
+
+async function doProof() {
+    // get image from grid
+    let imgTensor: number[] = Array(MNISTSIZE).fill(0)
+    for (let i = 0; i &lt; size; i++) {
+        for (let j = 0; j &lt; size; j++) {
+            imgTensor[i * size + j] = grid[i][j]
+        }
+    }
+
+    const inputFile = JSON.stringify({ input_data: [imgTensor] })
+
+    const url = 'https://hub-staging.ezkl.xyz/graphql'
+
+    const artifactId = &quot;insert-your-artifact-id-here&quot;
+
+    setGeneratingProof(true)
+    try {
+        const initiateProofResp = await hub.initiateProof({
+            artifactId,
+            inputFile,
+            url,
+        })
+
+        let { status } = initiateProofResp
+        const { id } = initiateProofResp
+
+        let getProofResp
+        while (status !== 'SUCCESS') {
+            getProofResp = await hub.getProof({
+                id,
+                url,
+            })
+
+            status = getProofResp.status
+
+            if (status === 'SUCCESS') {
+                break
+            }
+            await new Promise((resolve) =&gt; setTimeout(resolve, 2_000))
+        }
+        console.log('getProofResp', getProofResp?.instances)
+
+        const p = BigInt(
+            '0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001'
+        )
+        setProof(getProofResp)
+        console.log('proof', JSON.stringify(getProofResp?.instances))
+        console.log(&quot;proof&quot;, getProofResp?.proof)
+
+        // convert each field element to an integer
+        const results = getProofResp?.instances?.map((instance) =&gt; {
+            const bigInst = BigInt(instance)
+            // is negative
+            if (bigInst &gt; BigInt(2) ** BigInt(127) - BigInt(1)) {
+                return bigInst - p
+            } else {
+                return bigInst
+            }
+        })
+
+        console.log('results', results)
+
+        if (!results || results.length === 0) {
+            throw new Error('Array is empty')
+        }
+
+        // find the the index of the max value of the results array which contains BigInts
+        // const index = results?.indexOf(results.reduce((a, b) =&gt; (a &gt; b ? a : b)))
+        if (results.length === 0) {
+            throw new Error('Array is empty')
+        }
+
+        let maxIndex = 0
+        let maxValue = results[0] // Assuming results is a non-empty array of BigInts
+
+        for (let i = 1; i &lt; results.length; i++) {
+            if (results[i] &gt; maxValue) {
+                maxValue = results[i]
+                maxIndex = i
+            }
+        }
+        setPrediction(maxIndex)
+        setProofDone(true)
+        // console.log('index', index)
+    } catch (error) {
+        console.log('error', error)
+    }
+    setGeneratingProof(false)
+}</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="step-3-verifying-on-chain">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#step-3-verifying-on-chain">#</doc-anchor-trigger>
+        <span>Step 3. Verifying on Chain</span>
+    </h2>
+</doc-anchor-target>
+<p>Last but not least, we need to be able to verify the proof on chain. For this we will need to call the <code v-pre>submitDigit</code> method on the <code v-pre>MnistClan.sol</code> contract, passing in the <code v-pre>proof</code> and <code v-pre>instances</code> as arguments.</p>
+<ul>
+<li>First we will need to create a wagmi provider and a rainbow wallet that will provide us read access to the contract deployed on the Optimism Goerli network and a wallet connection respectively.</li>
+</ul>
+<p>Here is how that would look like:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">wagmi.tsx</div>
+<pre class="language-tsx"><code v-pre class="language-tsx">&quot;use client&quot;;
+
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultWallets,
+  RainbowKitProvider
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
+
+import { optimismGoerli } from &quot;wagmi/chains&quot;;
+
+const { chains, publicClient } = configureChains(
+  [optimismGoerli],
+  [
+    alchemyProvider({
+      apiKey: process.env.NEXT_PUBLIC_ALCHEMY_KEY!,
+    }),
+    publicProvider()
+  ]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'My RainbowKit App',
+  projectId: 'YOUR_PROJECT_ID',
+  chains
+});
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient
+})
+
+export default function WagmiProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    &lt;WagmiConfig config={wagmiConfig}&gt;
+      &lt;RainbowKitProvider chains={chains}&gt;
+        {children}
+      &lt;/RainbowKitProvider&gt;
+    &lt;/WagmiConfig&gt;
+  )
+}
+</code></pre>
+</doc-codeblock></div>
+<ul>
+<li>Next we will wrap this provider around the app so that we can use the <code v-pre>useWagmi</code> hook to access the contract. Here is how that would look like:</li>
+</ul>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">page.tsx</div>
+<pre class="language-tsx"><code v-pre class="language-tsx">import type { Metadata } from &quot;next&quot;;
+import &quot;./globals.css&quot;;
+import WagmiProvider from &quot;@/providers/wagmi&quot;;
+
+export const metadata: Metadata = {
+  title: &quot;MNIST Clan&quot;,
+  description: &quot;Submit a ZKML proof of your classified handrawn digit to join the clan.&quot;,
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    &lt;html lang=&quot;en&quot;&gt;
+      &lt;body&gt;
+        &lt;WagmiProvider&gt;{children}&lt;/WagmiProvider&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  );
+}</code></pre>
+</doc-codeblock></div>
+<ul>
+<li><p>Next we will need to create a couple of <a href="https://github.com/zkonduit/e2e-mnist/tree/main/contract_data">json files</a> that store the address and ABI of each contract that we deployed and then import that info into our app.</p>
+</li>
+<li><p>You can get the ABI from remix by clicking on the solidity compiler icon and then the ABI button at the bottom under &quot;Compilation Details&quot;.</p>
+</li>
+<li><p>Finally we will instantiate both the mnist clan and verifier contracts. If the user hasn&#x27;t submited a digit already, the proofs of digit recognition will get sent to the <code v-pre>MnistClan.sol</code> contract when the <code v-pre>SubmitMnistDigitButton</code> is clicked. If the user has already submited a digit, the <code v-pre>VerifyOnChainButton</code> will be appear instead and will merely statically call the <code v-pre>verifyProof</code> method on the <code v-pre>Halo2Verifier.sol</code> contract.</p>
+</li>
+<li><p>We will also display the counts of each digit submitted by all users in the form of a bar graph, as well as the user&#x27;s clan and rank within the clan.</p>
+</li>
+</ul>
+<p>Here is the code that does this:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">MNISTDraw.tsx</div>
+<pre class="language-tsx"><code v-pre class="language-tsx">'use client'
+import { Modal } from 'flowbite-react'
+import { useState, useEffect, FC } from 'react'
+import './MNIST.css'
+import './App.css'
+import { Button } from '@/components/button/Button'
+import styles from '../../app/styles.module.scss'
+import { stringify } from 'json-bigint'
+import { getContract } from 'wagmi/actions'
+import { publicProvider } from 'wagmi/providers/public'
+import { useAccount, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import BarGraph from '../bargraph/BarGraph'; // Adjust the path as necessary
+import hub from '@ezkljs/hub'
+import MNIST from '../../contract_data/MnistClan.json'
+import Verifier from '../../contract_data/Halo2Verifier.json'
+const size = 28
+const MNISTSIZE = 784
+
+export function MNISTDraw() {
+    const [openModal, setOpenModal] = useState&lt;string | undefined&gt;()
+    const props = { openModal, setOpenModal }
+    const [prediction, setPrediction] = useState&lt;number&gt;(-1)
+    const [proof, setProof] = useState&lt;any | null&gt;(null)
+    const [generatingProof, setGeneratingProof] = useState(false)
+    const [counts, setCounts] = useState&lt;number[] | null&gt;(null)
+    const [clan, setClan] = useState&lt;number | null&gt;(null)
+    const [clanRank, setClanRank] = useState&lt;number | null&gt;(null)
+    const [verifyResult, setVerifyResult] = useState&lt;boolean | null&gt;(null)
+
+    const [proofDone, setProofDone] = useState(false)
+    const [grid, setGrid] = useState&lt;number[][]&gt;(
+        Array(size)
+            .fill(null)
+            .map(() =&gt; Array(size).fill(0))
+    ) // initialize to a 28x28 array of 0's
+
+    const { address, isConnected } = useAccount()
+
+    const {
+        config
+    } = usePrepareContractWrite({
+        address: MNIST.address as `0x${string}`,
+        abi: MNIST.abi,
+        functionName: 'submitDigit',
+        args: [
+            proof?.proof,
+            proof?.instances
+        ],
+        enabled: true,
+    })
+    const { data, error, isError, write } = useContractWrite(config)
+    const { isLoading, isSuccess } = useWaitForTransaction({
+        hash: data?.hash,
+    })
+
+    const provider = publicProvider()
+
+    // Instantiate the contract using wagmi's getContract hook
+    const contract = getContract({
+        address: MNIST.address as `0x${string}`,
+        abi: MNIST.abi,
+        walletClient: publicProvider(),
+        chainId: 420,
+    })
+
+    async function getAccountClanInfo() {
+        let entry = await contract.read.entered([address]) as boolean
+        let clan = await contract.read.clan([address]) as number
+        setClan(entry ? clan : null)
+        console.log('entry', entry)
+        console.log('clan', clan)
+        let counts = await contract.read.getCounts() as number[]
+        // convert BigInt to number
+        counts = counts.map((count) =&gt; Number(count))
+        // determine clan rank
+        setCounts(counts)
+        if (!entry) {
+            return
+        }
+        let rank = 1
+        for (let i = 0; i &lt; counts.length; i++) {
+            if (counts[i] &gt; counts[clan]) {
+                rank++
+            }
+        }
+        setClanRank(rank)
+        console.log('counts', counts)
+    }
+
+    useEffect(() =&gt; {
+        (async () =&gt; {
+            if (isConnected &amp;&amp; (!clan || isSuccess)) {
+                getAccountClanInfo()
+            }
+            if (!isConnected &amp;&amp; clan) {
+                setClan(null)
+                setCounts(null)
+            }
+        })()
+    }, [isConnected, isSuccess, address])
+
+    // Reload clan info when account changes
+    useEffect(() =&gt; {
+        if (isConnected) {
+            setClan(null)
+            setCounts(null)
+        }
+    }, [address, isConnected]);
+
+    function ShowClanResultsBlock() {
+        if (!counts) {
+            return
+        }
+        return (
+            &lt;div&gt;
+                &lt;div className=&quot;MNISTClanChart&quot;&gt;
+                    &lt;div className=&quot;chart-container&quot;&gt;
+                        &lt;BarGraph data={counts} /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+            &lt;/div&gt;
+        )
+    }
+
+
+    async function doProof() {
+        // get image from grid
+        let imgTensor: number[] = Array(MNISTSIZE).fill(0)
+        for (let i = 0; i &lt; size; i++) {
+            for (let j = 0; j &lt; size; j++) {
+                imgTensor[i * size + j] = grid[i][j]
+            }
+        }
+
+        const inputFile = JSON.stringify({ input_data: [imgTensor] })
+
+        const url = 'https://hub-staging.ezkl.xyz/graphql'
+
+        const artifactId = &quot;d079f79d-a902-43e6-a3a5-b22b0efdbc6a&quot;
+
+        setGeneratingProof(true)
+        try {
+            const initiateProofResp = await hub.initiateProof({
+                artifactId,
+                inputFile,
+                url,
+            })
+            // console.log('initiateProofResp', initiateProofResp)
+
+            let { status } = initiateProofResp
+            const { id } = initiateProofResp
+
+            let getProofResp
+            while (status !== 'SUCCESS') {
+                getProofResp = await hub.getProof({
+                    id,
+                    url,
+                })
+
+                status = getProofResp.status
+
+                if (status === 'SUCCESS') {
+                    break
+                }
+                await new Promise((resolve) =&gt; setTimeout(resolve, 2_000))
+            }
+            console.log('getProofResp', getProofResp?.instances)
+
+            const p = BigInt(
+                '0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001'
+            )
+            setProof(getProofResp)
+            console.log('proof', JSON.stringify(getProofResp?.instances))
+            console.log(&quot;proof&quot;, getProofResp?.proof)
+            const results = getProofResp?.instances?.map((instance) =&gt; {
+                const bigInst = BigInt(instance)
+                // is negative
+                if (bigInst &gt; BigInt(2) ** BigInt(128) - BigInt(1)) {
+                    return bigInst - p
+                } else {
+                    return bigInst
+                }
+            })
+
+            console.log('results', results)
+
+            if (!results || results.length === 0) {
+                throw new Error('Array is empty')
+            }
+
+            // find the the index of the max value of the results array which contains BigInts
+            // const index = results?.indexOf(results.reduce((a, b) =&gt; (a &gt; b ? a : b)))
+            if (results.length === 0) {
+                throw new Error('Array is empty')
+            }
+
+            let maxIndex = 0
+            let maxValue = results[0] // Assuming results is a non-empty array of BigInts
+
+            for (let i = 1; i &lt; results.length; i++) {
+                if (results[i] &gt; maxValue) {
+                    maxValue = results[i]
+                    maxIndex = i
+                }
+            }
+            setPrediction(maxIndex)
+            setProofDone(true)
+            // console.log('index', index)
+        } catch (error) {
+            console.log('error', error)
+        }
+        setGeneratingProof(false)
+    }
+
+
+    async function doOnChainVerify() {
+
+        let verifierContract = getContract({
+            address: Verifier.address as `0x${string}`,
+            abi: Verifier.abi,
+            walletClient: provider,
+            chainId: 420,
+        })
+
+        let result = await verifierContract.read.verifyProof([proof?.proof, proof?.instances]) as boolean
+        setVerifyResult(result);
+    }
+
+    async function doSubmitMnistDigit() {
+        if (!write) { return }
+        write()
+    }
+
+    function resetImage() {
+        var newArray = Array(size)
+            .fill(null)
+            .map((_) =&gt; Array(size).fill(0))
+        setGrid(newArray)
+        setProofDone(false)
+        setVerifyResult(null)
+    }
+
+    function handleSetSquare(myrow: number, mycol: number) {
+        var newArray = []
+        for (var i = 0; i &lt; grid.length; i++) newArray[i] = grid[i].slice()
+        newArray[myrow][mycol] = 1
+        setGrid(newArray)
+    }
+
+    function ProofButton() {
+        return (
+            &lt;Button
+                className={styles.button}
+                text='Classify &amp; Prove'
+                loading={generatingProof}
+                loadingText='Proving...'
+                onClick={doProof}
+            /&gt;
+        )
+    }
+
+    function VerifyOnChainButton() {
+        return (
+            &lt;Button
+                className={styles.button}
+                text='Verify On Chain'
+                disabled={!proofDone}
+                loading={isLoading}
+                loadingText='Verifying...'
+                onClick={doOnChainVerify}
+            /&gt;
+        )
+    }
+
+    function SubmitMnistDigitButton() {
+        return (
+            &lt;Button
+                className={styles.button}
+                text='Submit Mnist Digit'
+                disabled={!proofDone || !write || isLoading}
+                loading={isLoading}
+                loadingText='Verifying...'
+                onClick={doSubmitMnistDigit}
+            /&gt;
+        )
+    }
+
+    function ResetButton() {
+        return (
+            &lt;Button className={styles.button} text='Reset' onClick={resetImage} /&gt;
+        )
+    }
+
+    function ProofBlock() {
+        return (
+            &lt;div className='proof'&gt;
+                &lt;Button
+                    className='w-auto'
+                    onClick={() =&gt; props.setOpenModal('default')}
+                    data-modal-target='witness-modal'
+                    data-modal-toggle='witness-modal'
+                    text='Show Proof'
+                /&gt;
+                &lt;Modal
+                    show={props.openModal === 'default'}
+                    onClose={() =&gt; props.setOpenModal(undefined)}
+                &gt;
+                    &lt;Modal.Header&gt;Proof: &lt;/Modal.Header&gt;
+                    &lt;Modal.Body className='bg-black'&gt;
+                        &lt;div className='mt-4 p-4 bg-black-100 rounded'&gt;
+                            &lt;pre className='blackspace-pre-wrap'&gt;
+                                {stringify(proof, null, 6)}
+                            &lt;/pre&gt;
+                        &lt;/div&gt;
+                    &lt;/Modal.Body&gt;
+                &lt;/Modal&gt;
+            &lt;/div&gt;
+        )
+    }
+
+    function PredictionBlock() {
+        return (
+            &lt;div className='predction color-white'&gt;
+                &lt;h1&gt;Prediction&lt;/h1&gt;
+                {prediction}
+            &lt;/div&gt;
+        )
+    }
+
+    function VerifyOnChainBlock() {
+        return (
+            &lt;div className='verify'&gt;
+                &lt;h1 className='text-2xl'&gt;
+                    Verified on chain: { }
+                    &lt;a
+                        href={`https://goerli-optimism.etherscan.io/address/${Verifier.address}#code`}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        style=underline
+                    &gt;
+                        {Verifier.address}
+                    &lt;/a&gt;
+                &lt;/h1&gt;
+            &lt;/div&gt;
+        )
+    }
+
+    if (proofDone &amp;&amp; isError) {
+        window.alert(`Transaction failed on MnistClan contract:${error?.message}`)
+    }
+
+    return (
+        &lt;div className='MNISTPage'&gt;
+            &lt;h1 className='text-2xl'&gt;Draw and classify a digit&lt;/h1&gt;
+            &lt;MNISTBoard grid={grid} onChange={(r, c) =&gt; handleSetSquare(r, c)} /&gt;
+            &lt;div className='flex justify-center pt-7'&gt;
+                &lt;ConnectButton /&gt;
+            &lt;/div&gt;
+            {clan &amp;&amp; &lt;h1 className='text-2xl pt-7'&gt;Your MNIST Clan: {clan} &lt;/h1&gt;}
+            {clan &amp;&amp; &lt;h1 className='text-2xl'&gt;Your Clan Rank: {clanRank} &lt;/h1&gt;}
+            &lt;div className='buttonPanel'&gt;
+                &lt;ProofButton /&gt;
+                {clan ? &lt;VerifyOnChainButton /&gt; : &lt;SubmitMnistDigitButton /&gt;}
+                &lt;ResetButton /&gt;
+            &lt;/div&gt;
+            {proofDone &amp;&amp; PredictionBlock()}
+            {proofDone &amp;&amp; ProofBlock()}
+            {(isSuccess || !(verifyResult == null)) &amp;&amp; VerifyOnChainBlock()}
+            {clan &amp;&amp; ShowClanResultsBlock()}
+        &lt;/div&gt;
+    )
+}</code></pre>
+</doc-codeblock></div>
+
+                                
+                                <!-- Required only on API pages -->
+                                <doc-toolbar-member-filter-no-results></doc-toolbar-member-filter-no-results>
+                            </div>
+                            <footer class="clear-both">
+                            
+                                <nav class="flex mt-14">
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../tutorials/mnistclansifier/contracts/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
+                                                <span class="block mt-1">Mnist Contracts Tutorial</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="w-1/2">
+                                    </div>
+                                </nav>
+                            </footer>
+                        </main>
+                
+                        <div class="border-t dark:border-dark-650 pt-6 mb-8">
+                            <footer class="flex flex-wrap items-center justify-between">
+                                <div>
+                                    <ul class="flex flex-wrap items-center text-sm">
+                                    </ul>
+                                </div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"><p>© Copyright Zkonduit Inc. 2023. All rights reserved.</p></div>
+                            </footer>
+                        </div>
+                    </div>
+                
+                    <!-- Rendered if sidebar right is enabled -->
+                    <!-- Sidebar right skeleton-->
+                    <div v-cloak class="fixed top-0 bottom-0 right-0 translate-x-full bg-white border-gray-200 lg:sticky lg:border-l lg:shrink-0 lg:pt-6 lg:transform-none sm:w-1/2 lg:w-64 lg:z-0 md:w-104 sidebar-right skeleton dark:bg-dark-850 dark:border-dark-650">
+                        <div class="pl-5">
+                            <div class="w-32 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-48 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-40 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                        </div>
+                    </div>
+                
+                    <!-- User should be able to hide sidebar right -->
+                    <doc-sidebar-right v-cloak></doc-sidebar-right>
+                </div>
+
+            </div>
+        </div>
+    
+        <doc-search-mobile></doc-search-mobile>
+        <doc-back-to-top></doc-back-to-top>
+    </div>
+
+
+    <div id="docs-overlay-target"></div>
+
+    <script data-cfasync="false">window.__DOCS__ = { "title": "MNIST Frontend Tutorial", level: 3, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+</body>
+</html>
