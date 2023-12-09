@@ -70,8 +70,8 @@ contract MnistClan {
         -   Ensures one submission per account.
         -   Validates the proof using the Verifier.
         -   Determines the digit with the max value from the instances using feltToInt.
-            - We need to do this b/c some of the outputs of the model can be negative.
-        -   Updates the entered and clan mappings.
+            - We need to do this because some of the outputs of the model can be negative.
+        -   Updates the `entered` and `clan` mappings.
         -   Increments the count of submissions for the submitted digit.
 
 ```solidity
@@ -146,12 +146,12 @@ contract MnistClan {
 
 **2. Adjust compiler settings.** 
 
-- Setting EVM Version: As you prepare to deploy the verifier and crypto idol contracts, it is critical to set the Ethereum Virtual Machine (EVM) version to a configuration that's compatible with layer 2 blockchains. In our experience, the 'London' version has shown to be the most compatible. For the purpose of this tutorial, we'll use Remix as our deployment platform. To modify the EVM version to 'London', navigate to the 'Advanced Configurations' tab and select 'London' from the 'EVM Version' dropdown list. Neglecting to make this adjustment might result in unsuccessful deployment of your verifier Solidity code, often manifesting as a 'push0 not a valid opcode' error.
+- Setting EVM Version: As you prepare to deploy the verifier and crypto idol contracts, it is critical to set the Ethereum Virtual Machine (EVM) version to a configuration that's compatible with layer 2 blockchains. Our testing has shown the 'London' version to be most compatible. For this tutorial we'll use the [Remix](https://remix.ethereum.org/) IDE to deploy our contracts. To modify the EVM version to `London`, navigate to the `Advanced Configurations` tab and select `London` from the `EVM Version` dropdown list. Neglecting to make this adjustment might result in unsuccessful deployment of your verifier Solidity code, often manifesting as a 'push0 not a valid opcode' error.
 
-- Enabling Optimizations: You will also need to check off the 'Enable Optimization' box in the 'Compiler' tab, otherwise the solidity compiler will throw a "stack too deep error".
+- Enabling Optimizations: In the `Compiler` tab, make sure `Enable optimization` is checked and the dropdown is set to `1`.
 
 ![](../../assets/mnistcontracts0.png)
 
 **3. Deployment**
 
-- You should deploy the verifier contract first, as we will need to pass the address of the verifier to the Mnist Clan contract’s constructor. Click the page icon next to ‘x’ on the deployed verifier instance to copy its address, then paste it into the _verifier deploy param of MnistClassifier.sol.
+- You need deploy the verifier contract first. As you will need to pass the address of the deployed verifier to the `Mnist Clan` contract’s constructor. Click the page icon next to the ‘x’ on the deployed verifier instance to copy its address, then paste it into the _verifier deploy param of MnistClassifier.sol.

@@ -8,13 +8,11 @@ This is part 4 of our tutorial on building the [e2e-minst](https://e2e-mnist.ver
 
 # Overview
 
-Armed with the artifacts we need to prove via the hub and verify on-chain, we need to build a frontend that can:
+Armed with the artifacts we need to prove and verify on-chain (from Hub), we need to build a frontend that can:
 
 1. [Collect input data from the user (drawn digits)](#step-1-collecting-input-data)
-2. [Generate proofs using hub](#step-2-generating-proofs-using-hub)
-3. [Submit digit for on-chain verification](#step-3-verifying-on-chain)
-
-We imagine many other projects that use EZKL Hub will follow a very similar flow for their front ends, so will try our best to make this tutorial as general as possible so that it can be used as a reference for other ZKML projects. :)
+2. [Retrieve proofs from Hub](#step-2-generating-proofs-using-hub)
+3. [Submit proof for on-chain verification](#step-3-verifying-on-chain)
 
 ## Step 1. Collecting Input Data
 
@@ -22,133 +20,111 @@ The first step is to collect the input data from the user. In our case, we want 
 
 ```tsx MNISTDraw.tsx
 'use client'
-import {
-    Modal
-} from 'flowbite-react'
-import { useState, FC } from 'react';
-import './MNIST.css';
-import './App.css';
+import { useState, useCallback } from 'react'
+import './MNIST.css'
+import './App.css'
 
-const size = 28;
+const GRID_SIZE = 28 as const
+
 interface IMNISTBoardProps {
-    grid: number[][];
-    onChange: (row: number, col: number) => void;
+  grid: number[][]
+  onChange: (row: number, col: number) => void
 }
 
-const MNISTBoard: FC<IMNISTBoardProps> = ({ grid, onChange }) => {
-    const [mouseDown, setMouseDown] = useState(false);
+interface IGridSquareProps {
+  isActive: boolean
+  onMouseDown: () => void
+  onMouseEnter: () => void
+  onMouseUp: () => void
+}
 
-    const GridSquare = (row: number, col: number) => {
-        const handleChange = () => {
-            if (mouseDown) {
-                onChange(row, col);
-            }
-        };
+function GridSquare({
+  isActive,
+  onMouseDown,
+  onMouseEnter,
+  onMouseUp,
+}: IGridSquareProps) {
+  return (
+    <div
+      className={`square ${isActive ? 'on' : 'off'}`}
+      onMouseEnter={onMouseEnter}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+    />
+  )
+}
 
-        const handleMouseDown = () => {
-            setMouseDown(true);
-            onChange(row, col);
-        };
+function MNISTBoard({ grid, onChange }: IMNISTBoardProps) {
+  const [mouseDown, setMouseDown] = useState(false)
 
-        const handleMouseUp = () => {
-            setMouseDown(false);
-        };
+  const handleMouseDown = useCallback(
+    (row: number, col: number) => {
+      setMouseDown(true)
+      onChange(row, col)
+    },
+    [onChange]
+  )
 
-        return (
-            <div
-                className={`square ${grid[row][col] ? 'on' : 'off'}`}
-                onMouseEnter={handleChange}
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
-            />
-        );
-    };
+  const handleMouseUp = useCallback(() => {
+    setMouseDown(false)
+  }, [])
 
-    const renderCol = (col: number) => {
-        const mycol = [];
-        for (let row = 0; row < size; row++) {
-            mycol.push(<div key={`row-${row}`}>{GridSquare(row, col)}</div>);
-        }
-        return <div key={`col-${col}`}>{mycol}</div>;
-    };
+  const handleMouseEnter = useCallback(
+    (row: number, col: number) => {
+      if (mouseDown) {
+        onChange(row, col)
+      }
+    },
+    [mouseDown, onChange]
+  )
 
-    const RenderGrid = () => {
-        const mygrid = [];
-        for (let i = 0; i < size; i++) {
-            mygrid.push(renderCol(i));
-        }
-        return mygrid;
-    };
+  const size = GRID_SIZE
 
-    return (
-        <div className="MNISTBoard">
-            <div className="centerObject">
-                <div className="grid">{RenderGrid()}</div>
+  return (
+    <div className='MNISTBoard'>
+      <div className='centerObject'>
+        <div className='grid'>
+          {Array.from({ length: size }, (_, col) => (
+            <div key={`col-${col}`}>
+              {Array.from({ length: size }, (_, row) => (
+                <GridSquare
+                  key={`row-${row}-col-${col}`}
+                  isActive={grid[row][col] === 1}
+                  onMouseDown={() => handleMouseDown(row, col)}
+                  onMouseEnter={() => handleMouseEnter(row, col)}
+                  onMouseUp={handleMouseUp}
+                />
+              ))}
             </div>
+          ))}
         </div>
-    );
-};
+      </div>
+    </div>
+  )
+}
 
 export function MNISTDraw() {
-    const [grid, setGrid] = useState(Array(size).fill(null).map(() => Array(size).fill(0))); // initialize to a 28x28 array of 0's
+  const size = GRID_SIZE
+  const [grid, setGrid] = useState(
+    Array(size)
+      .fill(null)
+      .map(() => Array(size).fill(0))
+  )
 
-    function handleSetSquare(myrow: number, mycol: number) {
-        var newArray = [];
-        for (var i = 0; i < grid.length; i++)
-            newArray[i] = grid[i].slice();
-        newArray[myrow][mycol] = 1;
-        setGrid(newArray);
-    }
+  function handleSetSquare(myrow: number, mycol: number) {
+    const newArray = grid.map((row, i) => (i === myrow ? [...row] : row))
+    newArray[myrow][mycol] = 1
+    setGrid(newArray)
+  }
 
-    return (
-        <>
-            <div className="MNISTPage">
-                <h1 className='text-2xl'>Draw and classify a digit</h1>
-                <MNISTBoard grid={grid} onChange={(r, c) => handleSetSquare(r, c)} />
-            </div>
-        </>
-    );
-};
-```
-
-And the associated CSS for the drawing board:
-
-```css MNIST.css
-.MNISTBoard {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.centerObject {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.grid {
-  display: flex;
-  flex-direction: row
-}
-
-.square {
-  float: center;
-  position: relative;
-  width: 1vw;
-  height: 1vw;
-  margin: 0%;
-  background-color: #1E1E1E;
-  overflow: hidden;
-  border: 1px solid black;
-}
-
-.square.off {
-  background-color: #FFFFFF;
-}
-
-.square.on {
-  background-color: #1E1E1E;
+  return (
+    <>
+      <div className='MNISTPage'>
+        <h1 className='text-2xl'>Draw and classify a digit</h1>
+        <MNISTBoard grid={grid} onChange={handleSetSquare} />
+      </div>
+    </>
+  )
 }
 ```
 
@@ -159,105 +135,101 @@ Next, we need to generate a proof using the EZKL Hub. We do this by calling the 
 Once we get the proof, we need to parse the `instances` field of the proof to get the prediction. We do this by converting the `instances` field to a BigInt array and then finding the index of the max value of the array. To do this we convert each field element to an integer using the same logic in the intToFieldElement function in the solidity verifier contract. We then find the index of the max value of the array. This index is the predicted digit. Here is the code that does this:
 
 ```tsx ezkl.ts
-import { hub } from "@ezkljs/hub";
-import { useState } from "react";
+const [prediction, setPrediction] = useState<number>(-1);
+const [grid, setGrid] = useState(Array(size).fill(null).map(() => Array(size).fill(0))); // initialize to a 28x28 array of 0's
+const [generatingProof, setGeneratingProof] = useState(false);
+const [proofDone, setProofDone] = useState(false);
+const [proof, setProof] = useState<any>(null);
 
-export function MNISTDraw() {
-    const [prediction, setPrediction] = useState<number>(-1);
-    const [grid, setGrid] = useState(Array(size).fill(null).map(() => Array(size).fill(0))); // initialize to a 28x28 array of 0's
-    const [generatingProof, setGeneratingProof] = useState(false);
-    const [proofDone, setProofDone] = useState(false);
-    const [proof, setProof] = useState<any>(null);
-
-    async function doProof() {
-        // get image from grid
-        let imgTensor: number[] = Array(MNISTSIZE).fill(0)
-        for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-                imgTensor[i * size + j] = grid[i][j]
-            }
+async function doProof() {
+    // get image from grid
+    let imgTensor: number[] = Array(MNISTSIZE).fill(0)
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            imgTensor[i * size + j] = grid[i][j]
         }
+    }
 
-        const inputFile = JSON.stringify({ input_data: [imgTensor] })
+    const inputFile = JSON.stringify({ input_data: [imgTensor] })
 
-        const url = 'https://hub-staging.ezkl.xyz/graphql'
+    const url = 'https://hub-staging.ezkl.xyz/graphql'
 
-        const artifactId = "insert-your-artifact-id-here"
+    const artifactId = "insert-your-artifact-id-here"
 
-        setGeneratingProof(true)
-        try {
-            const initiateProofResp = await hub.initiateProof({
-                artifactId,
-                inputFile,
+    setGeneratingProof(true)
+    try {
+        const initiateProofResp = await hub.initiateProof({
+            artifactId,
+            inputFile,
+            url,
+        })
+
+        let { status } = initiateProofResp
+        const { id } = initiateProofResp
+
+        let getProofResp
+        while (status !== 'SUCCESS') {
+            getProofResp = await hub.getProof({
+                id,
                 url,
             })
 
-            let { status } = initiateProofResp
-            const { id } = initiateProofResp
+            status = getProofResp.status
 
-            let getProofResp
-            while (status !== 'SUCCESS') {
-                getProofResp = await hub.getProof({
-                    id,
-                    url,
-                })
-
-                status = getProofResp.status
-
-                if (status === 'SUCCESS') {
-                    break
-                }
-                await new Promise((resolve) => setTimeout(resolve, 2_000))
+            if (status === 'SUCCESS') {
+                break
             }
-            console.log('getProofResp', getProofResp?.instances)
-
-            const p = BigInt(
-                '0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001'
-            )
-            setProof(getProofResp)
-            console.log('proof', JSON.stringify(getProofResp?.instances))
-            console.log("proof", getProofResp?.proof)
-
-            // convert each field element to an integer
-            const results = getProofResp?.instances?.map((instance) => {
-                const bigInst = BigInt(instance)
-                // is negative
-                if (bigInst > BigInt(2) ** BigInt(127) - BigInt(1)) {
-                    return bigInst - p
-                } else {
-                    return bigInst
-                }
-            })
-
-            console.log('results', results)
-
-            if (!results || results.length === 0) {
-                throw new Error('Array is empty')
-            }
-
-            // find the the index of the max value of the results array which contains BigInts
-            // const index = results?.indexOf(results.reduce((a, b) => (a > b ? a : b)))
-            if (results.length === 0) {
-                throw new Error('Array is empty')
-            }
-
-            let maxIndex = 0
-            let maxValue = results[0] // Assuming results is a non-empty array of BigInts
-
-            for (let i = 1; i < results.length; i++) {
-                if (results[i] > maxValue) {
-                    maxValue = results[i]
-                    maxIndex = i
-                }
-            }
-            setPrediction(maxIndex)
-            setProofDone(true)
-            // console.log('index', index)
-        } catch (error) {
-            console.log('error', error)
+            await new Promise((resolve) => setTimeout(resolve, 2_000))
         }
-        setGeneratingProof(false)
+        console.log('getProofResp', getProofResp?.instances)
+
+        const p = BigInt(
+            '0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001'
+        )
+        setProof(getProofResp)
+        console.log('proof', JSON.stringify(getProofResp?.instances))
+        console.log("proof", getProofResp?.proof)
+
+        // convert each field element to an integer
+        const results = getProofResp?.instances?.map((instance) => {
+            const bigInst = BigInt(instance)
+            // is negative
+            if (bigInst > BigInt(2) ** BigInt(127) - BigInt(1)) {
+                return bigInst - p
+            } else {
+                return bigInst
+            }
+        })
+
+        console.log('results', results)
+
+        if (!results || results.length === 0) {
+            throw new Error('Array is empty')
+        }
+
+        // find the the index of the max value of the results array which contains BigInts
+        // const index = results?.indexOf(results.reduce((a, b) => (a > b ? a : b)))
+        if (results.length === 0) {
+            throw new Error('Array is empty')
+        }
+
+        let maxIndex = 0
+        let maxValue = results[0] // Assuming results is a non-empty array of BigInts
+
+        for (let i = 1; i < results.length; i++) {
+            if (results[i] > maxValue) {
+                maxValue = results[i]
+                maxIndex = i
+            }
+        }
+        setPrediction(maxIndex)
+        setProofDone(true)
+        // console.log('index', index)
+    } catch (error) {
+        console.log('error', error)
     }
+    setGeneratingProof(false)
+}
 ```
 
 ## Step 3. Verifying on Chain
@@ -347,163 +319,9 @@ export default function RootLayout({
 }
 ``` 
 
-- Next we will need to create a couple of json files that store the address and ABI of each contract that we deployed and then import that info into our app.
+- Next we will need to create a couple of [json files](https://github.com/zkonduit/e2e-mnist/tree/main/contract_data) that store the address and ABI of each contract that we deployed and then import that info into our app.
 
 - You can get the ABI from remix by clicking on the solidity compiler icon and then the ABI button at the bottom under "Compilation Details". 
-
-Here is how that would look like:
-
-```json Halo2Verifier.json
-{
-    "address": "0x5cAC7Bf60B6936deE485643A2c2a708458C9f225",
-    "abi": [
-        {
-            "inputs": [
-                {
-                    "internalType": "bytes",
-                    "name": "proof",
-                    "type": "bytes"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "instances",
-                    "type": "uint256[]"
-                }
-            ],
-            "name": "verifyProof",
-            "outputs": [
-                {
-                    "internalType": "bool",
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        }
-    ]
-}
-```
-
-```json MnistClan.json
-{
-    "address": "0xf5cDCD333E3Fd09929BAcEa32c2c1E3A5A746d45",
-    "abi": [
-        {
-            "inputs": [
-                {
-                    "internalType": "contract Verifier",
-                    "name": "_verifier",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "clan",
-            "outputs": [
-                {
-                    "internalType": "uint8",
-                    "name": "",
-                    "type": "uint8"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint8",
-                    "name": "",
-                    "type": "uint8"
-                }
-            ],
-            "name": "counts",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "entered",
-            "outputs": [
-                {
-                    "internalType": "bool",
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getCounts",
-            "outputs": [
-                {
-                    "internalType": "uint256[10]",
-                    "name": "",
-                    "type": "uint256[10]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bytes",
-                    "name": "proof",
-                    "type": "bytes"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "instances",
-                    "type": "uint256[]"
-                }
-            ],
-            "name": "submitDigit",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "verifier",
-            "outputs": [
-                {
-                    "internalType": "contract Verifier",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        }
-    ]
-}
-```
 
 - Finally we will instantiate both the mnist clan and verifier contracts. If the user hasn't submited a digit already, the proofs of digit recognition will get sent to the `MnistClan.sol` contract when the `SubmitMnistDigitButton` is clicked. If the user has already submited a digit, the `VerifyOnChainButton` will be appear instead and will merely statically call the `verifyProof` method on the `Halo2Verifier.sol` contract. 
 
