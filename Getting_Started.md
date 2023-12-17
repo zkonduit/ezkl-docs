@@ -111,7 +111,7 @@ For performance reaons, you can only compile ONNX models using the hub, python a
 Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS and our compiled `.ezkl ` onnx model. 
 
 ```bash
-ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key
+ezkl setup -M network.ezkl --vk-path=vk.key --pk-path=pk.key
 ```
 This creates the verification key, proving key, and circuit settings in the locations you specify. 
 
@@ -121,19 +121,14 @@ From the compiled model and SRS (structured reference string), we will setup the
 
 ```python
 compiled_model_path = os.path.join('network.compiled')
-srs_path = os.path.join('kzg.srs')
 pk_path = os.path.join('test.pk')
 vk_path = os.path.join('test.vk')
-
-# get public srs from kzg ceremony, saved to srs path. 
-res = ezkl.get_srs(srs_path, settings_path)
 
 # setup the circuit and make sure the keys are generated afterwards. 
 res = ezkl.setup(
         compiled_model_path,
         vk_path,
-        pk_path,
-        srs_path,
+        pk_path
     )
 
 assert res == True
@@ -559,19 +554,18 @@ ezkl gen-witness -D input.json -M network.ezkl
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
 
 ```bash
-ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs
+ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof
 ```
 +++ Python
 To generate a proof, we first need to make a witness file. We can do this by running a forward pass using the input data on the compiled model, saving the output to a witness file specificed by `witness_path`.
 
-We can use this witness, along with the compiled model, proving key and SRS to generate a proof that the model was correctly run on public inputs. It then outputs the resulting proof at the path specfifed by `proof_path`.
+We can use this witness, along with the compiled model, proving key to generate a proof that the model was correctly run on public inputs. It then outputs the resulting proof at the path specfifed by `proof_path`.
 
 Check out [this colab notebook](https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb) for more context around this code snippet.
 
 ```python
 proof_path = os.path.join('test.pf')
 compiled_model_path = os.path.join('network.compiled')
-srs_path = os.path.join('kzg.srs')
 pk_path = os.path.join('test.pk')
 data_path = os.path.join('input.json')
 witness_path = os.path.join('witness.json')
@@ -586,7 +580,6 @@ res = ezkl.prove(
         compiled_model_path,
         pk_path,
         proof_path,
-        srs_path,
         "single",
     )
 
@@ -1163,24 +1156,22 @@ function ProvingArtifactForm({
 +++ CLI
 We can then verify our generated proof with the `verify` command:
 ```bash
-ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs
+ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key
 ```
 +++ Python
-Using the proof, settings, verification key and SRS, we can verify our proof.
+Using the proof, settings and verification key we can verify our proof.
 
 Check out [this colab notebook](https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb) for more context around this code snippet.
 
 ```python
 proof_path = os.path.join('test.pf')
-srs_path = os.path.join('kzg.srs')
 settings_path = os.path.join('settings.json')
 vk_path = os.path.join('test.vk')
 
 res = ezkl.verify(
         proof_path,
         settings_path,
-        vk_path,
-        srs_path,
+        vk_path
     )
 
 assert res == True
@@ -1425,11 +1416,6 @@ function VerifyingArtifactForm({
         <div>
           <Label color='white' htmlFor='vk' value='Select VK File' />
           <FileInput id='vk' name='vk' className='my-4' />
-        </div>
-        {/* SRS */}
-        <div>
-          <Label color='white' htmlFor='srs' value='Select SRS File' />
-          <FileInput id='srs_verify' name='srs' className='my-4' />
         </div>
         <Button type='submit' color='dark' className='w-full self-center mt-4'>
           Verify

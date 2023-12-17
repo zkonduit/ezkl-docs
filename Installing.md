@@ -23,7 +23,7 @@ cd ezkl
 After which you may build and install the library
 
 ```bash
-cargo install --force --path .
+cargo install --locked --path .
 ```
 
 If you want to build manually with cargo build, be sure to use the release flag as the debug build will result in slow proofs
