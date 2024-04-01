@@ -18,7 +18,7 @@ No, Rust is not a requirement to use the library. As long as you have the ONNX f
 
 ### Why is the gen-srs step slow?
 
-Generating a structured reference string takes a considerable amount of time and memory. Make sure your machine has enough memory available and wait for the process to finish. Alternatively, download a pre-generated srs.
+Generating a structured reference string takes a considerable amount of time and memory. Make sure your machine has enough memory available and wait for the process to finish. Alternatively, download a pre-generated srs using `get-srs`. This is both safer and faster.
 
 ### Can I use ezkl with other machine learning frameworks like TensorFlow, PyTorch, or Scikit-learn?
 

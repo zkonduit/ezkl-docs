@@ -32,6 +32,13 @@ If you want to build manually with cargo build, be sure to use the release flag 
 cargo build --release --bin ezkl
 ```
 
+You can always check the options available for a command by typing the command with `--help`. For example, `ezkl table` will show you the options available for the `table` command. This will provide you with the most up-to-date information on a given command's usage and the cli spec.
+
+```bash
+# list all available commands
+ezkl --help
+```
+
 > Note: To render your model circuits, you'll need to compile `ezkl` with the `render` feature (`cargo build --features render --bin ezkl`). This enables the `render-circuit` command which can create `.png` representations of the compiled circuits. You'll also need to install the `libexpat1-dev` and `libfreetype6-dev` libraries on Debian systems (there are equivalents for MacOS as well).
 ---------
 

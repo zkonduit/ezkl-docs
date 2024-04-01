@@ -26,22 +26,30 @@ To display `ezkl`'s understanding of the model in the CLI, run:
 ezkl table -M network.onnx
 ```
 
+You can always check the options available for a command by typing the command with `--help`. For example, `ezkl table` will show you the options available for the `table` command. This will provide you with the most up-to-date information on a given command's usage and the cli spec. 
+
+```bash
+# list all available commands
+ezkl --help
+```
+
+
 #### Setting circuit parameters
 
 +++ CLI
 Our circuit is configured with the `settings.json` file. This is created with the `gen-settings` command. 
 ```bash
-ezkl gen-settings -M network.onnx
+ezkl gen-settings
 ```
 This will produce a `settings.json` file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the `calibrate-settings` command:
 ```bash
-ezkl calibrate-settings -M network.onnx -D input.json --target resources
+ezkl calibrate-settings --target resources
 ```
-In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. You can pass a `--settings-path` to read from an existing settings file, and only modify the parts changed by calibration (e.g. leaving visibility or tolerance unchanged). You can customize this file and even change the way it is generated. Learn more about `gen-settings` and `calibrate-settings` in the [Commands](https://docs.ezkl.xyz/about_ezkl/commands/) section.
+In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. 
 
 Download the appropriate SRS:
 ```bash
-ezkl get-srs -S settings.json
+ezkl get-srs
 ```
 +++ Python
 From the `network.onnx` onnx file, we will create a `settings.json` file that uses the `py_run_args` file to specify the visibility of the inputs, outputs and paramaters of the model. 
@@ -51,19 +59,15 @@ Once we have created the settings file, we can calibrate it using the `ezkl.cali
 Check out [this colab notebook](https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb) for more context around this code snippet. 
 
 ```python
-model_path = os.path.join('network.onnx')
-settings_path = os.path.join('settings.json')
-data_path = os.path.join('input.json')
-
 py_run_args = ezkl.PyRunArgs()
 py_run_args.input_visibility = "public"
 py_run_args.output_visibility = "public"
 py_run_args.param_visibility = "fixed" # "fixed" for params means that the committed to params are used for all proofs
 
-res = ezkl.gen_settings(model_path, settings_path, py_run_args=py_run_args)
+res = ezkl.gen_settings()
 assert res == True
 
-res = await ezkl.calibrate_settings(data_path, model_path, settings_path, "resources")
+res = await ezkl.calibrate_settings(target="resources")
 assert res == True
 ```
 +++ JS
@@ -102,7 +106,7 @@ res = ezkl.compile_circuit(model_path, compiled_model_path, settings_path)
 assert res == True
 ```
 +++ JS
-For performance reaons, you can only compile ONNX models using the hub, python and cli environments. Stay tuned for updates!
+For performance reaons, you can only compile ONNX models using Lilith, python and cli environments. Stay tuned for updates!
 +++ 
 
 #### Creating the circuit
@@ -142,408 +146,8 @@ assert os.path.isfile(pk_path)
 ```
 +++ JS
 
-The EZKL Engine npm package supports the setup command. 
+The EZKL Engine npm package supports the setup command. Though we do not recommend it. We recommend using Lilith, python or cli environments for performance reasons. Stay tuned for updates!
 
-Use the form below to generate a verifying key and proving key for your circuit in a browser right now :)
-
-> Note: We designed the API of these methods such that one needs to create a verifying key before they can create a proving key, as we imagine its more useful in most application to create a verifying key instead of just a proving key in a browser context.
-
-[!embed el="embed" aspect="1:1" width="720" height="565"](https://ezkljs-engine.vercel.app/setup)
-==- View Source Code
-```typescript setup.tsx
-'use client'
-import {
-  FileInput,
-  Label,
-  Button,
-  Alert,
-  Spinner as _Spinner,
-} from 'flowbite-react'
-import React, { useState } from 'react'
-import { formDataSchemaGenVk, formDataSchemaGenPk } from './parsers'
-import { useSharedResources } from '../EngineContext'
-
-export default function Setup() {
-  const { engine, utils } = useSharedResources()
-  const [openModal, setOpenModal] = useState<string | undefined>()
-  const props = { openModal, setOpenModal }
-  const [alertGenVk, setAlertGenVk] = useState<string>('')
-  const [warningGenVk, setWarningGenVk] = useState<string>('')
-  const [alertGenPk, setAlertGenPk] = useState<string>('')
-  const [warningGenPk, setWarningGenPk] = useState<string>('')
-  const [loading, setLoading] = useState(false)
-  const [genVkResult, setGenVkResult] = useState('')
-  const [genPkResult, setGenPkResult] = useState('')
-  const [bufferVk, setBufferVk] = useState<Uint8Array | null>(null)
-  const [bufferPk, setBufferPk] = useState<Uint8Array | null>(null)
-
-  const handleSubmitGenVk = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    const formInputs = {
-      compiled_onnx: formData.get('compiled_onnx'),
-      srs: formData.get('srs'),
-    }
-    // Validate form has valid inputs (zod)
-    const validatedFormInputs = formDataSchemaGenVk.safeParse(formInputs)
-
-    if (warningGenVk) setWarningGenVk('')
-
-    if (!validatedFormInputs.success) {
-      setAlertGenVk('Please upload all files')
-      return
-    }
-
-    // Clear alert and warning
-    if (alertGenVk) setAlertGenVk('')
-
-    // Missing data
-    if (
-      validatedFormInputs.data.compiled_onnx === null ||
-      validatedFormInputs.data.srs === null
-    ) {
-      setAlertGenVk('Please upload all files')
-      return
-    }
-
-    setLoading(true)
-
-    // create file object
-    const files = {
-      compiled_onnx: validatedFormInputs.data.compiled_onnx,
-      srs: validatedFormInputs.data.srs,
-    }
-    /* ================== ENGINE API ====================== */
-    utils
-      .handleGenVkButton(files as { [key: string]: File })
-      .then(({ output, executionTime }) => {
-        setBufferVk(output)
-
-        // Update result based on the outcome
-        setGenVkResult(
-          output
-            ? `Vk generation successful. Execution time: ${executionTime} ms`
-            : 'Vk generation failed',
-        )
-      })
-      .catch((error) => {
-        console.error('An error occurred:', error)
-        setWarningGenVk(`Vk generation failed: ${error}`)
-      })
-
-    setLoading(false)
-  }
-  const handleSubmitGenPk = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    const formInputs = {
-      vk: formData.get('vk'),
-      compiled_onnx: formData.get('compiled_onnx'),
-      srs: formData.get('srs'),
-    }
-    // Validate form has valid inputs (zod)
-    const validatedFormInputs = formDataSchemaGenPk.safeParse(formInputs)
-
-    if (warningGenPk) setWarningGenPk('')
-
-    if (!validatedFormInputs.success) {
-      setAlertGenPk('Please upload all files')
-      return
-    }
-
-    // Clear alert and warning
-    if (alertGenPk) setAlertGenPk('')
-
-    // Missing data
-    if (
-      validatedFormInputs.data.vk === null ||
-      validatedFormInputs.data.compiled_onnx === null ||
-      validatedFormInputs.data.srs === null
-    ) {
-      setAlertGenPk('Please upload all files')
-      return
-    }
-
-    setLoading(true)
-    console.log('hi')
-
-    // create file object
-    const files = {
-      vk: validatedFormInputs.data.vk,
-      compiled_onnx: validatedFormInputs.data.compiled_onnx,
-      srs: validatedFormInputs.data.srs,
-    }
-    /* ================== ENGINE API ====================== */
-    utils
-      .handleGenPkButton(files as { [key: string]: File })
-      .then(({ output, executionTime }) => {
-        setBufferPk(output)
-        // Update result based on the outcome
-        setGenPkResult(
-          output
-            ? 'Pk generation successful. Execution time: ' +
-            executionTime +
-            ' ms'
-            : 'Pk generation failed',
-        )
-      })
-      .catch((error) => {
-        console.error('An error occurred:', error)
-        setWarningGenPk(`Pk process failed with an error: ${error}`)
-      })
-
-    setLoading(false)
-  }
-
-  return (
-    <div className='flex flex-column justify-around'>
-      {bufferVk && !warningGenVk ? (
-        <div className='flex flex-col justify-around'>
-          <h1 className='text-2xl mb-4 '>{genVkResult}</h1>
-          <div className='flex flex-col flex-grow w-full items-center justify-around'>
-            <Button
-              className='w-full flex-grow'
-              type='submit'
-              onClick={() => utils.handleFileDownload('test.vk', bufferVk)}
-            >
-              Download Vk File
-            </Button>
-            <Button className='w-full flex-grow mt-4' onClick={() => setBufferVk(null)}>
-              Reset
-            </Button>
-          </div>
-        </div>
-      ) : bufferPk && !warningGenPk ? (
-        <div className='flex flex-col justify-around'>
-          <h1 className='text-2xl mb-4 '>{genPkResult}</h1>
-          <div className='flex flex-col flex-grow w-full items-center justify-around'>
-            <Button
-              className='w-full flex-grow'
-              type='submit'
-              onClick={() => utils.handleFileDownload('test.pk', bufferPk)}
-            >
-              Download Pk File
-            </Button>
-            <Button className='w-full flex-grow mt-4' onClick={() => setBufferPk(null)}>
-              Reset
-            </Button>
-          </div>
-        </div>
-      ) : loading ? (
-        <Spinner />
-      ) : (
-        <div className='flex flex-col w-full items-center space-y-4'>
-          <div className='flex w-full items-stretch space-x-8'>
-            <GenVkArtifactForm
-              handleSubmit={handleSubmitGenVk}
-              alert={alertGenVk}
-              warning={warningGenVk}
-            />
-            <GenPkArtifactForm
-              handleSubmit={handleSubmitGenPk}
-              alert={alertGenPk}
-              warning={warningGenPk}
-            />
-          </div>
-          <Button
-            type='submit'
-            color='dark'
-            className='self-center mt-4 w-full'
-            onClick={() => populateWithSampleFiles()}
-          >
-            Populate with sample files
-          </Button>
-        </div>
-      )}
-    </div>
-  )
-}
-// UI Component
-function Spinner() {
-  return (
-    <div className='h-full flex items-center'>
-      <_Spinner size='3xl' className='w-28 lg:w-44' />
-    </div>
-  )
-}
-
-async function populateWithSampleFiles() {
-  // Helper to assert that the element is not null
-  function assertElement<T extends Element>(
-    element: T | null,
-  ): asserts element is T {
-    if (element === null) {
-      throw new Error('Element not found')
-    }
-  }
-
-  // Names of the sample files in the public directory
-  const sampleFileNames: { [key: string]: string } = {
-    compiled_onnx: 'test_network.compiled',
-    srs: 'kzg',
-    vk: 'test.key',
-  }
-
-  // Helper function to fetch and create a file object from a public URL
-  const fetchAndCreateFile = async (
-    path: string,
-    filename: string,
-  ): Promise<File> => {
-    const response = await fetch(path)
-    const blob = await response.blob()
-    return new File([blob], filename, { type: blob.type })
-  }
-
-  // Fetch each sample file and create a File object
-  const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =>
-    fetchAndCreateFile(`/data/1l_mlp/${filename}`, filename),
-  )
-
-  // Wait for all files to be fetched and created
-  const files = await Promise.all(filePromises)
-
-  // Select the file input elements and assign the FileList to each
-  const compiledOnnxInputVk =
-    document.querySelector<HTMLInputElement>('#compiled_onnx_vk')
-  const srsInputVk = document.querySelector<HTMLInputElement>('#srs_vk')
-  const compiledOnnxInputPk =
-    document.querySelector<HTMLInputElement>('#compiled_onnx_pk')
-  const srsInputPk = document.querySelector<HTMLInputElement>('#srs_pk')
-  const vkInput = document.querySelector<HTMLInputElement>('#vk')
-
-  // Assert that the elements are not null
-  assertElement(compiledOnnxInputVk)
-  assertElement(srsInputVk)
-  assertElement(compiledOnnxInputPk)
-  assertElement(srsInputPk)
-  assertElement(vkInput)
-
-  // Create a new DataTransfer to hold the files
-  let dataTransfers: DataTransfer[] = []
-  files.forEach((file, idx) => {
-    const dataTransfer = new DataTransfer()
-    dataTransfer.items.add(file)
-    dataTransfers[idx] = dataTransfer
-  })
-
-  compiledOnnxInputVk.files = dataTransfers[0].files
-  srsInputVk.files = dataTransfers[1].files
-  compiledOnnxInputPk.files = dataTransfers[0].files
-  srsInputPk.files = dataTransfers[1].files
-  vkInput.files = dataTransfers[2].files
-}
-
-function GenVkArtifactForm({
-  handleSubmit,
-  alert,
-  warning,
-}: {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-  alert: string
-  warning: string
-}) {
-  return (
-    <div className='flex flex-col'>
-      <h1 className='text-2xl mb-6 '>Generate Verifying Key</h1>
-      {alert && (
-        <Alert color='info' className='mb-6'>
-          {alert}
-        </Alert>
-      )}
-      {warning && (
-        <Alert color='warning' className='mb-6'>
-          {warning}
-        </Alert>
-      )}
-      <form
-        onSubmit={handleSubmit}
-        className='flex flex-col flex-grow  justify-between'
-      >
-        {/* COMPILED ONNX MODEL */}
-        <div>
-          <Label
-            color='white'
-            htmlFor='compiled_onnx'
-            value='Select Compiled Onnx File'
-          />
-          <FileInput
-            id='compiled_onnx_vk'
-            name='compiled_onnx'
-            className='my-4'
-          />
-        </div>
-        {/* SRS */}
-        <div>
-          <Label color='white' htmlFor='srs' value='Select SRS File' />
-          <FileInput id='srs_vk' name='srs' className='my-4' />
-        </div>
-        <Button type='submit' color='dark' className='w-full self-center mt-4'>
-          Generate Vk
-        </Button>
-      </form>
-    </div>
-  )
-}
-function GenPkArtifactForm({
-  handleSubmit,
-  alert,
-  warning,
-}: {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-  alert: string
-  warning: string
-}) {
-  return (
-    <div className='flex flex-col'>
-      <h1 className='text-2xl mb-6 '>Generate Proving Key</h1>
-      {alert && (
-        <Alert color='info' className='mb-6'>
-          {alert}
-        </Alert>
-      )}
-      {warning && (
-        <Alert color='warning' className='mb-6'>
-          {warning}
-        </Alert>
-      )}
-      <form
-        onSubmit={handleSubmit}
-        className='flex flex-col flex-grow  justify-between'
-      >
-        {/* VK */}
-        <div>
-          <Label color='white' htmlFor='vk' value='Select VK File' />
-          <FileInput id='vk' name='vk' className='my-4' />
-        </div>
-        {/* COMPILED ONNX MODEL */}
-        <div>
-          <Label
-            color='white'
-            htmlFor='compiled_onnx'
-            value='Select Compiled Onnx File'
-          />
-          <FileInput
-            id='compiled_onnx_pk'
-            name='compiled_onnx'
-            className='my-4'
-          />
-        </div>
-        {/* SRS */}
-        <div>
-          <Label color='white' htmlFor='srs' value='Select SRS File' />
-          <FileInput id='srs_pk' name='srs' className='my-4' />
-        </div>
-        <Button type='submit' color='dark' className='w-full self-center mt-4'>
-          Generate Pk
-        </Button>
-      </form>
-    </div>
-  )
-}
-
-```
 ===
 +++
 
@@ -553,44 +157,26 @@ function GenPkArtifactForm({
 First we generate a witness file.
 
 ```bash
-ezkl gen-witness -D input.json -M network.ezkl
+ezkl gen-witness 
 ```
 
-Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by `--proof-path`.
+Next we will generate a proof that the model was correctly run on private inputs (this is the default setting)..
 
 ```bash
-ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs
+ezkl prove
 ```
 +++ Python
-To generate a proof, we first need to make a witness file. We can do this by running a forward pass using the input data on the compiled model, saving the output to a witness file specificed by `witness_path`.
+To generate a proof, we first need to make a witness file. We can do this by running a forward pass using the input data on the compiled model. 
 
-We can use this witness, along with the compiled model, proving key and SRS to generate a proof that the model was correctly run on public inputs. It then outputs the resulting proof at the path specfifed by `proof_path`.
+We can use this witness, along with the compiled model, proving key and SRS to generate a proof that the model was correctly run on public inputs.
 
 Check out [this colab notebook](https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb) for more context around this code snippet.
 
 ```python
-proof_path = os.path.join('test.pf')
-compiled_model_path = os.path.join('network.compiled')
-srs_path = os.path.join('kzg.srs')
-pk_path = os.path.join('test.pk')
-data_path = os.path.join('input.json')
-witness_path = os.path.join('witness.json')
-
 # generate witness
-res = ezkl.gen_witness(data_path, compiled_model_path, witness_path)
-assert os.path.isfile(witness_path)
-
+res = ezkl.gen_witness()
 # generate proof
-res = ezkl.prove(
-        witness_path,
-        compiled_model_path,
-        pk_path,
-        proof_path,
-        srs_path,
-        "single",
-    )
-
-assert os.path.isfile(proof_path)
+res = ezkl.prove()
 ```
 +++ JS
 
@@ -1163,7 +749,7 @@ function ProvingArtifactForm({
 +++ CLI
 We can then verify our generated proof with the `verify` command:
 ```bash
-ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs
+ezkl verify
 ```
 +++ Python
 Using the proof, settings, verification key and SRS, we can verify our proof.
@@ -1171,18 +757,7 @@ Using the proof, settings, verification key and SRS, we can verify our proof.
 Check out [this colab notebook](https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb) for more context around this code snippet.
 
 ```python
-proof_path = os.path.join('test.pf')
-srs_path = os.path.join('kzg.srs')
-settings_path = os.path.join('settings.json')
-vk_path = os.path.join('test.vk')
-
-res = ezkl.verify(
-        proof_path,
-        settings_path,
-        vk_path,
-        srs_path,
-    )
-
+res = ezkl.verify()
 assert res == True
 ```
 +++ JS
