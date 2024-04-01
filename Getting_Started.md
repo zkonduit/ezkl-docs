@@ -33,6 +33,12 @@ You can always check the options available for a command by typing the command w
 ezkl --help
 ```
 
+### Proving Backend (Lilith)
+
+Running ZKML proofs can be computationally expensive. We've made the process easier by providing a backend service that can run the proofs for you.
+
+If you're interested in using the Lilith backend, you can register your interest [here](https://ei40vx5x6j0.typeform.com/to/sFv1oxvb).
+
 
 #### Setting circuit parameters
 
