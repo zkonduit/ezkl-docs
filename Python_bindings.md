@@ -116,4 +116,4 @@ maturin develop --release --features python-bindings
 ![](../assets/library.png)
 This reference details function, modules, and objects included in both `ezkl`.
 
-<!-- Link to pydocs -->
+You can find the full api reference [here](https://ezkl-ezkl.readthedocs-hosted.com).
