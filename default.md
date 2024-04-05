@@ -25,16 +25,14 @@ You can install the Python version with `pip install ezkl`.
 
 For more details on how to use `ezkl`, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>, especially the <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank">notebooks.</a>
 
+### Proving Backend (Lilith)
+
+Running ZKML proofs can be computationally expensive. We've made the process easier by providing a backend service that can run the proofs for you.
+
+If you're interested in using the Lilith backend, you can register your interest [here](https://ei40vx5x6j0.typeform.com/to/sFv1oxvb).
+
+
 ----------------------
-
-## Zero-knowledge proofs
-
-A zero-knowledge proof is a programmable digital signature. In a traditional digital signature scheme, we have a secret key, a public message, and a signature algorithm that was set up in advance and everyone knows. These are applied to the inputs to produce a signature and a public message, which is then verified by a counterparty (such as a blockchain).
-![](../assets/before.png)
-A zero-knowledge proof allows us to replace the secret key and public message with arbitrary private and public inputs, and it lets us run any program we like on them, not just a fixed signature algorithm.
-
-![](../assets/after.png)
-Just as with a digital signature, there are three parties: one to define the setup, one to prove, and one to verify.
 
 ## The life cycle of a proof
 
@@ -59,17 +57,10 @@ The outputs of setup are:
 Before setup can run, the settings need to be generated with `gen-settings` and optionally `calibrate-settings`, and the model must be compiled.
 
 ```python
-ezkl.gen_settings(onnx_filename, settings_filename)
-ezkl.calibrate_settings(
-    input_filename, onnx_filename, settings_filename, "resources")
-res = ezkl.compile_model(model_path, compiled_model_path, settings_path)
-res = ezkl.setup(
-        compiled_model_path,
-        vk_path,
-        pk_path,
-        srs_path,
-        settings_path,
-    )
+ezkl.gen_settings()
+ezkl.calibrate_settings()
+res = ezkl.compile_model()
+res = ezkl.setup()
 ```
 
 ### Prove
@@ -89,18 +80,8 @@ The outputs of prove are:
 - the proof file.
 
 ```python
-res = ezkl.gen_witness(data_path, compiled_model_path, witness_path, settings_path = settings_path)
-
-res = ezkl.prove(
-        witness_path,
-        compiled_model_path,
-        pk_path,
-        proof_path,
-        srs_path,
-        "evm",
-        "single",
-        settings_path,
-    )
+res = ezkl.gen_witness()
+res = ezkl.prove()
 ```
 
 ### Verify
@@ -108,13 +89,7 @@ res = ezkl.prove(
 `ezkl` can produce an EVM verifier contract which takes only the proof as input, and this is the normal use case.
 
 ```python
-res = ezkl.create_evm_verifier(
-        vk_path,
-        params_path,
-        settings_filename,
-        sol_code_path,
-        abi_path,
-    )
+res = ezkl.create_evm_verifier()
 
 # assuming anvil is running
 res = ezkl.deploy_evm(
