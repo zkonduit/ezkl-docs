@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.759543976803">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.765675865202">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.5.0.759543976803" rel="stylesheet">
+    <link href="resources/css/retype.css?v=3.5.0.765675865202" rel="stylesheet">
 
-    <script data-cfasync="false" src="resources/js/config.js?v=3.5.0.759543976803" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="resources/js/config.js?v=3.5.0.765675865202" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.5.0.759543976803" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.5.0.759543976803" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.5.0.765675865202" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.5.0.765675865202" defer></script>
     <link href="resources/css/katex.css?v=3.5.0" rel="stylesheet">
     <script id="katex-js" data-cfasync="false" src="resources/js/katex.js?v=3.5.0" defer></script>
 </head>
@@ -211,24 +211,15 @@
 <p>You can install the Python version with <code v-pre>pip install ezkl</code>.</p>
 <p><code v-pre>ezkl</code> can be used to move large and complex computations off-chain in a way that is easy to program (you can write your own functions in Python) and manage. You are not limited to a pre-defined set of functions, there is no limit on input size (using hashing), and there is no centralized sequencer.</p>
 <p>For more details on how to use <code v-pre>ezkl</code>, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>, especially the <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank">notebooks.</a></p>
-<hr>
-<doc-anchor-target id="zero-knowledge-proofs">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#zero-knowledge-proofs">#</doc-anchor-trigger>
-        <span>Zero-knowledge proofs</span>
-    </h2>
+<doc-anchor-target id="proving-backend-lilith">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#proving-backend-lilith">#</doc-anchor-trigger>
+        <span>Proving Backend (Lilith)</span>
+    </h3>
 </doc-anchor-target>
-<p>A zero-knowledge proof is a programmable digital signature. In a traditional digital signature scheme, we have a secret key, a public message, and a signature algorithm that was set up in advance and everyone knows. These are applied to the inputs to produce a signature and a public message, which is then verified by a counterparty (such as a blockchain).
-<figure class="content-center">
-    <img src="../assets/before.png" alt="">
-    <figcaption class="caption"></figcaption>
-</figure>
-A zero-knowledge proof allows us to replace the secret key and public message with arbitrary private and public inputs, and it lets us run any program we like on them, not just a fixed signature algorithm.</p>
-<p><figure class="content-center">
-    <img src="../assets/after.png" alt="">
-    <figcaption class="caption"></figcaption>
-</figure>
-Just as with a digital signature, there are three parties: one to define the setup, one to prove, and one to verify.</p>
+<p>Running ZKML proofs can be computationally expensive. We&#x27;ve made the process easier by providing a backend service that can run the proofs for you.</p>
+<p>If you&#x27;re interested in using the Lilith backend, you can register your interest <a href="https://ei40vx5x6j0.typeform.com/to/sFv1oxvb">here</a>.</p>
+<hr>
 <doc-anchor-target id="the-life-cycle-of-a-proof">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#the-life-cycle-of-a-proof">#</doc-anchor-trigger>
@@ -257,17 +248,10 @@ Just as with a digital signature, there are three parties: one to define the set
 </ul>
 <p>Before setup can run, the settings need to be generated with <code v-pre>gen-settings</code> and optionally <code v-pre>calibrate-settings</code>, and the model must be compiled.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">ezkl.gen_settings(onnx_filename, settings_filename)
-ezkl.calibrate_settings(
-    input_filename, onnx_filename, settings_filename, &quot;resources&quot;)
-res = ezkl.compile_model(model_path, compiled_model_path, settings_path)
-res = ezkl.setup(
-        compiled_model_path,
-        vk_path,
-        pk_path,
-        srs_path,
-        settings_path,
-    )</code></pre>
+<pre class="language-python"><code v-pre class="language-python">ezkl.gen_settings()
+ezkl.calibrate_settings()
+res = ezkl.compile_model()
+res = ezkl.setup()</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="prove">
     <h3>
@@ -289,18 +273,8 @@ res = ezkl.setup(
 <li>the proof file.</li>
 </ul>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">res = ezkl.gen_witness(data_path, compiled_model_path, witness_path, settings_path = settings_path)
-
-res = ezkl.prove(
-        witness_path,
-        compiled_model_path,
-        pk_path,
-        proof_path,
-        srs_path,
-        &quot;evm&quot;,
-        &quot;single&quot;,
-        settings_path,
-    )</code></pre>
+<pre class="language-python"><code v-pre class="language-python">res = ezkl.gen_witness()
+res = ezkl.prove()</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="verify">
     <h3>
@@ -310,13 +284,7 @@ res = ezkl.prove(
 </doc-anchor-target>
 <p><code v-pre>ezkl</code> can produce an EVM verifier contract which takes only the proof as input, and this is the normal use case.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">res = ezkl.create_evm_verifier(
-        vk_path,
-        params_path,
-        settings_filename,
-        sol_code_path,
-        abi_path,
-    )
+<pre class="language-python"><code v-pre class="language-python">res = ezkl.create_evm_verifier()
 
 # assuming anvil is running
 res = ezkl.deploy_evm(

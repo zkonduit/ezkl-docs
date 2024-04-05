@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.759543976803">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.765675865202">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.759543976803" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.5.0.765675865202" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.759543976803" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.765675865202" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.759543976803" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.759543976803" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.765675865202" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.765675865202" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -231,6 +231,19 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl table -M network.onnx</code></pre>
 </doc-codeblock></div>
+<p>You can always check the options available for a command by typing the command with <code v-pre>--help</code>. For example, <code v-pre>ezkl table</code> will show you the options available for the <code v-pre>table</code> command. This will provide you with the most up-to-date information on a given command&#x27;s usage and the cli spec.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-bash"><code v-pre class="language-bash"># list all available commands
+ezkl --help</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="proving-backend-lilith">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#proving-backend-lilith">#</doc-anchor-trigger>
+        <span>Proving Backend (Lilith)</span>
+    </h3>
+</doc-anchor-target>
+<p>Running ZKML proofs can be computationally expensive. We&#x27;ve made the process easier by providing a backend service that can run the proofs for you.</p>
+<p>If you&#x27;re interested in using the Lilith backend, you can register your interest <a href="https://ei40vx5x6j0.typeform.com/to/sFv1oxvb">here</a>.</p>
 <doc-anchor-target id="setting-circuit-parameters">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#setting-circuit-parameters">#</doc-anchor-trigger>
@@ -242,16 +255,16 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 <template #title>CLI</template>
 <p>Our circuit is configured with the <code v-pre>settings.json</code> file. This is created with the <code v-pre>gen-settings</code> command.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings -M network.onnx</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings</code></pre>
 </doc-codeblock></div>
 <p>This will produce a <code v-pre>settings.json</code> file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the <code v-pre>calibrate-settings</code> command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings -M network.onnx -D input.json --target resources</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings --target resources</code></pre>
 </doc-codeblock></div>
-<p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>. You can pass a <code v-pre>--settings-path</code> to read from an existing settings file, and only modify the parts changed by calibration (e.g. leaving visibility or tolerance unchanged). You can customize this file and even change the way it is generated. Learn more about <code v-pre>gen-settings</code> and <code v-pre>calibrate-settings</code> in the <a href="https://docs.ezkl.xyz/about_ezkl/commands/">Commands</a> section.</p>
+<p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>.</p>
 <p>Download the appropriate SRS:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs -S settings.json</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 <doc-tab v-cloak id="python">
@@ -260,19 +273,15 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 <p>Once we have created the settings file, we can calibrate it using the <code v-pre>ezkl.calibrate_settings</code> command to optimize for either <code v-pre>accuracy</code> or <code v-pre>resources</code> using the input to the model (<code v-pre>input.json</code>), and the model itself (<code v-pre>network.onnx</code>). The accurary target will optimize the circuit for accuracy given the fixed point representation of the input model. The resources target will optimize the circuit for CPU and memory usage.</p>
 <p>Check out <a href="https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb">this colab notebook</a> for more context around this code snippet.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">model_path = os.path.join('network.onnx')
-settings_path = os.path.join('settings.json')
-data_path = os.path.join('input.json')
-
-py_run_args = ezkl.PyRunArgs()
+<pre class="language-python"><code v-pre class="language-python">py_run_args = ezkl.PyRunArgs()
 py_run_args.input_visibility = &quot;public&quot;
 py_run_args.output_visibility = &quot;public&quot;
 py_run_args.param_visibility = &quot;fixed&quot; # &quot;fixed&quot; for params means that the committed to params are used for all proofs
 
-res = ezkl.gen_settings(model_path, settings_path, py_run_args=py_run_args)
+res = ezkl.gen_settings()
 assert res == True
 
-res = await ezkl.calibrate_settings(data_path, model_path, settings_path, &quot;resources&quot;)
+res = await ezkl.calibrate_settings(target=&quot;resources&quot;)
 assert res == True</code></pre>
 </doc-codeblock></div>
 </doc-tab>
@@ -320,7 +329,7 @@ assert res == True</code></pre>
 </doc-tab>
 <doc-tab v-cloak id="js">
 <template #title>JS</template>
-<p>For performance reaons, you can only compile ONNX models using the hub, python and cli environments. Stay tuned for updates!</p>
+<p>For performance reaons, you can only compile ONNX models using Lilith, python and cli environments. Stay tuned for updates!</p>
 </doc-tab>
 </doc-tabs>
 <doc-anchor-target id="creating-the-circuit">
@@ -368,416 +377,8 @@ assert os.path.isfile(pk_path)</code></pre>
 </doc-tab>
 <doc-tab v-cloak id="js">
 <template #title>JS</template>
-<p>The EZKL Engine npm package supports the setup command.</p>
-<p>Use the form below to generate a verifying key and proving key for your circuit in a browser right now :)</p>
-<blockquote>
-<p>Note: We designed the API of these methods such that one needs to create a verifying key before they can create a proving key, as we imagine its more useful in most application to create a verifying key instead of just a proving key in a browser context.</p>
-</blockquote>
-<p>
-<figure>
-    <div class="relative w-full mb-6 overflow-hidden" style="height: 565px; max-width: 720px;">
-        <embed class="w-full h-full border-0" src="https://ezkljs-engine.vercel.app/setup"></embed>
-    </div>
-</figure>
-</p>
-<doc-panel id="view-source-code" collapsed>
-    <template #title>View Source Code</template>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">setup.tsx</div>
-<pre class="language-typescript"><code v-pre class="language-typescript">'use client'
-import {
-  FileInput,
-  Label,
-  Button,
-  Alert,
-  Spinner as _Spinner,
-} from 'flowbite-react'
-import React, { useState } from 'react'
-import { formDataSchemaGenVk, formDataSchemaGenPk } from './parsers'
-import { useSharedResources } from '../EngineContext'
-
-export default function Setup() {
-  const { engine, utils } = useSharedResources()
-  const [openModal, setOpenModal] = useState&lt;string | undefined&gt;()
-  const props = { openModal, setOpenModal }
-  const [alertGenVk, setAlertGenVk] = useState&lt;string&gt;('')
-  const [warningGenVk, setWarningGenVk] = useState&lt;string&gt;('')
-  const [alertGenPk, setAlertGenPk] = useState&lt;string&gt;('')
-  const [warningGenPk, setWarningGenPk] = useState&lt;string&gt;('')
-  const [loading, setLoading] = useState(false)
-  const [genVkResult, setGenVkResult] = useState('')
-  const [genPkResult, setGenPkResult] = useState('')
-  const [bufferVk, setBufferVk] = useState&lt;Uint8Array | null&gt;(null)
-  const [bufferPk, setBufferPk] = useState&lt;Uint8Array | null&gt;(null)
-
-  const handleSubmitGenVk = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    const formInputs = {
-      compiled_onnx: formData.get('compiled_onnx'),
-      srs: formData.get('srs'),
-    }
-    // Validate form has valid inputs (zod)
-    const validatedFormInputs = formDataSchemaGenVk.safeParse(formInputs)
-
-    if (warningGenVk) setWarningGenVk('')
-
-    if (!validatedFormInputs.success) {
-      setAlertGenVk('Please upload all files')
-      return
-    }
-
-    // Clear alert and warning
-    if (alertGenVk) setAlertGenVk('')
-
-    // Missing data
-    if (
-      validatedFormInputs.data.compiled_onnx === null ||
-      validatedFormInputs.data.srs === null
-    ) {
-      setAlertGenVk('Please upload all files')
-      return
-    }
-
-    setLoading(true)
-
-    // create file object
-    const files = {
-      compiled_onnx: validatedFormInputs.data.compiled_onnx,
-      srs: validatedFormInputs.data.srs,
-    }
-    /* ================== ENGINE API ====================== */
-    utils
-      .handleGenVkButton(files as { [key: string]: File })
-      .then(({ output, executionTime }) =&gt; {
-        setBufferVk(output)
-
-        // Update result based on the outcome
-        setGenVkResult(
-          output
-            ? `Vk generation successful. Execution time: ${executionTime} ms`
-            : 'Vk generation failed',
-        )
-      })
-      .catch((error) =&gt; {
-        console.error('An error occurred:', error)
-        setWarningGenVk(`Vk generation failed: ${error}`)
-      })
-
-    setLoading(false)
-  }
-  const handleSubmitGenPk = async (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    const formInputs = {
-      vk: formData.get('vk'),
-      compiled_onnx: formData.get('compiled_onnx'),
-      srs: formData.get('srs'),
-    }
-    // Validate form has valid inputs (zod)
-    const validatedFormInputs = formDataSchemaGenPk.safeParse(formInputs)
-
-    if (warningGenPk) setWarningGenPk('')
-
-    if (!validatedFormInputs.success) {
-      setAlertGenPk('Please upload all files')
-      return
-    }
-
-    // Clear alert and warning
-    if (alertGenPk) setAlertGenPk('')
-
-    // Missing data
-    if (
-      validatedFormInputs.data.vk === null ||
-      validatedFormInputs.data.compiled_onnx === null ||
-      validatedFormInputs.data.srs === null
-    ) {
-      setAlertGenPk('Please upload all files')
-      return
-    }
-
-    setLoading(true)
-    console.log('hi')
-
-    // create file object
-    const files = {
-      vk: validatedFormInputs.data.vk,
-      compiled_onnx: validatedFormInputs.data.compiled_onnx,
-      srs: validatedFormInputs.data.srs,
-    }
-    /* ================== ENGINE API ====================== */
-    utils
-      .handleGenPkButton(files as { [key: string]: File })
-      .then(({ output, executionTime }) =&gt; {
-        setBufferPk(output)
-        // Update result based on the outcome
-        setGenPkResult(
-          output
-            ? 'Pk generation successful. Execution time: ' +
-            executionTime +
-            ' ms'
-            : 'Pk generation failed',
-        )
-      })
-      .catch((error) =&gt; {
-        console.error('An error occurred:', error)
-        setWarningGenPk(`Pk process failed with an error: ${error}`)
-      })
-
-    setLoading(false)
-  }
-
-  return (
-    &lt;div className='flex flex-column justify-around'&gt;
-      {bufferVk &amp;&amp; !warningGenVk ? (
-        &lt;div className='flex flex-col justify-around'&gt;
-          &lt;h1 className='text-2xl mb-4 '&gt;{genVkResult}&lt;/h1&gt;
-          &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
-            &lt;Button
-              className='w-full flex-grow'
-              type='submit'
-              onClick={() =&gt; utils.handleFileDownload('test.vk', bufferVk)}
-            &gt;
-              Download Vk File
-            &lt;/Button&gt;
-            &lt;Button className='w-full flex-grow mt-4' onClick={() =&gt; setBufferVk(null)}&gt;
-              Reset
-            &lt;/Button&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      ) : bufferPk &amp;&amp; !warningGenPk ? (
-        &lt;div className='flex flex-col justify-around'&gt;
-          &lt;h1 className='text-2xl mb-4 '&gt;{genPkResult}&lt;/h1&gt;
-          &lt;div className='flex flex-col flex-grow w-full items-center justify-around'&gt;
-            &lt;Button
-              className='w-full flex-grow'
-              type='submit'
-              onClick={() =&gt; utils.handleFileDownload('test.pk', bufferPk)}
-            &gt;
-              Download Pk File
-            &lt;/Button&gt;
-            &lt;Button className='w-full flex-grow mt-4' onClick={() =&gt; setBufferPk(null)}&gt;
-              Reset
-            &lt;/Button&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      ) : loading ? (
-        &lt;Spinner /&gt;
-      ) : (
-        &lt;div className='flex flex-col w-full items-center space-y-4'&gt;
-          &lt;div className='flex w-full items-stretch space-x-8'&gt;
-            &lt;GenVkArtifactForm
-              handleSubmit={handleSubmitGenVk}
-              alert={alertGenVk}
-              warning={warningGenVk}
-            /&gt;
-            &lt;GenPkArtifactForm
-              handleSubmit={handleSubmitGenPk}
-              alert={alertGenPk}
-              warning={warningGenPk}
-            /&gt;
-          &lt;/div&gt;
-          &lt;Button
-            type='submit'
-            color='dark'
-            className='self-center mt-4 w-full'
-            onClick={() =&gt; populateWithSampleFiles()}
-          &gt;
-            Populate with sample files
-          &lt;/Button&gt;
-        &lt;/div&gt;
-      )}
-    &lt;/div&gt;
-  )
-}
-// UI Component
-function Spinner() {
-  return (
-    &lt;div className='h-full flex items-center'&gt;
-      &lt;_Spinner size='3xl' className='w-28 lg:w-44' /&gt;
-    &lt;/div&gt;
-  )
-}
-
-async function populateWithSampleFiles() {
-  // Helper to assert that the element is not null
-  function assertElement&lt;T extends Element&gt;(
-    element: T | null,
-  ): asserts element is T {
-    if (element === null) {
-      throw new Error('Element not found')
-    }
-  }
-
-  // Names of the sample files in the public directory
-  const sampleFileNames: { [key: string]: string } = {
-    compiled_onnx: 'test_network.compiled',
-    srs: 'kzg',
-    vk: 'test.key',
-  }
-
-  // Helper function to fetch and create a file object from a public URL
-  const fetchAndCreateFile = async (
-    path: string,
-    filename: string,
-  ): Promise&lt;File&gt; =&gt; {
-    const response = await fetch(path)
-    const blob = await response.blob()
-    return new File([blob], filename, { type: blob.type })
-  }
-
-  // Fetch each sample file and create a File object
-  const filePromises = Object.entries(sampleFileNames).map(([key, filename]) =&gt;
-    fetchAndCreateFile(`/data/1l_mlp/${filename}`, filename),
-  )
-
-  // Wait for all files to be fetched and created
-  const files = await Promise.all(filePromises)
-
-  // Select the file input elements and assign the FileList to each
-  const compiledOnnxInputVk =
-    document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx_vk')
-  const srsInputVk = document.querySelector&lt;HTMLInputElement&gt;('#srs_vk')
-  const compiledOnnxInputPk =
-    document.querySelector&lt;HTMLInputElement&gt;('#compiled_onnx_pk')
-  const srsInputPk = document.querySelector&lt;HTMLInputElement&gt;('#srs_pk')
-  const vkInput = document.querySelector&lt;HTMLInputElement&gt;('#vk')
-
-  // Assert that the elements are not null
-  assertElement(compiledOnnxInputVk)
-  assertElement(srsInputVk)
-  assertElement(compiledOnnxInputPk)
-  assertElement(srsInputPk)
-  assertElement(vkInput)
-
-  // Create a new DataTransfer to hold the files
-  let dataTransfers: DataTransfer[] = []
-  files.forEach((file, idx) =&gt; {
-    const dataTransfer = new DataTransfer()
-    dataTransfer.items.add(file)
-    dataTransfers[idx] = dataTransfer
-  })
-
-  compiledOnnxInputVk.files = dataTransfers[0].files
-  srsInputVk.files = dataTransfers[1].files
-  compiledOnnxInputPk.files = dataTransfers[0].files
-  srsInputPk.files = dataTransfers[1].files
-  vkInput.files = dataTransfers[2].files
-}
-
-function GenVkArtifactForm({
-  handleSubmit,
-  alert,
-  warning,
-}: {
-  handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
-  alert: string
-  warning: string
-}) {
-  return (
-    &lt;div className='flex flex-col'&gt;
-      &lt;h1 className='text-2xl mb-6 '&gt;Generate Verifying Key&lt;/h1&gt;
-      {alert &amp;&amp; (
-        &lt;Alert color='info' className='mb-6'&gt;
-          {alert}
-        &lt;/Alert&gt;
-      )}
-      {warning &amp;&amp; (
-        &lt;Alert color='warning' className='mb-6'&gt;
-          {warning}
-        &lt;/Alert&gt;
-      )}
-      &lt;form
-        onSubmit={handleSubmit}
-        className='flex flex-col flex-grow  justify-between'
-      &gt;
-        {/* COMPILED ONNX MODEL */}
-        &lt;div&gt;
-          &lt;Label
-            color='white'
-            htmlFor='compiled_onnx'
-            value='Select Compiled Onnx File'
-          /&gt;
-          &lt;FileInput
-            id='compiled_onnx_vk'
-            name='compiled_onnx'
-            className='my-4'
-          /&gt;
-        &lt;/div&gt;
-        {/* SRS */}
-        &lt;div&gt;
-          &lt;Label color='white' htmlFor='srs' value='Select SRS File' /&gt;
-          &lt;FileInput id='srs_vk' name='srs' className='my-4' /&gt;
-        &lt;/div&gt;
-        &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
-          Generate Vk
-        &lt;/Button&gt;
-      &lt;/form&gt;
-    &lt;/div&gt;
-  )
-}
-function GenPkArtifactForm({
-  handleSubmit,
-  alert,
-  warning,
-}: {
-  handleSubmit: (e: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; void
-  alert: string
-  warning: string
-}) {
-  return (
-    &lt;div className='flex flex-col'&gt;
-      &lt;h1 className='text-2xl mb-6 '&gt;Generate Proving Key&lt;/h1&gt;
-      {alert &amp;&amp; (
-        &lt;Alert color='info' className='mb-6'&gt;
-          {alert}
-        &lt;/Alert&gt;
-      )}
-      {warning &amp;&amp; (
-        &lt;Alert color='warning' className='mb-6'&gt;
-          {warning}
-        &lt;/Alert&gt;
-      )}
-      &lt;form
-        onSubmit={handleSubmit}
-        className='flex flex-col flex-grow  justify-between'
-      &gt;
-        {/* VK */}
-        &lt;div&gt;
-          &lt;Label color='white' htmlFor='vk' value='Select VK File' /&gt;
-          &lt;FileInput id='vk' name='vk' className='my-4' /&gt;
-        &lt;/div&gt;
-        {/* COMPILED ONNX MODEL */}
-        &lt;div&gt;
-          &lt;Label
-            color='white'
-            htmlFor='compiled_onnx'
-            value='Select Compiled Onnx File'
-          /&gt;
-          &lt;FileInput
-            id='compiled_onnx_pk'
-            name='compiled_onnx'
-            className='my-4'
-          /&gt;
-        &lt;/div&gt;
-        {/* SRS */}
-        &lt;div&gt;
-          &lt;Label color='white' htmlFor='srs' value='Select SRS File' /&gt;
-          &lt;FileInput id='srs_pk' name='srs' className='my-4' /&gt;
-        &lt;/div&gt;
-        &lt;Button type='submit' color='dark' className='w-full self-center mt-4'&gt;
-          Generate Pk
-        &lt;/Button&gt;
-      &lt;/form&gt;
-    &lt;/div&gt;
-  )
-}
-</code></pre>
-</doc-codeblock></div>
-</doc-panel>
+<p>The EZKL Engine npm package supports the setup command. Though we do not recommend it. We recommend using Lilith, python or cli environments for performance reasons. Stay tuned for updates!</p>
+<p>===</p>
 </doc-tab>
 </doc-tabs>
 <doc-anchor-target id="making-a-proof">
@@ -791,41 +392,23 @@ function GenPkArtifactForm({
 <template #title>CLI</template>
 <p>First we generate a witness file.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness -D input.json -M network.ezkl</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness </code></pre>
 </doc-codeblock></div>
-<p>Next we will generate a proof that the model was correctly run on private inputs (this is the default setting). It then outputs the resulting proof at the path specfifed by <code v-pre>--proof-path</code>.</p>
+<p>Next we will generate a proof that the model was correctly run on private inputs (this is the default setting)..</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove -M network.ezkl --witness witness.json --pk-path=pk.key --proof-path=model.proof --srs-path=kzg.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 <doc-tab v-cloak id="python">
 <template #title>Python</template>
-<p>To generate a proof, we first need to make a witness file. We can do this by running a forward pass using the input data on the compiled model, saving the output to a witness file specificed by <code v-pre>witness_path</code>.</p>
-<p>We can use this witness, along with the compiled model, proving key and SRS to generate a proof that the model was correctly run on public inputs. It then outputs the resulting proof at the path specfifed by <code v-pre>proof_path</code>.</p>
+<p>To generate a proof, we first need to make a witness file. We can do this by running a forward pass using the input data on the compiled model.</p>
+<p>We can use this witness, along with the compiled model, proving key and SRS to generate a proof that the model was correctly run on public inputs.</p>
 <p>Check out <a href="https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb">this colab notebook</a> for more context around this code snippet.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">proof_path = os.path.join('test.pf')
-compiled_model_path = os.path.join('network.compiled')
-srs_path = os.path.join('kzg.srs')
-pk_path = os.path.join('test.pk')
-data_path = os.path.join('input.json')
-witness_path = os.path.join('witness.json')
-
-# generate witness
-res = ezkl.gen_witness(data_path, compiled_model_path, witness_path)
-assert os.path.isfile(witness_path)
-
+<pre class="language-python"><code v-pre class="language-python"># generate witness
+res = ezkl.gen_witness()
 # generate proof
-res = ezkl.prove(
-        witness_path,
-        compiled_model_path,
-        pk_path,
-        proof_path,
-        srs_path,
-        &quot;single&quot;,
-    )
-
-assert os.path.isfile(proof_path)</code></pre>
+res = ezkl.prove()</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 <doc-tab v-cloak id="js">
@@ -1420,7 +1003,7 @@ function ProvingArtifactForm({
 <template #title>CLI</template>
 <p>We can then verify our generated proof with the <code v-pre>verify</code> command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl verify --proof-path=model.proof --settings-path=settings.json --vk-path=vk.key --srs-path=kzg.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl verify</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 <doc-tab v-cloak id="python">
@@ -1428,18 +1011,7 @@ function ProvingArtifactForm({
 <p>Using the proof, settings, verification key and SRS, we can verify our proof.</p>
 <p>Check out <a href="https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo_all_public.ipynb">this colab notebook</a> for more context around this code snippet.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-python"><code v-pre class="language-python">proof_path = os.path.join('test.pf')
-srs_path = os.path.join('kzg.srs')
-settings_path = os.path.join('settings.json')
-vk_path = os.path.join('test.vk')
-
-res = ezkl.verify(
-        proof_path,
-        settings_path,
-        vk_path,
-        srs_path,
-    )
-
+<pre class="language-python"><code v-pre class="language-python">res = ezkl.verify()
 assert res == True</code></pre>
 </doc-codeblock></div>
 </doc-tab>
@@ -2027,10 +1599,10 @@ function VerifyingArtifactForm({
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../about_ezkl/commands/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../verifying_on-chain/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Commands</span>
+                                                <span class="block mt-1">Verifying On-​Chain</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
