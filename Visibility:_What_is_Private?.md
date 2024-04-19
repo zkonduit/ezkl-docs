@@ -23,7 +23,7 @@ Then a verifier or verifier contract checks both the signature and the ezkl proo
 
 
 ## Weight visibility
-When a model's weights are marked `public`, the weights are fixed at setup (circuit definition time). These weights are extractable from the proving key or the onnx file, but they can be kept private from the verifier as they are not part of the verifying key, proof, settings, or srs. Proofs can only be produced against the specific weights used at setup, so the verifier itself serves as a kind of implicit commitment to the weights. If you want to make an explicit commitment to the weights, for example to tie them to another model or sign them, use the hashed Visibility.
+When a model's weights are marked `fixed`, the weights are fixed at setup (circuit definition time). These weights are extractable from the proving key or the onnx file, but they can be kept private from the verifier as they are not part of the verifying key, proof, settings, or srs. Proofs can only be produced against the specific weights used at setup, so the verifier itself serves as a kind of implicit commitment to the weights. If you want to make an explicit commitment to the weights, for example to tie them to another model or sign them, use the hashed or kzgcommit visibility.
 
 - Private: The weights are private to the prover, and can be chosen freely by the prover.
 - Fixed: The weights are fixed by the setup,  fully visible in the proving key, and only committed to in the verifying key or verifier (although be aware of dictionary attacks).
