@@ -20,17 +20,23 @@ cp ~/ezkl/examples/onnx/4l_relu_conv_fc/network.onnx ./
 cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 
 ```
+
+(You can get these specific files from [this directory](https://github.com/zkonduit/ezkl/tree/main/examples/onnx/4l_relu_conv_fc/).)
+
 To display `ezkl`'s understanding of the model in the CLI, run:
 
 ```bash
 ezkl table -M network.onnx
 ```
 
-You can always check the options available for a command by typing the command with `--help`. For example, `ezkl table` will show you the options available for the `table` command. This will provide you with the most up-to-date information on a given command's usage and the cli spec. 
+You can always check the options available for a command by typing the command with `--help`. For example, `ezkl table --help` will show you the options available for the `table` command. This will provide you with the most up-to-date information on a given command's usage and the cli spec. 
 
 ```bash
 # list all available commands
 ezkl --help
+
+# list all available options for COMMAND
+ezkl COMMAND --help
 ```
 
 ### Proving Backend (Lilith)
@@ -53,9 +59,9 @@ ezkl calibrate-settings --target resources
 ```
 In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. 
 
-Download the appropriate SRS:
+Download the appropriate SRS locally.
 ```bash
-ezkl get-srs
+ezkl get-srs --settings-path settings.json --srs-path kzg.srs
 ```
 +++ Python
 From the `network.onnx` onnx file, we will create a `settings.json` file that uses the `py_run_args` file to specify the visibility of the inputs, outputs and paramaters of the model. 
@@ -77,7 +83,7 @@ res = await ezkl.calibrate_settings(target="resources")
 assert res == True
 ```
 +++ JS
-For performance reaons, you can only generate settings using the hub, python and cli environments. Stay tuned for updates!
+For performance reasons, you can only generate settings using the hub, python and cli environments. Stay tuned for updates!
 +++
 
 
@@ -112,7 +118,7 @@ res = ezkl.compile_circuit(model_path, compiled_model_path, settings_path)
 assert res == True
 ```
 +++ JS
-For performance reaons, you can only compile ONNX models using Lilith, python and cli environments. Stay tuned for updates!
+For performance reasons, you can only compile ONNX models using Lilith, python and cli environments. Stay tuned for updates!
 +++ 
 
 #### Creating the circuit
@@ -124,6 +130,8 @@ Now, we use `setup` to create a proving and verifying key for our circuit, using
 ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key
 ```
 This creates the verification key, proving key, and circuit settings in the locations you specify. 
+
+> Note: The when using `ezkl get-srs`, the file is stored in `$HOME/.ezkl/srs`. You will need to locate it, and change the path/name as appropriate in the command above.
 
 > Note: You can view the options associated to a subcommand such as `setup` by typing `ezkl setup` with no parameters. If you provide some but not all required parameters, `ezkl` will tell you what else it needs.
 +++ Python
@@ -163,13 +171,13 @@ The EZKL Engine npm package supports the setup command. Though we do not recomme
 First we generate a witness file.
 
 ```bash
-ezkl gen-witness 
+ezkl gen-witness --compiled-circuit network.ezkl
 ```
 
 Next we will generate a proof that the model was correctly run on private inputs (this is the default setting)..
 
 ```bash
-ezkl prove
+ezkl prove --compiled-circuit network.ezkl
 ```
 +++ Python
 To generate a proof, we first need to make a witness file. We can do this by running a forward pass using the input data on the compiled model. 
