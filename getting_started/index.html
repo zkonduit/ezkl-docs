@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.767841980720">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.781801881767">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.5.0">
+    <meta name="generator" content="Retype 3.6.0">
 
     <!-- Primary Meta Tags -->
     <title>Getting Started</title>
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.767841980720" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.6.0.781801881767" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.767841980720" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.767841980720" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.5.0.767841980720" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.781801881767" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.781801881767" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.6.0.781801881767" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -227,14 +227,18 @@
 cp ~/ezkl/examples/onnx/4l_relu_conv_fc/input.json ./
 </code></pre>
 </doc-codeblock></div>
+<p>(You can get these specific files from <a href="https://github.com/zkonduit/ezkl/tree/main/examples/onnx/4l_relu_conv_fc/">this directory</a>.)</p>
 <p>To display <code v-pre>ezkl</code>&#x27;s understanding of the model in the CLI, run:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl table -M network.onnx</code></pre>
 </doc-codeblock></div>
-<p>You can always check the options available for a command by typing the command with <code v-pre>--help</code>. For example, <code v-pre>ezkl table</code> will show you the options available for the <code v-pre>table</code> command. This will provide you with the most up-to-date information on a given command&#x27;s usage and the cli spec.</p>
+<p>You can always check the options available for a command by typing the command with <code v-pre>--help</code>. For example, <code v-pre>ezkl table --help</code> will show you the options available for the <code v-pre>table</code> command. This will provide you with the most up-to-date information on a given command&#x27;s usage and the cli spec.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash"># list all available commands
-ezkl --help</code></pre>
+ezkl --help
+
+# list all available options for COMMAND
+ezkl COMMAND --help</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="proving-backend-lilith">
     <h3>
@@ -262,9 +266,9 @@ ezkl --help</code></pre>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings --target resources</code></pre>
 </doc-codeblock></div>
 <p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>.</p>
-<p>Download the appropriate SRS:</p>
+<p>Download the appropriate SRS locally.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs --settings-path settings.json --srs-path kzg.srs</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 <doc-tab v-cloak id="python">
@@ -287,7 +291,7 @@ assert res == True</code></pre>
 </doc-tab>
 <doc-tab v-cloak id="js">
 <template #title>JS</template>
-<p>For performance reaons, you can only generate settings using the hub, python and cli environments. Stay tuned for updates!</p>
+<p>For performance reasons, you can only generate settings using the hub, python and cli environments. Stay tuned for updates!</p>
 </doc-tab>
 </doc-tabs>
 <doc-anchor-target id="compiling-the-model">
@@ -329,7 +333,7 @@ assert res == True</code></pre>
 </doc-tab>
 <doc-tab v-cloak id="js">
 <template #title>JS</template>
-<p>For performance reaons, you can only compile ONNX models using Lilith, python and cli environments. Stay tuned for updates!</p>
+<p>For performance reasons, you can only compile ONNX models using Lilith, python and cli environments. Stay tuned for updates!</p>
 </doc-tab>
 </doc-tabs>
 <doc-anchor-target id="creating-the-circuit">
@@ -346,6 +350,9 @@ assert res == True</code></pre>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key</code></pre>
 </doc-codeblock></div>
 <p>This creates the verification key, proving key, and circuit settings in the locations you specify.</p>
+<blockquote>
+<p>Note: The when using <code v-pre>ezkl get-srs</code>, the file is stored in <code v-pre>$HOME/.ezkl/srs</code>. You will need to locate it, and change the path/name as appropriate in the command above.</p>
+</blockquote>
 <blockquote>
 <p>Note: You can view the options associated to a subcommand such as <code v-pre>setup</code> by typing <code v-pre>ezkl setup</code> with no parameters. If you provide some but not all required parameters, <code v-pre>ezkl</code> will tell you what else it needs.</p>
 </blockquote>
@@ -392,11 +399,11 @@ assert os.path.isfile(pk_path)</code></pre>
 <template #title>CLI</template>
 <p>First we generate a witness file.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness </code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl gen-witness --compiled-circuit network.ezkl</code></pre>
 </doc-codeblock></div>
 <p>Next we will generate a proof that the model was correctly run on private inputs (this is the default setting)..</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl prove</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl prove --compiled-circuit network.ezkl</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 <doc-tab v-cloak id="python">
