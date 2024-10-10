@@ -62,15 +62,20 @@ This verifies the zero-knowledge proof using the provided artifacts.
 +++ Remote CLI (Lilith)
 
 ```bash
-lilith verify
+archon job -a test verify
 ```
 This verifies the zero-knowledge proof using the provided artifacts.
 +++
+
 ### Instructions for On-Chain Verification
 +++ Ethereum
 1. Generate Solidity verifier contract:
 ```bash
 ezkl create-evm-verifier
+
+# you can also run it on the proving cluster
+archon job -a test create-evm-verifier
+archon download-artifact -a test -f evm_deploy.sol
 ```
 2. Deploy the generated contract to an Ethereum network using your preferred method (e.g., Hardhat, Truffle, or Remix).
 3. Interact with the deployed contract:

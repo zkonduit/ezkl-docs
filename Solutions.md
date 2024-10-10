@@ -1,6 +1,7 @@
 ---
 icon: light-bulb
 order: 98
+visibility: hidden
 ---
 
 # Solutions

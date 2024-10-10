@@ -4,8 +4,12 @@ order: 96
 ---
 
 +++ Local CLI
-1. Download the release binary from GitHub, or
-2. Build from source:
+1. Install the binary with the following bash script.
+```bash
+curl https://raw.githubusercontent.com/zkonduit/ezkl/main/install_ezkl_cli.sh | bash
+```
+
+2. Alternatively, build from source:
 ```bash
 git clone git@github.com:zkonduit/ezkl.git
 cd ezkl
@@ -37,22 +41,20 @@ import { Engine } from '@ezkljs/engine';
 ```
 +++ Remote CLI
 
-1. Download and extract the appropriate binary:
-- Mac (Apple Silicon): `build-artifacts.lilith-macos-aarch64.tar.gz`
-- Mac (Intel): `build-artifacts.lilith-macos-aarch64.tar.gz`
-- Linux (GNU): `build-artifacts.lilith-linux-gnu.tar.gz`
+1. Install `archon` with the following script
+```bash
+curl https://download.ezkl.xyz/download_archon.sh | bash
+```
 
-2. Place the `lilith` executable in your system path:
-* Mac: `~/.local/bin/`
-* Linux: `/usr/local/bin/`
+2. If your system settings block the installed binary you will need to allow your system to run the binary.
 
 3. Set the server environment variable:
 ```bash
-export LILITH_SERVER_URL="http://15.204.235.127:2004"
+export ARCHON_SERVER_URL="https://archon-v0.ezkl.xyz"
 ```
 4. Test the connection:
 ```bash
-lilith ping
+archon ping
 ```
 +++
 ## Additional Notes

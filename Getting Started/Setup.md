@@ -127,28 +127,32 @@ await engine.setup("network.ezkl", "vk.key", "pk.key", "kzg.srs");
 This generates the cryptographic keys needed for proving and verifying.
 
 +++ Remote CLI (Lilith)
-
-1. Generate settings:
+1. Upload your files,
 ```bash
-lilith gen-settings
+archon create-artifact -a test -i input.json -m network.onnx -c calibration.json
+```
+
+2. Generate settings:
+```bash
+archon job -a test gen-settings
 ```
 This creates a `settings.json` file with default parameters based on your ONNX model.
 
-2. Calibrate settings (optional):
+3. Calibrate settings (optional):
 ```bash
-lilith calibrate-settings
+archon job -a test calibrate-settings
 ```
 This optimizes the settings for resource usage. You can also use `--target accuracy` to optimize for accuracy, and `--target resources` to optimize for resources.
 
-3. Compile model:
+4. Compile model:
 ```bash
-lilith compile-circuit
+archon job -a test compile-circuit
 ```
 This converts your ONNX model into an optimized format for zero-knowledge proofs, creating the `network.ezkl` file.
 
 4. Run setup:
 ```bash
-lilith setup
+archon job -a test setup
 ```
 This generates the cryptographic keys needed for proving and verifying.
 +++

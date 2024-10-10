@@ -25,7 +25,7 @@ The goal of zero knowledge proof systems is to construct complete, sound proofs.
 
 Please reach out directly to let us know of any soundess issues you encounter.
 
-###### Fuzzing
+<!-- ###### Fuzzing
 
 `ezkl` supports fuzzing over your model's edge inputs to test for potential vulnerabilities. Use your `input.json` and `network.onnx` files to run:
 
@@ -33,6 +33,6 @@ Please reach out directly to let us know of any soundess issues you encounter.
 ezkl fuzz -D input.json -M network.onnx --transcript=evm --num-runs 10
 ```
 
-Be sure to replace `num-runs` with the amount of fuzz testing rounds you want to do along with other parameters you are using to generate your circuit.
+Be sure to replace `num-runs` with the amount of fuzz testing rounds you want to do along with other parameters you are using to generate your circuit. -->
 
 Thank you for using `ezkl`; please contact us if you have any comments on this documentation.

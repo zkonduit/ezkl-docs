@@ -83,13 +83,13 @@ This generates a zero-knowledge proof using the witness and other artifacts.
 
 1. Generate witness:
 ```bash
-lilith gen-witness
+archon job -a test gen-witness
 ```
 This creates a witness file from your input data and compiled model.
 
 2. Generate proof:
 ```bash
-lilith prove
+archon job -a test prove
 ```
 This generates a zero-knowledge proof using the witness and other artifacts.
 
