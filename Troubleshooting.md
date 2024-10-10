@@ -1,10 +1,10 @@
 ---
-icon: question
-order: -99999999
+icon: bug
+order: 86
 ---
 ![](../assets/copter.png)
 
-# FAQ
+# Troubleshooting
 
 ### What programming languages and frameworks does ezkl support?
 
