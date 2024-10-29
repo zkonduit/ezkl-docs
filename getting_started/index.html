@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.781801881767">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783524690813">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.6.0.781801881767" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.6.0.783524690813" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.781801881767" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.783524690813" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.781801881767" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.6.0.781801881767" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.783524690813" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.6.0.783524690813" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -261,14 +261,16 @@ ezkl COMMAND --help</code></pre>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-bash"><code v-pre class="language-bash">ezkl gen-settings</code></pre>
 </doc-codeblock></div>
-<p>This will produce a <code v-pre>settings.json</code> file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the <code v-pre>calibrate-settings</code> command:</p>
+<p>This will produce a <code v-pre>settings.json</code> file you can use for your circuit.</p>
+<p>Before running <code v-pre>calibrate-settings</code>, you should prepare a <code v-pre>calibration.json</code> based on your training data. This file consists of numeric matrix records encoded in <code v-pre>.json</code> format. The following <code v-pre>calibrate-settings</code> step is important for determining the number of <code v-pre>logrows</code> (rows in the table to which we create a ZK commitment) to use when creating our ZK circuit.
+Running <code v-pre>calibrate-settings</code> has the additional benefit of allowing you to fine-tune your circuit to optimize for accuracy or CPU/memory usage with the <code v-pre>calibrate-settings</code> command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings --target resources</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl calibrate-settings --target resources -D calibration.json</code></pre>
 </doc-codeblock></div>
 <p>In this example, we set the <code v-pre>--target</code> to <strong>&quot;resources&quot;</strong> so that we can optimize for CPU and memory usage. The other option is <strong>&quot;accuracy&quot;</strong>, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to <code v-pre>settings.json</code>.</p>
 <p>Download the appropriate SRS locally.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs --settings-path settings.json --srs-path kzg.srs</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl get-srs --settings-path settings.json</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 <doc-tab v-cloak id="python">
@@ -347,7 +349,7 @@ assert res == True</code></pre>
 <template #title>CLI</template>
 <p>Now, we use <code v-pre>setup</code> to create a proving and verifying key for our circuit, using the SRS and our compiled <code v-pre>.ezkl </code> onnx model.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key</code></pre>
+<pre class="language-bash"><code v-pre class="language-bash">ezkl setup -M network.ezkl --vk-path=vk.key --pk-path=pk.key</code></pre>
 </doc-codeblock></div>
 <p>This creates the verification key, proving key, and circuit settings in the locations you specify.</p>
 <blockquote>
