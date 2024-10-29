@@ -1,9 +1,9 @@
 ---
 icon: book
-order: -9
+order: 84
 ---
 
-### Talks to watch
+### Resources
 
 [Dante and Jason - Zero-Knowledge Machine Learning with EZKL in Autonomous Worlds](https://www.youtube.com/watch?v=tp22vStPVG8)
 

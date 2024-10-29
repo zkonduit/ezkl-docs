@@ -3,127 +3,137 @@ icon: rocket
 order: 100
 ---
 
-# What is EZKL?
+# The EZKL System
 
-## EZKL makes zero-knowledge easier
+**EZKL is is a developer-friendly system for verifiable AI and analytics.**
 
-`ezkl` takes a high-level description of your program and sets up a zero-knowledge prover and verifier. Our focus is on programs that are expressed as [pytorch](https://pytorch.org/docs/stable/index.html) AI/ML models and other computational graphs. After setup, the prover can prove statements such as the following.
+Analytics can be descriptive (aggregation, visualization), diagnostic (mining, statistical, querying), predictive (machine learning, time series), and prescriptive (optimization, simulation, decision). Verifiability is the ability to confirm the use of designated mathematical steps, even if you are not the executing machine.
 
-> "I ran this publicly available neural network on some private data and it produced this output"
+This is useful in three core scenarios:
 
-> "I ran my private neural network on some public data and it produced this output"
+1. **Running a public model on private data.** For example, a research paper includes a model for detecting indicators for a specific disease. Since the model must've been trained on sensitive patient data, the author can use `ezkl` to prove that the benchmarks are true for the committed model and private data, without a reviewer needing to access that data.
+2. **Running a private model on public data**. For example, a hedge fund leverages a model for identifying and trading on financial opportunities. Since the model is proprietary, a limited partner or investor may provide benchmarking data to the fund, and the fund can use `ezkl` to prove that their model is as accurate or performant as reported.
+3. **Running a public model on public data**. For example, there is a computationally limited machine like a blockchain. You are a portfolio manager and want to execute rebalancing behalf of your client according to market data. While your rebalancing model may be public and the market data is public, this is too computationally expensive to calculate the adjusted values on-chain. The PM can use `ezkl` to apply the rebalancing model off-chain, then prove to the machine that they used that particular model and upon confirmation trigger execution on-chain. This scenario clearly affords automation in addition to verifiability
 
-> "I correctly ran this publicly available neural network on some public data and it produced this output"
+See that in all scenarios, the actor with ownership over model execution can **prove** that they are acting in good faith. Their actions are **verifiable** to an recipient of the results.
 
-These proofs can be trusted by anyone with a copy of the verifier, and verified directly on Ethereum and compatible chains. `ezkl` can be used directly from Python; [see this colab notebook](https://colab.research.google.com/github/zkonduit/ezkl/blob/main/examples/notebooks/simple_demo.ipynb) and the python bindings docs. It can also be used from the command line.
+## How This Works
 
-`ezkl` can prove an MNIST-sized inference in less than a second and under 180mb of memory and verify it on the Ethereum Virtual Machine (or on the command line, or in the browser using wasm).
+The underlying technology enabling this verifiability is known as zero knowledge cryptography. The proofs generated are called zero knowledge proofs (ZKPs), which enable one party (the prover) to prove to another (the verifier) that a statement is true without revealing any extra information.
 
-You can install the Python version with `pip install ezkl`.
+Traditionally, creating ZKPs requires manually designing circuits using domain-specific languages like Circom or CirC. This process is particularly challenging for complex AI/ML models with thousands of gates.
 
-`ezkl` can be used to move large and complex computations off-chain in a way that is easy to program (you can write your own functions in Python) and manage. You are not limited to a pre-defined set of functions, there is no limit on input size (using hashing), and there is no centralized sequencer.
+`ezkl` automates ZKP generation for these complex computations as following:
 
-For more details on how to use `ezkl`, we invite you to explore the docs and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">repo</a>, especially the <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank">notebooks.</a>
+1. **Input**: User provides a model (e.g., neural network) in ONNX format.
+2. **Circuit Generation**: `ezkl` automatically converts the model into a ZKP-compatible circuit.
+3. **Proof Creation**: `ezkl` generates a proof of correct model execution.
+4. **Verification**: Anyone with the verification key can verify the proof.
 
-### Proving Backend (Lilith)
+From this high level overview, you can observe a few distinct design choices. First, `ezkl` utilizes a highly improved version of Halo2, which is a zero-knowledge proving system developed by Zcash, as its underlying cryptographic framework. This was selected for it's "public auditing" through years of previous development and overall completeness. However, `ezkl` is not limited to the Halo2 proving system and is incorporating additional systems.
 
-Running ZKML proofs can be computationally expensive. We've made the process easier by providing a backend service that can run the proofs for you.
+Further, as commonly done in ZK research, models' computational tasks are represented as circuits composed of logical gates, allowing for efficient ZKP generation. In order to convert computational tasks to circuits, we specifically support models in the ONNX format. ONNX is also used widely in the broader machine learning community.
 
-If you're interested in using the Lilith backend, you can register your interest [here](https://ei40vx5x6j0.typeform.com/to/sFv1oxvb).
+Finally, `ezkl` supports a broad range of model architectures:
 
+- **Tree-based Models**: Decision trees and random forests are compiled by representing decision nodes as conditional statements in the circuit.
+- **Transformers**: These are handled by breaking down attention mechanisms and feed-forward layers into basic matrix operations that can be represented in the circuit.
+- **Other Architectures**: `ezkl` can theoretically compile any model representable in ONNX, including CNNs, RNNs, and custom architectures, by decomposing them into basic mathematical operations.
+
+This flexibility allows `ezkl` to support a wide range of AI/ML applications, from traditional statistical models to cutting-edge deep learning architectures.
+
+## Developer Experience
+
+EZKL is designed with a core aim: to enable smooth developer experiences in working with zero-knowledge proofs. Developers should not require knowledge of cryptography or zero-knowledge proofs to use the library. 
+
+### No Prerequisite Knowledge Required
+
+One of EZKL's key strengths is its accessibility. This is possible through the `ezkl` compiler. You don't need:
+
+- Cryptography expertise
+- Zero-knowledge proof theory understanding
+- Experience writing constraints
+- Knowledge of circuit design
+- Skills in orchestrating concurrent systems
+- Advanced DevOps knowledge
+
+EZKL automates the complex underlying processes, allowing you to focus on your application logic.
+
+### Multiple Language Support
+
+EZKL supports different approaches to development, catering to different preferences and use cases:
+
+1. **Scripting/CLI.** For those who prefer a command-line interface, EZKL offers a comprehensive CLI. This is ideal for quick operations and scripting.
+    
+    ```bash
+    ezkl gen-settings
+    ezkl compile-model
+    ezkl prove
+    ```
+    
+2. **Python.** Python developers can leverage EZKL's Python bindings for integration into their existing workflows.
+    
+    ```python
+    import ezkl
+    settings = ezkl.gen_settings()
+    ezkl.compile_model("model.onnx", "compiled_model.ezkl", settings)
+    proof = ezkl.prove("witness.json", "compiled_model.ezkl", "pk.key")
+    ```
+    
+3. **JavaScript.** For web developers and Node.js enthusiasts, EZKL provides JavaScript bindings.
+    
+    ```jsx
+    const ezkl = require('ezkl');
+    const settings = await ezkl.genSettings();
+    await ezkl.compileModel('model.onnx', 'compiled_model.ezkl', settings);
+    const proof = await ezkl.prove('witness.json', 'compiled_model.ezkl', 'pk.key');
+    ```
+    
+4. **Rust.** For those who need low-level control and maximum performance, EZKL can be used directly in Rust projects.
+    
+    ```rust
+    use ezkl;
+    let settings = ezkl::gen_settings()?;
+    ezkl::compile_model("model.onnx", "compiled_model.ezkl", &settings)?;
+    let proof = ezkl::prove("witness.json", "compiled_model.ezkl", "pk.key")?;
+    ```
+
+### Abstraction of Complexity
+
+EZKL abstracts away the complexities typically associated with zero-knowledge proofs:
+
+1. **No Manual Circuit Design**: Instead of hand-writing circuits, you can use standard machine learning models in ONNX format. EZKL automatically converts these into ZKP-compatible circuits.
+2. **Automated Constraint Generation**: EZKL handles the generation of constraints, eliminating the need for developers to manually define them.
+3. **Simplified Proof Generation**: The process of generating proofs is streamlined into simple function calls or CLI commands, hiding the intricate cryptographic operations.
+4. **Job Orchestration**: When using Lilith, the orchestration of concurrent proof generation is managed for you, eliminating the need to design and implement complex distributed systems.
+5. **Managed DevOps**: With Lilith's cloud offering, much of the DevOps complexity is abstracted away. You don't need to set up and maintain high-performance hardware for proof generation.
+
+## Scaling Proof Generation
+
+`ezkl` is designed not only as a proof compiler but also as a comprehensive system for generating zero-knowledge proofs at scale. It addresses the varying time sensitivities and computational demands across different use cases, from real-time financial operations to concurrent model proving.
+
+While `ezkl` is a highly performant system [LINK BENCHMARKS], it primarily operates locally on a user's machine. This local execution can be limiting for very large models or when rapid, concurrent verifications are needed. To address these scalability challenges, we've developed Lilith.
+
+**Lilith is a high-performance compute cluster dedicated to generating EZKL proofs on top-of-the-line hardware.** It serves as a remote orchestrator, allowing users to offload the computational burden of proof generation. Key benefits of using Lilith include:
+
+- **Enhanced Computational Power**: Enables processing of larger, more complex models.
+- **Reduced Latency**: Decreases proof generation time through distributed computing.
+- **Concurrent Processing**: Supports simultaneous proof generations for high-throughput scenarios.
+- **Seamless Integration**: Mirrors the `ezkl` CLI for easy scaling.
+- **Flexible Interaction**: Offers both CLI and REST API for varied integration needs.
+
+While `ezkl` continues to be optimized for local use, Lilith extends its capabilities to cloud-scale operations. This dual approach ensures that EZKL can meet a wide range of performance and scalability requirements, from individual developers to enterprise-level applications.
+
+For more details on how to use the EZKL system, we invite you to explore the remaining documentation and check out the <a href="https://github.com/zkonduit/ezkl" target="_blank">original repository</a>, example <a href="https://github.com/zkonduit/ezkl/blob/main/examples/notebooks/" target="_blank">Jupyter notebooks</a>, and our <a href="https://www.ezkl.xyz">website</a>.
 
 ----------------------
 
-## The life cycle of a proof
-
-There are three steps in the life of an ezkl proof: Setup, Prove, and Verify. Each step is generally performed by a different party.
-
-### Setup
-
-Setup is invoked with `ezkl setup` at the cli or `ezkl.setup()` in Python. It defines what constitutes a proof and how that proof will be verified, setting the rules of the game. Setup is performed by the application developer, who then deploys the resulting artifacts to production.
-
-The inputs to setup are:
-
-- the model (as an onnx file)
-- the structured reference string which is a common, public piece of cryptographic data shared among proof setups of the same size
-- various flags, settings, and options for tuning and added functionality
-
-The outputs of setup are:
-
-- the proving key
-- the verification key, and
-- the circuit settings: serialized flags, settings, and options, and a few numbers that describe the shape of the resulting circuit.
-
-Before setup can run, the settings need to be generated with `gen-settings` and optionally `calibrate-settings`, and the model must be compiled.
-
-```python
-ezkl.gen_settings()
-ezkl.calibrate_settings()
-res = ezkl.compile_model()
-res = ezkl.setup()
-```
-
-### Prove
-
-Prove, invoked with `ezkl prove` at the cli or `ezkl.prove()` in Python, is called by the prover, often on the client. The prover is making a claim that it knows some inputs (which might include model parameters), such that when the model (chosen during setup) is run on them, produces certain outputs. The prove command computes a cryptographic proof of that claim, which can then be believed by any verifier.
-
-The inputs to prove are:
-
-- the witness data for the claim: an (input, output) pair $(x,y)$ such that model(input) = output (this pair can be produced from $x$ using the `gen-witness` command)
-- the model (as a compiled model file, made from an onnx file)
-- the proving key
-- the structured reference string, and
-- the circuit settings.
-
-The outputs of prove are:
-
-- the proof file.
-
-```python
-res = ezkl.gen_witness()
-res = ezkl.prove()
-```
-
-### Verify
-
-`ezkl` can produce an EVM verifier contract which takes only the proof as input, and this is the normal use case.
-
-```python
-res = ezkl.create_evm_verifier()
-
-# assuming anvil is running
-res = ezkl.deploy_evm(
-    address_path,
-    sol_code_path,
-    'http://127.0.0.1:3030'
-)
-
-res = ezkl.verify_evm(
-    proof_path,
-    addr,
-    "http://127.0.0.1:3030"
-)
-```
-
-Verification can also be invoked with `ezkl verify` at the cli, `ezkl.verify()` in Python, or with WASM. It checks the correctness of the cryptographic proof produced by the prover.
-
-The inputs to (non-EVM) verify are:
-
-- the proof file
-- the verification key
-- the circuit settings, and
-- the structured reference string
-
-----------------------
-
-## Contributing 🌎
+## Contribute
 
 If you're interested in contributing and are unsure where to start, reach out to one of the maintainers on our [Telegram group](https://t.me/+QRzaRvTPIthlYWMx) or our [Discord](https://discord.gg/mqgdwdSgzA).
 
 More broadly:
 
 - Feel free to open up a [discussion topic](https://github.com/zkonduit/ezkl/discussions) to ask questions.
-
 - See currently open issues for ideas on how to contribute.
-
 - For PRs we use the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) naming convention.
