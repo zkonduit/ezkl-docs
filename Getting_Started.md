@@ -53,15 +53,18 @@ Our circuit is configured with the `settings.json` file. This is created with th
 ```bash
 ezkl gen-settings
 ```
-This will produce a `settings.json` file you can use for your circuit. However, you can fine-tune your circuit to optimize for accuracy or CPU/memory usage with the `calibrate-settings` command:
+This will produce a `settings.json` file you can use for your circuit.
+
+Before running `calibrate-settings`, you should prepare a `calibration.json` based on your training data. This file consists of numeric matrix records encoded in `.json` format. The following `calibrate-settings` step is important for determining the number of `logrows` (rows in the table to which we create a ZK commitment) to use when creating our ZK circuit.
+Running `calibrate-settings` has the additional benefit of allowing you to fine-tune your circuit to optimize for accuracy or CPU/memory usage with the `calibrate-settings` command:
 ```bash
-ezkl calibrate-settings --target resources
+ezkl calibrate-settings --target resources -D calibration.json
 ```
 In this example, we set the `--target` to **"resources"** so that we can optimize for CPU and memory usage. The other option is **"accuracy"**, which optimizes for accuracy given the fixed point representation of the input model. Our circuit parameters are generated, then saved to `settings.json`. 
 
 Download the appropriate SRS locally.
 ```bash
-ezkl get-srs --settings-path settings.json --srs-path kzg.srs
+ezkl get-srs --settings-path settings.json
 ```
 +++ Python
 From the `network.onnx` onnx file, we will create a `settings.json` file that uses the `py_run_args` file to specify the visibility of the inputs, outputs and paramaters of the model. 
@@ -127,7 +130,7 @@ For performance reasons, you can only compile ONNX models using Lilith, python a
 Now, we use `setup` to create a proving and verifying key for our circuit, using the SRS and our compiled `.ezkl ` onnx model. 
 
 ```bash
-ezkl setup -M network.ezkl --srs-path=kzg.srs --vk-path=vk.key --pk-path=pk.key
+ezkl setup -M network.ezkl --vk-path=vk.key --pk-path=pk.key
 ```
 This creates the verification key, proving key, and circuit settings in the locations you specify. 
 
