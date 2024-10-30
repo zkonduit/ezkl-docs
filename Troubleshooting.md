@@ -30,7 +30,7 @@ We believe that `ezkl` is the fastest zkml package available, and we are working
 
 ### Do I need to deploy a verifier smart contract to use ezkl?
 
-No, we recently integrated a [WASM verifier](https://github.com/zkonduit/ezkl/pull/219) that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally, or the command line `ezkl verify` command.
+No. We recently integrated a [WASM verifier](https://github.com/zkonduit/ezkl/pull/219) that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally, or the command line `ezkl verify` command.
 
 # Errors
 
@@ -44,11 +44,11 @@ A DimMismatch error is thrown when there is a mismatch in the lengths of the ten
 
 ### Error: LookupInstantiation
 
-This error is thrown when there is an error during the creation of a lookup table
+This error is thrown when there is an error during the creation of a lookup table.
 
 ### Error: TableAlreadyAssigned
 
-A TableAlreadyAssigned Error is thrown when `ezkl` attempts to initialize a lookup table that has already been initialized
+A TableAlreadyAssigned Error is thrown when `ezkl` attempts to initialize a lookup table that has already been initialized.
 
 ### Error: UnsupportedOp
 
@@ -68,23 +68,23 @@ InvalidDims is thrown when there is a shape mismatch in circuit construction. In
 
 ### Error: WrongMethod
 
-This error means that the wrong method was called to configure a node with the given index and description
+This error means that the wrong method was called to configure a node with the given index and description.
 
 ### Error: MissingNode
 
-MissingNode is thrown when a requested node is missing in the graph with the given index
+MissingNode is thrown when a requested node is missing in the graph with the given index.
 
 ### Error: OpMismatch
 
-OpMismatch is thrown when an unsupported method was called on a node with the given index and description
+OpMismatch is thrown when an unsupported method was called on a node with the given index and description.
 
 ### Error: UnsupportedOp
 
-UnsupportedOp is thrown when there is an operation in the onnx graph that isn't supported by `ezkl`
+UnsupportedOp is thrown when there is an operation in the onnx graph that isn't supported by `ezkl`.
 
 ### Error: MissingParams
 
-MissingParams is thrown when a node has missing parameters; please check the parameters in your model's operations
+MissingParams is thrown when a node has missing parameters; please check the parameters in your model's operations.
 
 ### Error: MisformedParams
 
@@ -92,20 +92,20 @@ MisformedParams is thrown when a node has misformed parameters; the error can st
 
 ### Error: Visibility
 
-This error is typically thrown when no public variables are passed to the circuit configuration function
+This error is typically thrown when no public variables are passed to the circuit configuration function.
 
 ### Error: NonConstantDiv
 
-`ezkl` only supports divisions by constants
+`ezkl` only supports divisions by constants.
 
 ### Error: NonConstantPower
 
-`ezkl` only supports constant exponents
+`ezkl` only supports constant exponents.
 
 ### Error: RescalingError
 
-This error is thrown when attempting to rescale inputs for an operation
+This error is thrown when attempting to rescale inputs for an operation.
 
 ### Error: ModelLoad
 
-This error is thrown when a model fails to load; please check your onnx file for missing connections / unsupported layers. We suggest using [Netron](https://netron.app/) to view onnx files.
+This error is thrown when a model fails to load. Please check your onnx file for missing connections / unsupported layers. We suggest using [Netron](https://netron.app/) to view onnx files.

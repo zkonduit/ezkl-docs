@@ -23,7 +23,7 @@ The goal of zero knowledge proof systems is to construct complete, sound proofs.
 
 `ezkl` is a compiler, so eventually should be less susceptible to such issues than a hand-written circuit, but it is still under active development.
 
-Please reach out directly to let us know of any soundess issues you encounter.
+Please reach out directly to let us know of any soundness issues you encounter.
 
 <!-- ###### Fuzzing
 
@@ -35,4 +35,4 @@ ezkl fuzz -D input.json -M network.onnx --transcript=evm --num-runs 10
 
 Be sure to replace `num-runs` with the amount of fuzz testing rounds you want to do along with other parameters you are using to generate your circuit. -->
 
-Thank you for using `ezkl`; please contact us if you have any comments on this documentation.
+Thank you for using `ezkl`. Please contact us if you have any comments on this documentation.
