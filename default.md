@@ -5,7 +5,7 @@ order: 100
 
 # The EZKL System
 
-**EZKL is is a developer-friendly system for verifiable AI and analytics.**
+**EZKL is a developer-friendly system for verifiable AI and analytics.**
 
 Analytics can be descriptive (aggregation, visualization), diagnostic (mining, statistical, querying), predictive (machine learning, time series), and prescriptive (optimization, simulation, decision). Verifiability is the ability to confirm the use of designated mathematical steps, even if you are not the executing machine.
 
@@ -13,9 +13,9 @@ This is useful in three core scenarios:
 
 1. **Running a public model on private data.** For example, a research paper includes a model for detecting indicators for a specific disease. Since the model must've been trained on sensitive patient data, the author can use `ezkl` to prove that the benchmarks are true for the committed model and private data, without a reviewer needing to access that data.
 2. **Running a private model on public data**. For example, a hedge fund leverages a model for identifying and trading on financial opportunities. Since the model is proprietary, a limited partner or investor may provide benchmarking data to the fund, and the fund can use `ezkl` to prove that their model is as accurate or performant as reported.
-3. **Running a public model on public data**. For example, there is a computationally limited machine like a blockchain. You are a portfolio manager and want to execute rebalancing behalf of your client according to market data. While your rebalancing model may be public and the market data is public, this is too computationally expensive to calculate the adjusted values on-chain. The PM can use `ezkl` to apply the rebalancing model off-chain, then prove to the machine that they used that particular model and upon confirmation trigger execution on-chain. This scenario clearly affords automation in addition to verifiability
+3. **Running a public model on public data**. For example, there is a computationally limited machine like a blockchain. You are a portfolio manager and want to execute rebalancing behalf of your client according to market data. While your rebalancing model may be public and the market data is public, this is too computationally expensive to calculate the adjusted values on-chain. The PM can use `ezkl` to apply the rebalancing model off-chain, then prove to the machine that they used this particular model and upon confirmation trigger execution on-chain. This scenario clearly affords automation in addition to verifiability
 
-See that in all scenarios, the actor with ownership over model execution can **prove** that they are acting in good faith. Their actions are **verifiable** to an recipient of the results.
+See that in all scenarios, the actor with ownership over model execution can **prove** that they are acting in good faith. Their actions are **verifiable** to a recipient of the results.
 
 ## How This Works
 
@@ -30,7 +30,7 @@ Traditionally, creating ZKPs requires manually designing circuits using domain-s
 3. **Proof Creation**: `ezkl` generates a proof of correct model execution.
 4. **Verification**: Anyone with the verification key can verify the proof.
 
-From this high level overview, you can observe a few distinct design choices. First, `ezkl` utilizes a highly improved version of Halo2, which is a zero-knowledge proving system developed by Zcash, as its underlying cryptographic framework. This was selected for it's "public auditing" through years of previous development and overall completeness. However, `ezkl` is not limited to the Halo2 proving system and is incorporating additional systems.
+From this high-level overview, you can observe a few distinct design choices. First, `ezkl` utilizes a highly improved version of Halo2, which is a zero-knowledge proving system developed by Zcash, as its underlying cryptographic framework. This was selected for its "public auditing" through years of previous development and overall completeness. However, `ezkl` is not limited to the Halo2 proving system and is incorporating additional systems.
 
 Further, as commonly done in ZK research, models' computational tasks are represented as circuits composed of logical gates, allowing for efficient ZKP generation. In order to convert computational tasks to circuits, we specifically support models in the ONNX format. ONNX is also used widely in the broader machine learning community.
 

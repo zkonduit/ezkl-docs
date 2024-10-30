@@ -7,7 +7,7 @@ order: 99
 EZKL is a system for verifiable AI and analytics. The system includes two core products: the ezkl library and lilith orchestrator.
 ## EZKL
 
-The ezkl library is free and open to install and run locally, designed for individuals and teams who want to explore compatibility or developer experience. It can be used in Python, JavaScript, and Rust programs. Note however that past version X.X.X, `ezkl` is not open for commercial usages without proper licensing.
+The ezkl library is free and open to install and run locally, designed for individuals and teams who want to explore compatibility or developer experience. It can be used in Python, JavaScript, and Rust programs. Note however that past version X.X.X, `ezkl` is not open for commercial usage without proper licensing.
 
 ## Lilith
 
@@ -109,8 +109,8 @@ Free to use with certain caps on daily usage and overall proof storage. Intended
 
 **Enterprise Cluster**
 
-Please reach out to the EZKL team if you are interested in enterprise access. For access without daily usage and proof storage limitations. Useful for commercial applications and large-scale systems incorporating EZKL.
+For access without daily usage and proof storage limitations. Useful for commercial applications and large-scale systems incorporating EZKL. Please reach out to the EZKL team if you are interested in enterprise access. 
 
 **Private Deployment**
 
-Please reach out to the EZKL team if you are interested in private deployment. A private deployment of the Lilith system, relevant for teams building application components with EZKL or miners/validators generating EZKL proofs.
+ A private deployment of the Lilith system, relevant for teams building application components with EZKL or miners/validators generating EZKL proofs. Please reach out to the EZKL team if you are interested in private deployment.
