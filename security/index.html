@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783527244375">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783605238480">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -30,11 +30,11 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.6.0.783527244375" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.6.0.783605238480" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.783527244375" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.783605238480" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.783527244375" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.783605238480" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -206,7 +206,7 @@
 </doc-anchor-target>
 <p>The goal of zero knowledge proof systems is to construct complete, sound proofs. Completeness is the highly probable assurance that any valid proof will verify. Soundness is the quality of the verifier (or parties representing the verifier) knowing that if a proof passes, it is more than likely a true statement. In some cases, such as those in <a href="https://eprint.iacr.org/2023/512.pdf">underconstrained circuits</a>, bad proofs can be generated that fool the verifier into passing a false statement. In this case, the vulnerability is not in the machine learning model itself, but in the SNARK constructed by <code v-pre>ezkl</code>.</p>
 <p><code v-pre>ezkl</code> is a compiler, so eventually should be less susceptible to such issues than a hand-written circuit, but it is still under active development.</p>
-<p>Please reach out directly to let us know of any soundess issues you encounter.</p>
+<p>Please reach out directly to let us know of any soundness issues you encounter.</p>
 <!-- ###### Fuzzing
 
 `ezkl` supports fuzzing over your model's edge inputs to test for potential vulnerabilities. Use your `input.json` and `network.onnx` files to run:
@@ -216,7 +216,7 @@ ezkl fuzz -D input.json -M network.onnx --transcript=evm --num-runs 10
 ```
 
 Be sure to replace `num-runs` with the amount of fuzz testing rounds you want to do along with other parameters you are using to generate your circuit. -->
-<p>Thank you for using <code v-pre>ezkl</code>; please contact us if you have any comments on this documentation.</p>
+<p>Thank you for using <code v-pre>ezkl</code>. Please contact us if you have any comments on this documentation.</p>
 
                                 
                                 <!-- Required only on API pages -->

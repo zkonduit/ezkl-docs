@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783527244375">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783605238480">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -30,11 +30,11 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.6.0.783527244375" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.6.0.783605238480" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.783527244375" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.783605238480" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.783527244375" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.783605238480" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -239,7 +239,7 @@
         <span>Do I need to deploy a verifier smart contract to use ezkl?</span>
     </h3>
 </doc-anchor-target>
-<p>No, we recently integrated a <a href="https://github.com/zkonduit/ezkl/pull/219">WASM verifier</a> that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally, or the command line <code v-pre>ezkl verify</code> command.</p>
+<p>No. We recently integrated a <a href="https://github.com/zkonduit/ezkl/pull/219">WASM verifier</a> that you can use to verify proofs from your web application. You can also use the EVM verifier to verify proofs locally, or the command line <code v-pre>ezkl verify</code> command.</p>
 <doc-anchor-target id="errors">
     <h1>
         <doc-anchor-trigger class="header-anchor-trigger" to="#errors">#</doc-anchor-trigger>
@@ -266,14 +266,14 @@
         <span>Error: LookupInstantiation</span>
     </h3>
 </doc-anchor-target>
-<p>This error is thrown when there is an error during the creation of a lookup table</p>
+<p>This error is thrown when there is an error during the creation of a lookup table.</p>
 <doc-anchor-target id="error-tablealreadyassigned">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-tablealreadyassigned">#</doc-anchor-trigger>
         <span>Error: TableAlreadyAssigned</span>
     </h3>
 </doc-anchor-target>
-<p>A TableAlreadyAssigned Error is thrown when <code v-pre>ezkl</code> attempts to initialize a lookup table that has already been initialized</p>
+<p>A TableAlreadyAssigned Error is thrown when <code v-pre>ezkl</code> attempts to initialize a lookup table that has already been initialized.</p>
 <doc-anchor-target id="error-unsupportedop">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-unsupportedop">#</doc-anchor-trigger>
@@ -308,35 +308,35 @@
         <span>Error: WrongMethod</span>
     </h3>
 </doc-anchor-target>
-<p>This error means that the wrong method was called to configure a node with the given index and description</p>
+<p>This error means that the wrong method was called to configure a node with the given index and description.</p>
 <doc-anchor-target id="error-missingnode">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-missingnode">#</doc-anchor-trigger>
         <span>Error: MissingNode</span>
     </h3>
 </doc-anchor-target>
-<p>MissingNode is thrown when a requested node is missing in the graph with the given index</p>
+<p>MissingNode is thrown when a requested node is missing in the graph with the given index.</p>
 <doc-anchor-target id="error-opmismatch">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-opmismatch">#</doc-anchor-trigger>
         <span>Error: OpMismatch</span>
     </h3>
 </doc-anchor-target>
-<p>OpMismatch is thrown when an unsupported method was called on a node with the given index and description</p>
+<p>OpMismatch is thrown when an unsupported method was called on a node with the given index and description.</p>
 <doc-anchor-target id="error-unsupportedop-1">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-unsupportedop-1">#</doc-anchor-trigger>
         <span>Error: UnsupportedOp</span>
     </h3>
 </doc-anchor-target>
-<p>UnsupportedOp is thrown when there is an operation in the onnx graph that isn&#x27;t supported by <code v-pre>ezkl</code></p>
+<p>UnsupportedOp is thrown when there is an operation in the onnx graph that isn&#x27;t supported by <code v-pre>ezkl</code>.</p>
 <doc-anchor-target id="error-missingparams">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-missingparams">#</doc-anchor-trigger>
         <span>Error: MissingParams</span>
     </h3>
 </doc-anchor-target>
-<p>MissingParams is thrown when a node has missing parameters; please check the parameters in your model&#x27;s operations</p>
+<p>MissingParams is thrown when a node has missing parameters; please check the parameters in your model&#x27;s operations.</p>
 <doc-anchor-target id="error-misformedparams">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-misformedparams">#</doc-anchor-trigger>
@@ -350,35 +350,35 @@
         <span>Error: Visibility</span>
     </h3>
 </doc-anchor-target>
-<p>This error is typically thrown when no public variables are passed to the circuit configuration function</p>
+<p>This error is typically thrown when no public variables are passed to the circuit configuration function.</p>
 <doc-anchor-target id="error-nonconstantdiv">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-nonconstantdiv">#</doc-anchor-trigger>
         <span>Error: NonConstantDiv</span>
     </h3>
 </doc-anchor-target>
-<p><code v-pre>ezkl</code> only supports divisions by constants</p>
+<p><code v-pre>ezkl</code> only supports divisions by constants.</p>
 <doc-anchor-target id="error-nonconstantpower">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-nonconstantpower">#</doc-anchor-trigger>
         <span>Error: NonConstantPower</span>
     </h3>
 </doc-anchor-target>
-<p><code v-pre>ezkl</code> only supports constant exponents</p>
+<p><code v-pre>ezkl</code> only supports constant exponents.</p>
 <doc-anchor-target id="error-rescalingerror">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-rescalingerror">#</doc-anchor-trigger>
         <span>Error: RescalingError</span>
     </h3>
 </doc-anchor-target>
-<p>This error is thrown when attempting to rescale inputs for an operation</p>
+<p>This error is thrown when attempting to rescale inputs for an operation.</p>
 <doc-anchor-target id="error-modelload">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#error-modelload">#</doc-anchor-trigger>
         <span>Error: ModelLoad</span>
     </h3>
 </doc-anchor-target>
-<p>This error is thrown when a model fails to load; please check your onnx file for missing connections / unsupported layers. We suggest using <a href="https://netron.app/">Netron</a> to view onnx files.</p>
+<p>This error is thrown when a model fails to load. Please check your onnx file for missing connections / unsupported layers. We suggest using <a href="https://netron.app/">Netron</a> to view onnx files.</p>
 
                                 
                                 <!-- Required only on API pages -->

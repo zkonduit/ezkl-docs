@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783527244375">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.783605238480">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>The EZKL System</title>
     <meta name="title" content="The EZKL System">
-    <meta name="description" content="EZKL is is a developer-friendly system for verifiable AI and analytics.">
+    <meta name="description" content="EZKL is a developer-friendly system for verifiable AI and analytics.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.ezkl.xyz/">
@@ -20,22 +20,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.ezkl.xyz/">
     <meta property="og:title" content="The EZKL System">
-    <meta property="og:description" content="EZKL is is a developer-friendly system for verifiable AI and analytics.">
+    <meta property="og:description" content="EZKL is a developer-friendly system for verifiable AI and analytics.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.ezkl.xyz/">
     <meta property="twitter:title" content="The EZKL System">
-    <meta property="twitter:description" content="EZKL is is a developer-friendly system for verifiable AI and analytics.">
+    <meta property="twitter:description" content="EZKL is a developer-friendly system for verifiable AI and analytics.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.6.0.783527244375" rel="stylesheet">
+    <link href="resources/css/retype.css?v=3.6.0.783605238480" rel="stylesheet">
 
-    <script data-cfasync="false" src="resources/js/config.js?v=3.6.0.783527244375" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="resources/js/config.js?v=3.6.0.783605238480" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.6.0.783527244375" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.6.0.783527244375" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.6.0.783605238480" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.6.0.783605238480" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -188,15 +188,15 @@
         <span>The EZKL System</span>
     </h1>
 </doc-anchor-target>
-<p><strong>EZKL is is a developer-friendly system for verifiable AI and analytics.</strong></p>
+<p><strong>EZKL is a developer-friendly system for verifiable AI and analytics.</strong></p>
 <p>Analytics can be descriptive (aggregation, visualization), diagnostic (mining, statistical, querying), predictive (machine learning, time series), and prescriptive (optimization, simulation, decision). Verifiability is the ability to confirm the use of designated mathematical steps, even if you are not the executing machine.</p>
 <p>This is useful in three core scenarios:</p>
 <ol>
 <li><strong>Running a public model on private data.</strong> For example, a research paper includes a model for detecting indicators for a specific disease. Since the model must&#x27;ve been trained on sensitive patient data, the author can use <code v-pre>ezkl</code> to prove that the benchmarks are true for the committed model and private data, without a reviewer needing to access that data.</li>
 <li><strong>Running a private model on public data</strong>. For example, a hedge fund leverages a model for identifying and trading on financial opportunities. Since the model is proprietary, a limited partner or investor may provide benchmarking data to the fund, and the fund can use <code v-pre>ezkl</code> to prove that their model is as accurate or performant as reported.</li>
-<li><strong>Running a public model on public data</strong>. For example, there is a computationally limited machine like a blockchain. You are a portfolio manager and want to execute rebalancing behalf of your client according to market data. While your rebalancing model may be public and the market data is public, this is too computationally expensive to calculate the adjusted values on-chain. The PM can use <code v-pre>ezkl</code> to apply the rebalancing model off-chain, then prove to the machine that they used that particular model and upon confirmation trigger execution on-chain. This scenario clearly affords automation in addition to verifiability</li>
+<li><strong>Running a public model on public data</strong>. For example, there is a computationally limited machine like a blockchain. You are a portfolio manager and want to execute rebalancing behalf of your client according to market data. While your rebalancing model may be public and the market data is public, this is too computationally expensive to calculate the adjusted values on-chain. The PM can use <code v-pre>ezkl</code> to apply the rebalancing model off-chain, then prove to the machine that they used this particular model and upon confirmation trigger execution on-chain. This scenario clearly affords automation in addition to verifiability</li>
 </ol>
-<p>See that in all scenarios, the actor with ownership over model execution can <strong>prove</strong> that they are acting in good faith. Their actions are <strong>verifiable</strong> to an recipient of the results.</p>
+<p>See that in all scenarios, the actor with ownership over model execution can <strong>prove</strong> that they are acting in good faith. Their actions are <strong>verifiable</strong> to a recipient of the results.</p>
 <doc-anchor-target id="how-this-works">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#how-this-works">#</doc-anchor-trigger>
@@ -212,7 +212,7 @@
 <li><strong>Proof Creation</strong>: <code v-pre>ezkl</code> generates a proof of correct model execution.</li>
 <li><strong>Verification</strong>: Anyone with the verification key can verify the proof.</li>
 </ol>
-<p>From this high level overview, you can observe a few distinct design choices. First, <code v-pre>ezkl</code> utilizes a highly improved version of Halo2, which is a zero-knowledge proving system developed by Zcash, as its underlying cryptographic framework. This was selected for it&#x27;s &quot;public auditing&quot; through years of previous development and overall completeness. However, <code v-pre>ezkl</code> is not limited to the Halo2 proving system and is incorporating additional systems.</p>
+<p>From this high-level overview, you can observe a few distinct design choices. First, <code v-pre>ezkl</code> utilizes a highly improved version of Halo2, which is a zero-knowledge proving system developed by Zcash, as its underlying cryptographic framework. This was selected for its &quot;public auditing&quot; through years of previous development and overall completeness. However, <code v-pre>ezkl</code> is not limited to the Halo2 proving system and is incorporating additional systems.</p>
 <p>Further, as commonly done in ZK research, models&#x27; computational tasks are represented as circuits composed of logical gates, allowing for efficient ZKP generation. In order to convert computational tasks to circuits, we specifically support models in the ONNX format. ONNX is also used widely in the broader machine learning community.</p>
 <p>Finally, <code v-pre>ezkl</code> supports a broad range of model architectures:</p>
 <ul>
