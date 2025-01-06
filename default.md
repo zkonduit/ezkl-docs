@@ -112,7 +112,7 @@ EZKL abstracts away the complexities typically associated with zero-knowledge pr
 
 `ezkl` is designed not only as a proof compiler but also as a comprehensive system for generating zero-knowledge proofs at scale. It addresses the varying time sensitivities and computational demands across different use cases, from real-time financial operations to concurrent model proving.
 
-While `ezkl` is a highly performant system [LINK BENCHMARKS], it primarily operates locally on a user's machine. This local execution can be limiting for very large models or when rapid, concurrent verifications are needed. To address these scalability challenges, we've developed Lilith.
+While `ezkl` is a [highly performant system](https://blog.ezkl.xyz/post/benchmarks/), it primarily operates locally on a user's machine. This local execution can be limiting for very large models or when rapid, concurrent verifications are needed. To address these scalability challenges, we've developed Lilith.
 
 **Lilith is a high-performance compute cluster dedicated to generating EZKL proofs on top-of-the-line hardware.** It serves as a remote orchestrator, allowing users to offload the computational burden of proof generation. Key benefits of using Lilith include:
 
