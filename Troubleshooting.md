@@ -3,8 +3,6 @@ icon: bug
 order: 86
 ---
 
-![](../assets/copter.png)
-
 # Troubleshooting
 
 !!!
