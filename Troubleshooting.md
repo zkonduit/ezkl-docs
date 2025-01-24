@@ -2,9 +2,12 @@
 icon: bug
 order: 86
 ---
-![](../assets/copter.png)
 
 # Troubleshooting
+
+!!!
+If you need direct technical support, join our [Discord](https://discord.gg/7DBezSCa) to post your question in the #ezkl-support-forum and tag @devhelp to get a response from the team.
+!!!
 
 ### What programming languages and frameworks does ezkl support?
 
